@@ -1,0 +1,58 @@
+﻿//LABEL (EmigrationAgeSexDistrict, EN) Emigration Base Version Module
+
+/* NOTE(EmigrationAgeSexDistrict, EN)
+This module implements a base version of emigration. It is based on age, sex,and district based emigration rates, which is a typical approach in cohort-component models. The module can be switched on/off by the user. People who emigrate are removed from the population.
+
+The module is prepared for being replaced by a refined model accounting for more detailed personal characteristics than age and sex and/or allowing for return migration. For this purpose a logical state use_base_emigration_model is introduced and initialized with TRUE; Other modules can override this module by setting the state to FALSE whenever an alternative model is applied.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+parameters
+{
+    //EN Switch emigration on/off
+    logical	ModelEmigration;
+
+    //EN Emigration rates on district level
+    double  EmigrationRatesDistrict[SEX][AGE5_PART][DISTRICT_NAT];   
+};
+
+parameter_group PG_EmigrationBase  //EN Emigration Base Version
+{
+    ModelEmigration, EmigrationRatesDistrict
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor bloc
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    logical use_base_emigration_model = { TRUE };           //EN Use base model version
+    logical has_emigrated = { FALSE };                      //EN Person has emigrated
+    event   timeEmigrationEvent, EmigrationEvent;           //EN Emigration event
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TIME Person::timeEmigrationEvent()
+{
+    if (ModelEmigration && in_projected_time && use_base_emigration_model &&
+        EmigrationRatesDistrict[sex][SPLIT(integer_age, AGE5_PART)][district_nat] > 0.0)
+    {
+        return WAIT(-log(RandUniform(10)) / 
+            EmigrationRatesDistrict[sex][SPLIT(integer_age, AGE5_PART)][district_nat]);
+    }
+    else return TIME_INFINITE;
+}
+
+void Person::EmigrationEvent()
+{
+    has_emigrated = TRUE;
+    Finish();
+}
+

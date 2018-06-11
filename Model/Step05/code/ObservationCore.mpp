@@ -1,0 +1,107 @@
+﻿//LABEL(ObservationCore, EN) Starting population observations
+
+/*  NOTE(ObservationCore, EN)
+This module introduces an actor named 'Observation'. Each Observation actor corresponds with a record of the starting population file and is created by the simulation engine before Person actors are created. Observation are weighted. According to the size of the simulated population selected by the user, the simulation engine creates integer-weights for each observation by rescaling the original weights and random-rounding. The new observation weights are then used by the simulation engine to decide if and how often an observation is used when creating Person actors (which clone the observation characteristics). After being used for creating the starting population, the observation actors are destroyed to free up teh memory space. Note that for this process, the weight of the household head is used for all members of a family.
+
+This module is part of the model template and developers typically are not required to modify -- or understand -- it's code. The exception is adding new variables to the starting population file which is a frequent requirement in model development:
+
+**How to add a new variable to the starting population?**
+
+- Add a new column to the csv micro-data file
+- in this module, extend the list of fields in the classification 'PERSON_MICRODATA_COLUMNS' no more coding is required and the variable is read in automatically
+- the new variable will typically be used in the Start() function of the Person actor where a corresponding state is initialized by its value. It is accessible using the new dimension name added to the list of fields as an index of the person-micro-column array pmc[NEW_FIELD]. See Code in the Start() function in PersonCore.mpp
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Dimensions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// LABEL(PERSON_MICRODATA_COLUMNS, EN) List of Starting population variables
+classification PERSON_MICRODATA_COLUMNS
+{
+    // (uncomment when modeling families)   PMC_HHID,   //EN Household ID
+    // (uncomment when modeling families)   PMC_ROLE,   //EN Role in family
+    PMC_WEIGHT,                                         //EN Weight
+    PMC_BIRTH,                                          //EN Time of birth
+    PMC_SEX,                                            //EN Sex
+    PMC_DISTRICT,                                       //EN District
+    PMC_EDUC,                                           //EN Education
+    PMC_DOB,                                            //EN District of birth
+    PMC_UNION,                                          //EN Union formation time
+    PMC_PARITY,                                         //EN Number of births
+    PMC_LASTBIR,                                        //EN Time of last birth
+    PMC_ETHNO                                           //EN Ethnicity
+}
+;
+
+range FAM_ID{ 0,220000 };                       //EN Range of Family IDs
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+parameters
+{
+    file    MicroDataInputFile;                 //EN File name of starting population
+    long    MicroDataInputFileSize;             //EN File size of starting population
+    double  StartPopSampleSize;                 //EN Simulated sample size of starting population
+    double  StartPopSize;                       //EN Real population size
+};
+
+parameter_group PG_ModelSettings                //EN Starting population
+{
+    MicroDataInputFile, MicroDataInputFileSize,
+    StartPopSampleSize, StartPopSize
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor-Sets
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//EN Actor-set of all family heads in Observations
+actor_set Observation asObservationHeads filter fam_role == FR_HEAD && obs_weight > 0;
+
+//EN Actor-set of all family members (without heads) by family ID
+actor_set Observation asObservationNonHeads[fam_id] filter fam_role != FR_HEAD;
+
+//EN All observations
+actor_set Observation asObservationAll;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor states and functions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*  NOTE(Observation, EN)
+    The Actor Observation is created as internal representation of the starting population file
+    records. It is used to create Person actors of the starting population which can be smaller or
+    larger as the starting population file. The weights of observations are used for determining if
+    and how often a single observation is represented in the starting population.
+*/
+
+
+actor Observation                               //EN Actor Observations
+{
+    double      pmc[PERSON_MICRODATA_COLUMNS];  //EN Person micro record columns
+    integer     obs_weight = { 1 };             //EN Observation integer weight
+    FAM_ID      fam_id = { 0 };                 //EN Family ID
+    FAM_ROLE    fam_role = { FR_HEAD };         //EN Role in family
+
+    void        Start(const input_csv& input);  //EN Function starting the actor
+    void        Finish();                       //EN Function destroying the actor
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Observation::Start(const input_csv& in_csv)
+{
+    for (int nJ = 0; nJ < SIZE(PERSON_MICRODATA_COLUMNS); nJ++)
+    {
+        pmc[nJ] = in_csv[nJ];
+    }
+    // (uncomment when modeling families) fam_id      = (int)pmc[PMC_HHID];
+    // (uncomment when modeling families) fam_role    = (FAM_ROLE)(int)pmc[PMC_ROLE];
+};
+
+void Observation::Finish(){};

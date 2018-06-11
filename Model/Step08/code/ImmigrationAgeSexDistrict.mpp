@@ -1,0 +1,65 @@
+﻿//LABEL (ImmigrationAgeSexDistrict, EN)
+
+/* NOTE(ImmigrationAgeSexDistrict, EN)
+This module implements a base version of immigration. It is based on the number of projected immigrants by age, sex and district, which is a typical approach in cohort-component models. The module can be switched on/off by the user. 
+
+Model parameters are the number and sex of immigrants by year, the age distribution by sex, and the distribution of destination districts by sex and age. Immigrants are created at the moment of immigration with the age at immigration
+
+Adding immigrants require some code additions in other modules as they have to be created and added to the simulated population (this is done in the Simulation() function in the model_core.mpp module) and their states have to be initialized (which is done in the Start() function in PersonCore.mpp). The total number of immigrants is calculated in the PreSimuation() phase, where a model-generated parameter is set. Depending on the actor weight determined in the Simulation() function, the simulated number of the immigrant sample is determined there. 
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+parameters
+{
+    logical	ModelImmigration;                       //EN Switch immigration on/off
+    double	NumberImmigrants[SIM_YEAR_RANGE][SEX];  //EN Number of immigrants
+    cumrate	AgeImmigrants[SEX][AGE_RANGE];          //EN Age distribution of immigrants
+    
+    //EN Destination of immigrants
+    cumrate	DestinationImmigrants[SEX][AGE5_PART][DISTRICT_NAT];            
+ 
+   //EN Number of immigrants (for sampling, determined in presimulation)
+    model_generated cumrate[2] NumberImmigrantsTable[SIM_YEAR_RANGE][SEX]; 
+
+    //EN Total number of immigrants (determined in presiulation)
+    model_generated long ImmiPopSize;
+};
+
+parameter_group PG_Immigration                      //EN Base Immigration
+{
+    ModelImmigration, NumberImmigrants, AgeImmigrants, DestinationImmigrants
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor block
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    TIME    time_of_immigration = { TIME_INFINITE };    //EN Time of immigration
+    void    GetImmigrantCharacteristics();              //EN Sample immigrant characteristics
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Pre-Simulation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PreSimulation()
+{
+    // Total Immigrant population
+    ImmiPopSize = 0.0;
+    if (ModelImmigration) // If immigration is switched on
+    {
+        for (int nSex = 0; nSex < SIZE(SEX); nSex++)
+        {
+            for (int nYear = 0; nYear < SIZE(SIM_YEAR_RANGE); nYear++)
+            {
+                ImmiPopSize = ImmiPopSize + NumberImmigrants[nYear][nSex];
+                NumberImmigrantsTable[nYear][nSex] = NumberImmigrants[nYear][nSex];;
+            }
+        }
+    }
+};

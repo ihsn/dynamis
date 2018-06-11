@@ -1,0 +1,85 @@
+﻿//LABEL (ClockCore, EN) Core functionality of the Clock actor
+
+/*  NOTE(ClockCore, EN)
+This module introduces a Clock actor which handles calendar clock events like year changes. This avoids inefficiencies as otherwise all actors would having to schedule their own events individually. Instead of that the Clock announces each year end/start to all other actors
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Links
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+link Person.lClock Clock.mlPersons[];
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Clock Actor
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*  NOTE (Clock, EN)
+    The Clock actor handles calendar year and other regular period changes.
+*/
+
+actor Clock                                                 //EN Clock Actor
+{
+    void    Start();                                        //EN Start Clock
+    void    Finish();                                       //EN Finish
+    int     clock_year = { 2000 };                          //EN Calendar Year
+    int     next_clock_year_end = { TIME_INFINITE };        //EN Next end year clock tick
+    int     next_clock_year_start = { TIME_INFINITE };      //EN Next start year clock tick
+    event   timeStartYearClock, StartYearClock;             //EN Start year function of clock
+    event   timeEndYearClock, EndYearClock;                 //EN End year function of clock
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor sets
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor_set Clock asTheClock;                                 //EN Actor Set Clock Actor
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Clock::Start()
+{
+    time = MIN(ALL_YEAR_RANGE);
+    clock_year = MIN(ALL_YEAR_RANGE);
+    next_clock_year_end = WAIT(1);
+};
+
+void Clock::Finish() {}
+
+/*	NOTE( Clock.EndYearClock, EN)
+    The function EndYearClock creates an end of year event. It calls all other actors to announce
+    that the year has ended so that all actors can perform their own end of year routines
+*/
+
+TIME Clock::timeEndYearClock() { return next_clock_year_end; }
+void Clock::EndYearClock()
+{
+    long nPopSize = asAllPersons->Count();
+    for (long nIndex = 0; nIndex < nPopSize; nIndex++)
+    {
+        auto prPerson = asAllPersons->Item(nIndex);
+        prPerson->YearEnd();
+    }
+    next_clock_year_start = WAIT(0);
+    next_clock_year_end = WAIT(1);
+}
+
+/*	NOTE( Clock.StartYearClock, EN)
+    The function StartYearClock creates a new year event. It calls all other actors to announce
+    that a new year has started so that all actors can call their own new year routines
+*/
+
+TIME Clock::timeStartYearClock() { return next_clock_year_start; }
+void Clock::StartYearClock()
+{
+    clock_year++;
+    long nPopSize = asAllPersons->Count();
+    for (long nIndex = 0; nIndex < nPopSize; nIndex++)
+    {
+        auto prPerson = asAllPersons->Item(nIndex);
+        prPerson->YearStart();
+    }
+    next_clock_year_start = TIME_INFINITE;
+}

@@ -1,0 +1,52 @@
+﻿//LABEL (BirthDays, EN) Birthdays
+
+/*  NOTE(BirthDays, EN)
+This module implements birthday events of the person actors. The module showcases the implementation of a clock event: a state integer_age is updated at yearly intervals. The module also demonstrates the typical arrangement of code within a regular simulation module:
+
+- Introduction of new types: here an age range for the allowed life span. It is needed as a dimension of parameters (e.g. a lifetable) and as a table dimension.
+- An "actor block" for the declaration of new states (here: integer_age and a variable to store the time of the next birthday) and new events: the birthday.
+- The implementation of new functions and events. In our case the implementation of the birthday event. Like all events birthdays have two functions: a timing function returning the next occurrence of the event, and the event function performing all code to happen at the occurrence of the event.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+range AGE_RANGE { 0, 105 };                                 //EN Age Range
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor states and functions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    AGE_RANGE   integer_age = { 0 };                        //EN Age
+
+    TIME        time_next_birthday = { TIME_INFINITE };     //EN Time of next birthday
+    event       timeBirthdayEvent, BirthdayEvent;           //EN Birthday Event
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Event Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* NOTE(Person.BirthdayEvent, EN)
+   At each birthday integer age is incremented and all code to be performed at birthdays is executed
+*/
+
+TIME Person::timeBirthdayEvent()
+{
+    if ( integer_age == 0 ) return time_of_birth + 1.0;
+    else return time_next_birthday;
+}
+
+void Person::BirthdayEvent()
+{
+    // Increment integer age
+    if (integer_age < MAX(AGE_RANGE)) integer_age++;
+
+    // Code to be performed at each birthday can be entered here
+
+    // Set clock for next birthday
+    time_next_birthday = WAIT(1);
+}

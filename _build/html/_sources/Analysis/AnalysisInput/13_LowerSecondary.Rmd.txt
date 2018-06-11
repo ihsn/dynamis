@@ -1,0 +1,80 @@
+# Script 13: Lower Secondary Education
+
+> This file creates the parameters for lower secondary education flow rates. 
+
+Except for setting the number of regions, this module is currently not based on data but contains just future default rates which can be set in education scenarios. 
+
+## File output
+
+The code below generates model parameters stored in a Modgen .dat file
+
+- Success rates by grade, region, sex and calendar year
+- Direct progression intake rate by grade, region, sex and calendar year
+- Delayed progression intake rate by grade, region, sex and calendar year
+- Direct repetition intake rate by grade, region, sex and calendar year
+- Delayed repetition intake rate
+- Maximum duration of allowed delays (repetitions and out of school periods) 
+
+## Code
+
+```{r, message=FALSE, warning=FALSE}
+####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 13 - Lower secondary education
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+load(file="globals_for_analysis.RData")
+dat             <- g_residents_dat
+parafile <- file(g_para_secondary, "w")
+
+# Constants
+
+n_maxreg        <- max(dat$M_ROB)
+
+####################################################################################################
+# WRITE PARAMETERS WITH DEFAULT VALUES
+####################################################################################################
+
+# Set Parameter Output File
+
+cat("parameters { \n", file=parafile)
+
+cat("   //EN Maximum years of delays allowed (interruption, repetition of grades)\n", file=parafile, append=TRUE)	
+cat("   int LowSecAllowedDelays = 2;\n", file=parafile, append=TRUE) 
+
+cat("   //EN Lower Secondary Period Success\n", file=parafile, append=TRUE)	
+cat("   double	LowSecPeriodSuccess[PROVINCE_NAT][SEX][LOWSEC_GRADES][SIM_YEAR_RANGE] = {(",n_maxreg,"){(808) 0.9,},};\n", file=parafile, append=TRUE)	
+
+cat("   //EN Lower Secondary Period Direct Progression Intake\n", file=parafile, append=TRUE)	
+cat("   double	LowSecPeriodDirectProgressionIntake[PROVINCE_NAT][SEX][LOWSEC_GRADES][SIM_YEAR_RANGE] = {(",n_maxreg,"){(808) 0.9,},};\n", file=parafile, append=TRUE)	
+cat("   //EN Lower Secondary Period Delayed Progression Intake\n", file=parafile, append=TRUE)	
+cat("   double	LowSecPeriodDelayedProgressionIntake[PROVINCE_NAT][SEX][LOWSEC_GRADES][SIM_YEAR_RANGE] = {(",n_maxreg,"){(808) 0.25,},};\n", file=parafile, append=TRUE)	
+
+cat("   //EN Lower Secondary Period Direct Repetition Intake\n", file=parafile, append=TRUE)	
+cat("   double	LowSecPeriodDirectRepetitionIntake[PROVINCE_NAT][SEX][LOWSEC_GRADES][SIM_YEAR_RANGE] = {(",n_maxreg,"){(808) 0.9,},};\n", file=parafile, append=TRUE)	
+
+cat("   //EN Lower Secondary Period Delayed Repetition Intake\n", file=parafile, append=TRUE)	
+cat("   double	LowSecPeriodDelayedRepetitionIntake[PROVINCE_NAT][SEX][LOWSEC_GRADES][SIM_YEAR_RANGE] = {(",n_maxreg,"){(808) 0.9,},};\n", file=parafile, append=TRUE)	
+cat("\n};\n", file=parafile, append=TRUE) 
+close(parafile)
+
+```

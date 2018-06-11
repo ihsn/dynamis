@@ -1,0 +1,176 @@
+//LABEL(PersonCore, EN) Core functionality of the Person actor
+
+/*	NOTE(PersonCore, EN)
+This module introduces the main actor of the model: Person. It contains the core functionality and general states of the actor Person. Each actor typically has a 'Core' module for handling general functionalities of the actor. The most essential functions of this module are the Start() and Finish() functions of the actor. Start() is called when an actor is created and initializes all states. It is the only place where the automatically provided states age and time can be set.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Dimensions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+classification SEX                              //EN Sex
+{
+    FEMALE,                                     //EN Female
+    MALE                                        //EN Male
+};
+
+classification PERSON_TYPE                      //EN Person Type
+{
+    PT_START,                                   //EN Person from Starting Population
+    PT_CHILD,                                   //EN Person born in simulation
+    PT_IMMIGRANT                                //EN Immigrant
+};
+
+classification FAM_ROLE                         //EN Role in family
+{
+    FR_HEAD,                                    //EN Head
+    FR_SPOUSE,                                  //EN Spouse of head
+    FR_CHILD                                    //EN Child
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Links
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* (uncomment when modeling families)
+link Person.lParent Person.mlChild[];		    //EN Link between Head and Children
+link Person.lSpouse;			                //EN Link between spouses
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor sets
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor_set Person asAllPersons filter is_alive;  //EN Entire population
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor states and functions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*	NOTE(Person, EN)
+    The actors Person are the main actors of the simulation. All persons have the
+    same weight and together represent the population.
+*/
+
+actor Person
+{
+    PERSON_TYPE     person_type = { PT_START };                     //EN Person type
+    double          time_of_birth = { 1900 };                       //EN Time of birth
+    ALL_YEAR_RANGE  year_of_birth = int(time_of_birth);             //EN Year of birth
+    SEX             sex = { FEMALE };                               //EN Sex
+    FAM_ROLE        family_role = { FR_HEAD };                      //EN Family Role
+
+    void            Start(Observation *peObservation, Person *pePers);  //EN Starts the actor
+    void            Finish();                                           //EN Finishes the actor
+
+    logical         is_alive = { FALSE };                           //EN Person is alive
+    double          time_set_alive = { TIME_INFINITE };             //EN Time setting actor alive
+    event           timeSetAliveEvent, SetAliveEvent;               //EN Set Alive
+
+    //EN The simulation has entered the projected time
+    logical         in_projected_time = (calendar_year >= MIN(SIM_YEAR_RANGE)); 
+
+    Person          *peHHead;                                       //EN Pointer to head
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*	NOTE(Person.Start, EN)
+    The Start() function initializes all states of an actor right at the moment of creation.
+    The function has two parameters, namely pointers to an observation actor and to the household
+    head. If the pointer to an observation is not NULL, the Person comes from the starting
+    population (rather than being born or immigrating in the simulation). The pointer is used to
+    access all states of the observation. The pointer to the household head is used to establish a
+    link to the family head which can be a parent or a spouse. If the parameter is NULL, the Person
+    is a family head herself.
+*/
+
+//INCLUDE05
+void Person::Start(Observation *peObservation, Person *pePers)
+{
+    // Setting the actor weight
+    Set_actor_weight(asGlobals->Item(0)->person_weight);
+    Set_actor_subsample_weight(asGlobals->Item(0)->person_weight);
+
+    // Determine the person type
+    if (!peObservation && pePers)   person_type = PT_CHILD;   // Born in simulation
+    else if (peObservation)         person_type = PT_START;   // From Starting Pop
+    else person_type = PT_IMMIGRANT;                          // Immigrant
+
+    // Initialize states
+    if (person_type == PT_START) // Person comes from starting population
+    {
+        // (A) States from Starting population file
+        time                = peObservation->pmc[PMC_BIRTH];
+        sex                 = (SEX)(int)peObservation->pmc[PMC_SEX];
+        family_role         = peObservation->fam_role;
+        district_nat        = (DISTRICT_NAT)(int)peObservation->pmc[PMC_DISTRICT];
+
+        // (B) Other states
+        time_of_birth       = time;
+        calendar_year       = (int)time_of_birth;
+
+        // (C) Links to head resp. spouse
+        // (uncomment when modeling families) if (pePers) peHHead = pePers;
+    }
+    else if (person_type == PT_CHILD) // Person born in simulation
+    {
+        // (A) States corresponding to Starting population file variables
+        if (RandUniform(4) < 100.0 / (100.0 + SexRatio[RANGE_POS(SIM_YEAR_RANGE, calendar_year)])) 
+        {
+            sex  = FEMALE;
+        }
+        else sex = MALE; 
+        time                = pePers->time;
+        family_role         = FR_CHILD;
+        district_nat        = pePers->district_nat;
+
+        // (B) Other states
+        time_of_birth       = time;
+        calendar_year       = (int)time_of_birth;
+
+        // (C) Links to head resp. spouse
+        // (uncomment when modeling families) if (pePers) peHHead = pePers;
+    }
+    else // Person is an immigrant
+    {
+        // do nothing (immigrants not modeled yet)
+    }
+    time_set_alive = WAIT(0);
+}
+//ENDINCLUDE05
+
+/*	NOTE(Person.Finish, EN)
+    Finish is a function to be called when an actor is to be destroyed. Modgen automatically
+    performs memory clean-up routines. Code added here is the last thing executed before an actor
+    is destroyed. Typical uses are the handling of inheritances and accounting routines.
+*/
+void Person::Finish(){}
+
+
+/*  NOTE(Person.SetAliveEvent, EN)
+    This function is called with waiting time 0 immediately after the Start of a Person actor.
+    For people of the starting population the date of birth is only known after getting this
+    information from the corresponding person record, thus after the person actor is created.
+    The SetAliveEvent Event ensures that no person is visible and counted before its actual
+    birth date.
+*/
+
+TIME Person::timeSetAliveEvent() { return time_set_alive; }
+void Person::SetAliveEvent()
+{
+    lClock         = asTheClock->Item(0);       // link the person to the clock
+    is_alive       = TRUE;                      // set the Person alive
+    time_set_alive = TIME_INFINITE;             // ensure the event does not happen again
+
+
+    /* (uncomment when modeling families)
+    if (person_type == PT_START && family_role != FR_HEAD && peHHead)
+    {
+        if (family_role == FR_CHILD) lParent = peHHead;          // Person is a child
+        else lSpouse = peHHead;                                  // Person is a spouse
+    }
+    */
+}

@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.1. The Modgen Micro-simulation Technology &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2. Step 1: Creating a Population" href="DYNAMIS-POP-Code-Step01.html" />
+    <link rel="prev" title="3. Technical Implementation" href="Model-Index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1. The Modgen Micro-simulation Technology</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-users-perspective-user-interface">3.1.1. The User’s Perspective: User Interface</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#running-a-model">3.1.1.1. Running a model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scenario-settings">3.1.1.2. Scenario Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-results">3.1.1.3. Model Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#output-table-views">3.1.1.4. Output Table Views</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#exporting-simulation-results">3.1.1.5. Exporting Simulation Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#further-documentation">3.1.1.6. Further documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-developers-perspective-key-programming-concepts">3.1.2. The Developer’s Perspective: Key Programming Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#parameter-dimensions-and-tables">3.1.2.1. Parameter Dimensions and Tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#actors-states-functions-and-event-declarations">3.1.2.2. Actors, states, functions and event declarations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event-implementation">3.1.2.3. Event Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#table-output">3.1.2.4. Table output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-documentation">3.1.2.5. Model documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#programming-wizards-and-model-templates">3.1.2.6. Programming Wizards and Model Templates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step01.html">3.2. Step 1: Creating a Population</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.1. The Modgen Micro-simulation Technology</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Intro.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-modgen-micro-simulation-technology">
+<span id="the-modgen-micro-simulation-technology"></span><h1>3.1. The Modgen Micro-simulation Technology<a class="headerlink" href="#the-modgen-micro-simulation-technology" title="Permalink to this headline">¶</a></h1>
+<p>Dynamic micro-simulation models can be implemented in three ways: from scratch, using multiple purpose programming languages like C++; using (and extending) statistical packages (e.g., R) with or without combining other tools; and using specialized micro-simulation packages. In this report, we advocate and use the latter approach, specifically, Modgen, a generic micro-simulation technology and language developed at Statistics Canada. Compared with other approaches, using Modgen allows considerable efficiency gains, as it avoids re-inventing the wheel (still a common practice in micro-simulation), allows communication between a large and growing global user group, and, as an industrial-strength product, avoids many programming problems and bugs because many components are ready made and well tested. As a compiled language, Modgen is also very fast, so large-scale models can be implemented with millions of actors that can be run on standard PCs or computer networks.</p>
+<p>Modgen (Model generator) is a generic micro-simulation programming language that supports the creation, maintenance, and documentation of dynamic micro-simulation models. Virtually all types of dynamic socioeconomic and sociodemographic micro-simulation models can be accommodated, from small and specialized to large and multi-purpose, in continuous or discrete time, with interacting or non-interacting populations. Furthermore, a model developer does not need advanced programming skills to use Modgen, because Modgen hides underlying mechanisms, e.g., event queuing, and creates a stand-alone model-executable program with a complete visual interface and detailed model documentation. Model developers can therefore concentrate on model-specific code: the declaration of parameters, simulated actors, and events. High-efficiency coding, typically requiring only a couple of lines, can be used to program an output table. Tabulation is done in continuous time and includes a mechanism for estimating the Monte Carlo variation for any cell of any table.</p>
+<p>Modgen was designed to facilitate micro-simulation model programming, and its purpose is to remove obstacles to micro-simulation model creation. Obstacles that Modgen eliminates include interface programming, documentation, simulation engine programming, and multi-lingualism. Modgen also provides the interface and simulation engine, and facilitates documentation by automatically creating a hypertext model documentation out of the programming code, and the labels and comments documenting the code. Recent developments include the possibility to publish and run models on the web.</p>
+<p>Modgen was developed by micro-simulation modelers and grew by accommodating concrete modeler demands in various application fields covering population projection, health models, and large-scale socio-economic models, e.g., pension analysis. Since it can be shared for free, Modgen is used internally at Statistics Canada and by modelers around the globe, including governments, academia, individual researchers, and international organizations like WHO and OECD (for a list of models using Modgen, consult www.statcan.gc.ca/eng/microsimulation). This wide range of users can also extensively test Modgen in a variety of application fields, contributing to its reliability and stability.</p>
+<p>Recent developments in micro-simulation technologies include the development of the open source language OpenM++, a micro-simulation platform inspired by and compatible with Modgen. OpenM++, compared to its free but closed source predecessor, has many distinct features like portability, scalability, and open source. It is currently developed in coordination with Modgen developers, and as an open source project, is expected to reach an even broader user community (http://ompp.sourceforge.net/wiki/index.php/Main_Page).</p>
+<p>In this section, we introduce the Modgen technology from two perspectives: first, the user, then the developer. From the users’ perspective, key features are a clear and easy graphical user interface, high execution speed, full documentation, the ease of modifying and creating scenarios by changing parameters or selecting modeling options, and rich model output in fully labeled tables and micro-data files. From the developers’ perspective, of key importance is the ability to fully focus on the modeling aspects, as most model-independent components are provided and do not require programming.</p>
+<div class="section" id="the-users-perspective-user-interface">
+<span id="the-users-perspective-user-interface"></span><h2>3.1.1. The User’s Perspective: User Interface<a class="headerlink" href="#the-users-perspective-user-interface" title="Permalink to this headline">¶</a></h2>
+<p>Modgen models are Windows applications running on standard PCs and share the same graphical user interface, with a menu bar, short-cut icons for key commands, and a help system. The Modgen user interface is organized into two parts: a navigation area displaying a hierarchical list of all parameters, and, after running the model, all output tables. For both parameter and output tables, space is typically devoted to the display area. Parameter tables can be directly edited in the user interface. By changing parameters, users can create and save new scenarios. After running a model, all output tables become available. Table results can be exported into Excel individually or together, to an Excel Workbook.</p>
+<p><img alt="" src="Model\../Figures/image49.jpg" /></p>
+<p><em>Figure: The User Interface</em></p>
+<div class="section" id="running-a-model">
+<span id="running-a-model"></span><h3>3.1.1.1. Running a model<a class="headerlink" href="#running-a-model" title="Permalink to this headline">¶</a></h3>
+<p>A typical simulation analysis session will consist of the following actions:</p>
+<ul class="simple">
+<li>Opening the model: The user interface opens, both the navigation and the table pane are empty, as no scenario was opened yet.</li>
+<li>Selecting Scenario/Open from the menu or clicking on the open folder icon opens a scenario file. Scenario files have the extension scex.</li>
+<li>The list of available parameters will be visible in the navigation pane. Parameters are organized in tables, which can be accessed by clicking on the table name in the navigation area. For easier navigation, the list of tables is grouped by topic.</li>
+<li>New scenarios can be created by changing parameters and saving the scenario under a new name. The application saves all simulation results with all parameters.</li>
+<li>If the scenario was run before saving, all output tables are available and can be selected like parameter tables.</li>
+<li>Both parameter and output tables can have any number of dimensions. Their complexity can vary from a simple, single on/off check box to multidimensional tables by age, sex, province, year, etc. The user controls which two dimensions of a multi-dimensional table are displayed and which dimensions are selected from a drop-down list. This and other table functionalities are accessible when right-clicking on a table.</li>
+<li>Before running a new scenario, save the existing scenario under a new name, then edit model parameters and settings.</li>
+<li>Users can edit tables directly, including copying and pasting from other tables, such as Excel.</li>
+<li>Besides parameter tables, users can also control a number of scenario settings. These are accessible by selection Scenarios/Settings or clicking the far left icon.</li>
+<li>After setting all parameters and settings as requested, the new scenario can be run by selecting Scenario/ Run or clicking the RUN icon.</li>
+<li>The updated list of model results tables is then available.</li>
+</ul>
+<p><img alt="" src="Model\../Figures/image50a.jpg" />
+<img alt="" src="Model\../Figures/image50b.jpg" />
+<img alt="" src="Model\../Figures/image50c.jpg" /></p>
+<p><em>Figures: Scenario Settings</em></p>
+</div>
+<div class="section" id="scenario-settings">
+<span id="scenario-settings"></span><h3>3.1.1.2. Scenario Settings<a class="headerlink" href="#scenario-settings" title="Permalink to this headline">¶</a></h3>
+<p>Important settings are:</p>
+<ul class="simple">
+<li>General tab:<ul>
+<li>The time horizon of the simulation.</li>
+<li>The number of replicates produced: if the model is run more than once, distributional information is automatically generated from the individual model runs and results tables automatically average all results.</li>
+<li>Number of threads: various replicates can be run in parallel, depending on the number of available processors.</li>
+<li>Starting seed (of random numbers): when rerunning a model with the same seed, it will produce identical results.</li>
+<li>Copy parameters to the output database: useful when exporting simulation results to Excel workbooks, which then can include all parameters of the model, too.</li>
+</ul>
+</li>
+<li>Parameter Files tab: can see, change, or add parameter files belonging to the scenario. When saving an existing scenario under a new name, all parameter files of the model will automatically be copied with a file name consisting of the scenario name and data file name. Usually no user operations are required.</li>
+<li>Tables Tab: displays the list of available output tables. Tables can be de-selected if not needed.</li>
+<li>Documentation tab: users can place and store scenario notes here.</li>
+</ul>
+</div>
+<div class="section" id="model-results">
+<span id="model-results"></span><h3>3.1.1.3. Model Results<a class="headerlink" href="#model-results" title="Permalink to this headline">¶</a></h3>
+<p>Model results come in three forms:</p>
+<ul class="simple">
+<li>A list of tables displayed directly within the application. Besides the table values, tables can contain additional views (e.g., of distributional information of table cells) and functionalities. With multi-dimensional tables, users control the order in which to display table dimensions and details like the number of decimal places. Tables can also contain documentation. Tables are labeled, adding to the readability of the output.</li>
+<li>Micro-data files to be further analyzed using statistical software (depending on the model). The population projection model for examples can produce periodic files (the user sets the first time point of file output and the time interval for repeated output) of a list of variables, which the user selects. Output is written into CSV text files, which have a header row with variable names.</li>
+<li>A sample of individual life-course data, which can be displayed graphically using the BioBrowser application. This feature is not used in the population projection model, but is very useful, especially for debugging, as it can filter “strange” cases and study simulated lives in full detail.</li>
+</ul>
+<p><img alt="" src="Model\../Figures/image51.jpg" /></p>
+<p><em>Figure: BioBrowser</em></p>
+</div>
+<div class="section" id="output-table-views">
+<span id="output-table-views"></span><h3>3.1.1.4. Output Table Views<a class="headerlink" href="#output-table-views" title="Permalink to this headline">¶</a></h3>
+<p>Right-click tables and select Properties to access additional information and change the table’s display.</p>
+<p><img alt="" src="Model\../Figures/image52a.jpg" />
+<img alt="" src="Model\../Figures/image52b.jpg" />
+<img alt="" src="Model\../Figures/image52c.jpg" /></p>
+<p><em>Figures: Table Properties</em></p>
+<ul class="simple">
+<li>Info tab: contains information on the internal table name, its label, and, if available, a note</li>
+<li>Dimensions tab: allows users to change the order of dimension in which a table is displayed</li>
+<li>Decimals: allows users to change the number of decimal spaces</li>
+<li>Transformation: selects alternative types of values for display. The default is Value, which is the simulation results. If several replicates are run, results of individual runs can be displayed,or, most importantly, distributional information accessed</li>
+</ul>
+</div>
+<div class="section" id="exporting-simulation-results">
+<span id="exporting-simulation-results"></span><h3>3.1.1.5. Exporting Simulation Results<a class="headerlink" href="#exporting-simulation-results" title="Permalink to this headline">¶</a></h3>
+<p>There are three ways to export table results for further use and analysis (e.g., in Excel):</p>
+<ul class="simple">
+<li>The content of individual tables or table cells can be directly copied and pasted, either by marking cells or by right-clicking on a table and selecting copy from the Context menu. In this case, table values are copied without row, column, or table labels.</li>
+<li>Right-clicking on the table also enables the Copy Special option. Here, the current table view or all dimensions of the table together can be copied, including all dimension and table labels.</li>
+<li>The Scenario/Export menu lets users choose tables to be exported together into an Excel Workbook. Dialog selects the display format for tables (including pivot table format) and chooses a file name.</li>
+</ul>
+</div>
+<div class="section" id="further-documentation">
+<span id="further-documentation"></span><h3>3.1.1.6. Further documentation<a class="headerlink" href="#further-documentation" title="Permalink to this headline">¶</a></h3>
+<p>The user interface is fully documented within the application. Users can use the help menu to access a detailed hyperlinked help option, which covers all capabilities relevant to model users, such as editing parameters, creating scenarios, running the model, and viewing and exporting model results.</p>
+<p><img alt="" src="Model\../Figures/image53.jpg" /></p>
+<p><em>Figure: The Help System Documenting the User Interface</em></p>
+<p>Similar to the model’s user interface, the model itself is fully documented within the application. Users can access encyclopedic documentation from the help menu, including descriptions of the modules, parameters, model actors, and all table output.</p>
+<p><img alt="" src="Model\../Figures/image54.jpg" /></p>
+<p><em>Figure: The Model Documentation System</em></p>
+</div>
+</div>
+<div class="section" id="the-developers-perspective-key-programming-concepts">
+<span id="the-developers-perspective-key-programming-concepts"></span><h2>3.1.2. The Developer’s Perspective: Key Programming Concepts<a class="headerlink" href="#the-developers-perspective-key-programming-concepts" title="Permalink to this headline">¶</a></h2>
+<p>This chapter gives some flavor on Modgen programming. A detailed step-by-step guide to implement the DYNAMIS-POP model is given in teh following chapters. A detailed technical developer’s guide is also available for the Modgen language; it is integrated in the Modgen’s help option and available as a pdf at <a class="reference external" href="http://www.statcan.gc.ca/microsimulation">http://www.statcan.gc.ca/microsimulation</a>.</p>
+<p>Modgen requires and integrates into the Microsoft Visual Studio C++ package, thus making use of one of the most popular programming interfaces and its powerful debugging tools. Modgen translates Modgen code into C++ code, which is then compiled into a C++ application, combining the strengths of the generic C++ language with specialized micro-simulation language concepts and functions. A model developer does not need to have advanced programming skills to use Modgen, because Modgen hides underlying mechanisms like event queuing and automatically creates a stand-alone model-executable program with a complete visual interface and detailed documentation. Developers can therefore concentrate on model-specific code: the declaration of parameters, simulated actors, states, events, and table output.</p>
+<div class="section" id="parameter-dimensions-and-tables">
+<span id="parameter-dimensions-and-tables"></span><h3>3.1.2.1. Parameter Dimensions and Tables<a class="headerlink" href="#parameter-dimensions-and-tables" title="Permalink to this headline">¶</a></h3>
+<p>All parameters in Modgen are organized in tables, which can be as simple as a single on/off checkbox or a multidimensional table. Data types can be logical, integer, or real numbers. To define parameter dimensions, Modgen has three key concepts: classifications (for categorical variables), partitions (to split a continuous variable or time into pieces), and ranges (a set of integer values). Parameters are declared in a parameters {}; block.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">classification</span>  <span class="n">SEX</span>                                         <span class="o">//</span><span class="n">EN</span> <span class="n">Sex</span>
+<span class="p">{</span>
+    <span class="n">FEMALE</span><span class="p">,</span>                                                 <span class="o">//</span><span class="n">EN</span> <span class="n">Female</span>
+    <span class="n">MALE</span>                                                    <span class="o">//</span><span class="n">EN</span> <span class="n">Male</span>
+<span class="p">};</span>
+<span class="n">partition</span>       <span class="n">AGE15</span>       <span class="p">{</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">75</span> <span class="p">};</span>         <span class="o">//</span><span class="n">EN</span> <span class="mi">15</span> <span class="n">year</span> <span class="n">age</span> <span class="n">groups</span>
+<span class="nb">range</span>           <span class="n">PROJ_YEARS</span>  <span class="p">{</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2060</span> <span class="p">};</span>                 <span class="o">//</span><span class="n">EN</span> <span class="n">Projected</span> <span class="n">years</span> <span class="nb">range</span>
+
+<span class="n">parameters</span>
+<span class="p">{</span>
+    <span class="n">double</span>      <span class="n">EmigrationRate</span><span class="p">[</span><span class="n">SEX</span><span class="p">][</span><span class="n">AGE15</span><span class="p">][</span><span class="n">PROJ_YEARS</span><span class="p">];</span>    <span class="o">//</span><span class="n">EN</span> <span class="n">Emigration</span> <span class="n">Rate</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Note that the code comments, which is the text introduced with //EN (where “EN” is defined as English language; Modgen supports multi-lingual models), are used to automatically label the resulting tables in the user interface. Use the code above to create a parameter table to display on the user interface and make accessible in the program.</p>
+<p><img alt="" src="Model\../Figures/image55.jpg" />
+<em>Figure: The Parameter Coded Above</em></p>
+<p>The parameter values are stored in .dat text files, usually in groups or all parameters together in one or several file(s). The syntax is identical to the programming code, except that values are provided:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">double</span>      <span class="n">EmigrationRate</span><span class="p">[</span><span class="n">SEX</span><span class="p">][</span><span class="n">AGE15</span><span class="p">][</span><span class="n">PROJ_YEARS</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">,</span><span class="o">...</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="actors-states-functions-and-event-declarations">
+<span id="actors-states-functions-and-event-declarations"></span><h3>3.1.2.2. Actors, states, functions and event declarations<a class="headerlink" href="#actors-states-functions-and-event-declarations" title="Permalink to this headline">¶</a></h3>
+<p>Actor is an entity whose life is simulated in a Modgen model. There can be different types of actors in a model, and Persons is typically the most important. Actors are characterized by state variables as well as the functions and events that change the states. Some states can be numerical (e.g., age, income) and others are categorical (e.g., gender, marital status). In Modgen, simulation takes place through the execution of events. Each event consists of two functions: a time function to determine the time of the next occurrence of the event, and an implementation function to determine the consequences when the event happens.</p>
+<p>Modgen supports three types of state variables:</p>
+<ul class="simple">
+<li>“Simple” states those that are updated in events</li>
+<li>“Derived” states those that depend on other states and update themselves, e.g., a formula in an Excel table cell</li>
+<li>“Self-scheduling” states those that update themselves following a pre-specified time schedule</li>
+</ul>
+<p>Two state variables, time and age, are supplied and maintained automatically. States and events belong to a specific actor and are declared in an actor block:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">actor</span> <span class="n">Person</span>
+<span class="p">{</span>
+    <span class="n">SEX</span>         <span class="n">sex</span> <span class="o">=</span> <span class="p">{</span> <span class="n">FEMALE</span> <span class="p">};</span>                           <span class="o">//</span><span class="n">EN</span> <span class="n">Sex</span>
+    <span class="n">logical</span>     <span class="n">resident</span> <span class="o">=</span> <span class="p">{</span> <span class="n">TRUE</span> <span class="p">};</span>                        <span class="o">//</span><span class="n">EN</span> <span class="n">Resident</span>
+
+    <span class="nb">int</span>         <span class="n">age_years</span> <span class="o">=</span> <span class="n">self_scheduling_int</span><span class="p">(</span><span class="n">age</span><span class="p">);</span>       <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span> <span class="ow">in</span> <span class="n">full</span> <span class="n">years</span>
+    <span class="nb">int</span>         <span class="n">age_index</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">age_years</span><span class="p">,</span> <span class="n">AGE15</span><span class="p">);</span>        <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span> <span class="n">group</span> <span class="n">index</span>
+    <span class="nb">int</span>         <span class="n">simulated_year</span> <span class="o">=</span> <span class="n">self_scheduling_int</span><span class="p">(</span><span class="n">time</span><span class="p">);</span> <span class="o">//</span><span class="n">EN</span> <span class="n">Calendar</span> <span class="n">year</span>
+
+
+    <span class="n">event</span>       <span class="n">timeEmigrationEvent</span><span class="p">,</span> <span class="n">EmigrationEvent</span><span class="p">;</span>       <span class="o">//</span><span class="n">EN</span> <span class="n">Emigration</span> <span class="n">Event</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>In the previous example, we define:</p>
+<ul class="simple">
+<li>Sex and resident as simple states, initialized with a value in {} brackets</li>
+<li>Age_years as a self-scheduling state, creating its own schedule to be updated exactly at the right moment independent of other events in the model</li>
+<li>Age_index is a derived state, when age_years changes, it is updated when a new age group limit is achieved</li>
+<li>An event “EmigrationEvent”</li>
+</ul>
+</div>
+<div class="section" id="event-implementation">
+<span id="event-implementation"></span><h3>3.1.2.3. Event Implementation<a class="headerlink" href="#event-implementation" title="Permalink to this headline">¶</a></h3>
+<p>Each event consists of two functions, one returning the time of an event, the second accessed if the event happens. Typically, the time of an event is based on piece-wise constant hazard models, with the waiting time assumed to be exponentially distributed for a given hazard rate, which is assumed to be stable over specific pieces or episodes of time. For example, it is assumed that the emigration hazards will stay constant for a given age range and calendar year. When the age group or calendar year changes, Modgen automatically generates a new waiting time based on the new applicable rate. For a given hazard rate, a random waiting time can be calculated as -ln(RandUniform)/hazard.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TIME</span> <span class="n">Person</span><span class="p">::</span><span class="n">timeEmigrationEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">double</span> <span class="n">dHazard</span> <span class="o">=</span> <span class="n">EmigrationRate</span><span class="p">[</span><span class="n">sex</span><span class="p">][</span><span class="n">age_index</span><span class="p">][</span><span class="n">RANGE_POS</span><span class="p">(</span><span class="n">PROJ_YEARS</span><span class="p">,</span> <span class="n">calendar_year</span><span class="p">)];</span>
+
+    <span class="k">if</span> <span class="p">(</span> <span class="n">resident</span> <span class="o">&amp;&amp;</span> <span class="n">WITHIN</span><span class="p">(</span><span class="n">PROJ_YEARS</span><span class="p">,</span> <span class="n">calendar_year</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">dHazard</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">WAIT</span><span class="p">(</span><span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">29</span><span class="p">))</span> <span class="o">/</span> <span class="n">dHazard</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">EmigrationEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">resident</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For persons at risk of emigration (i.e., residents within the simulated timeframe and positive hazard rate), a random waiting time to emigration is calculated based on the given rates. Note that Modgen automatically handles an event queue and automatically updates waiting times whenever a state affecting the waiting time changes. The second function, EmigrationEvent(), implements emigration itself: the event sets the simple state “resident” to FALSE.</p>
+</div>
+<div class="section" id="table-output">
+<span id="table-output"></span><h3>3.1.2.4. Table output<a class="headerlink" href="#table-output" title="Permalink to this headline">¶</a></h3>
+<p>Modgen contains a powerful tabling language, and even complex tables usually require only a few lines of code. Tables belong to an actor and consist of a name, a label, and one or more table expressions, e.g., formulas for the calculation of output values. Tables can be divided by an unlimited number of dimensions (e.g., output by age and sex) and can contain a filter which selects who should be included in the table and/or when the table should be created.</p>
+<p>For example, the following table calculates the simulated emigration hazards by age group, sex, and calendar year. For sufficiently large simulated populations, the simulated rates should come close to the parameter.</p>
+<p>The table filter (second line, within [] brackets) selects the timespan for which the table is produced. The table dimensions are projected calendar years, age group, and sex, as in the parameter table that drives the model. Age groups can be built automatically in the table for a given partition using split(). The sign after a table dimension indicates that the table should also calculate totals over all categories of a variable.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="n">Person</span> <span class="n">SimulatedEmigrationRates</span>                               <span class="o">//</span><span class="n">EN</span> <span class="n">Simulated</span> <span class="n">Emigration</span> <span class="n">Rates</span>
+<span class="p">[</span> <span class="n">WITHIN</span><span class="p">(</span><span class="n">PROJ_YEARS</span><span class="p">,</span> <span class="n">calendar_year</span><span class="p">)]</span>
+<span class="p">{</span>
+    <span class="n">sex</span><span class="o">+</span> <span class="o">*</span>
+    <span class="p">{</span>
+        <span class="n">transitions</span><span class="p">(</span><span class="n">resident</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span><span class="n">FALSE</span><span class="p">)</span> <span class="o">/</span> <span class="n">duration</span><span class="p">(</span><span class="n">resident</span><span class="p">,</span><span class="n">TRUE</span><span class="p">)</span> <span class="o">//</span><span class="n">EN</span> <span class="n">Emigration</span> <span class="n">Rate</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">4</span>
+    <span class="p">}</span>
+    <span class="o">*</span> <span class="n">split</span><span class="p">(</span><span class="n">age_years</span><span class="p">,</span> <span class="n">AGE15</span><span class="p">)</span>                                       <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span> <span class="n">group</span>
+    <span class="o">*</span> <span class="n">proj_years</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Modgen has a long list of functions used in tables. The functions used here are transitions(), which count the number of specific transitions specified, and duration(), which calculate the time spent in a certain state. With these functions, rates can easily be calculated as the number of events divided by the time at risk.</p>
+<p><img alt="" src="Model\../Figures/image56.jpg" />
+<em>Figure: An Output Table Displaying Simulated Rates</em></p>
+</div>
+<div class="section" id="model-documentation">
+<span id="model-documentation"></span><h3>3.1.2.5. Model documentation<a class="headerlink" href="#model-documentation" title="Permalink to this headline">¶</a></h3>
+<p>Modgen automatically produces a hyperlinked help file containing model documentation based on the model code as well as labels and notes within the code. Variable labels and other information within the code are also used for producing a fully labeled user interface, including labeled output tables (e.g., table name, variable names, and description of variable dimensions).</p>
+</div>
+<div class="section" id="programming-wizards-and-model-templates">
+<span id="programming-wizards-and-model-templates"></span><h3>3.1.2.6. Programming Wizards and Model Templates<a class="headerlink" href="#programming-wizards-and-model-templates" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the ample functionality provided automatically, with the underlying code hidden from the developer, Modgen also provides code wizards to generate the essential code of new models, add micro-data input modules, and create new “empty” modules. Code produced by the wizards is visible, but usually does not require any changes by developers, or just minor adaptations, like the specification of variable names in the case of micro-data input files.</p>
+<p>Alternatively, developers can start from existing models. The step-by-step creation of the population projection model supports this approach, as the first steps are very generic and modelers can depart from such earlier steps when building models.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DYNAMIS-POP-Code-Step01.html" class="btn btn-neutral float-right" title="3.2. Step 1: Creating a Population" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Model-Index.html" class="btn btn-neutral" title="3. Technical Implementation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

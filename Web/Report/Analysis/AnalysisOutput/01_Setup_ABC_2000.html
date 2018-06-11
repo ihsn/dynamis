@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2.1. Sricp 1: Setting up Output Data Objects &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2.2. Script 2: Age Pyramids by Education" href="02_PopEducPyramids.html" />
+    <link rel="prev" title="2. Output Analysis" href="AnalysisOutput-Index.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="AnalysisOutput-Index.html">2. Output Analysis</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1. Sricp 1: Setting up Output Data Objects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version-imaginary-country-start-year-2000">2.1.1. Version: “Imaginary Country” Start Year 2000</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_PopEducPyramids.html">2.2. Script 2: Age Pyramids by Education</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Model/Model-Index.html">3. Technical Implementation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="AnalysisOutput-Index.html">2. Output Analysis</a> &raquo;</li>
+        
+      <li>2.1. Sricp 1: Setting up Output Data Objects</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Analysis/AnalysisOutput/01_Setup_ABC_2000.Rmd.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sricp-1-setting-up-output-data-objects">
+<span id="sricp-1-setting-up-output-data-objects"></span><h1>2.1. Sricp 1: Setting up Output Data Objects<a class="headerlink" href="#sricp-1-setting-up-output-data-objects" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-imaginary-country-start-year-2000">
+<span id="version-imaginary-country-start-year-2000"></span><h2>2.1.1. Version: “Imaginary Country” Start Year 2000<a class="headerlink" href="#version-imaginary-country-start-year-2000" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>This setup file generates all country-specific objects used by the set of R simulation output analysis and visualization scripts. The output of this script is an image file “globals_for_analysis.RData” which is read by each of the thematic analysis scripts. This is the only R script which has to be adapted when porting the model to another country context.</div></blockquote>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Output Analysis File 1 - Generate all country-specific R objects
+#  This file has to be run before performing all other output analysis steps
+#  Last Update: Martin Spielauer 2018-05-19
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space and load required packages
+####################################################################################################
+
+rm(list=ls())
+
+library(&quot;dplyr&quot;)
+library(&quot;tidyr&quot;)
+library(&quot;ggplot2&quot;)
+library(&quot;ggthemes&quot;) 
+library(&quot;cowplot&quot;)
+
+####################################################################################################
+# Read Simulation Output Files and generate data objects
+####################################################################################################
+
+g_data_base &lt;- read.csv(&quot;../../Model/DYNAMIS-POP_ABC_2000/Scenarios/Output_ABC_2000_base.csv&quot;)
+g_data_alt  &lt;- read.csv(&quot;../../Model/DYNAMIS-POP_ABC_2000/Scenarios/Output_ABC_2000_alternative.csv&quot;)
+g_data_base$g_scenario &lt;- &#39;base&#39;
+g_data_alt$g_scenario  &lt;- &#39;alt&#39;
+g_data                 &lt;- rbind(g_data_base,g_data_alt)
+
+g_data$m_agegr5 &lt;- as.integer((g_data$TIME - g_data$BIRTH)/5) * 5
+
+####################################################################################################
+# Generate a 5y age pyramid by education data frame
+####################################################################################################
+
+
+g_pyramid   &lt;- as.data.frame(xtabs(g_data$WEIGHT ~ g_data$MALE + 
+                        g_data$m_agegr5 + g_data$EDUCATION + g_data$TIME +
+                        g_data$DISTRICT + g_data$g_scenario))
+
+g_pyramid   &lt;- g_pyramid[!(g_pyramid$g_data.m_agegr5==100),]
+
+g_pyramid$gender[g_pyramid$g_data.MALE==0]    &lt;- &#39;female&#39;
+g_pyramid$gender[g_pyramid$g_data.MALE==1]    &lt;- &#39;male&#39;
+
+g_pyramid$educ[g_pyramid$g_data.EDUCATION==0] &lt;- &#39;1-no &#39;
+g_pyramid$educ[g_pyramid$g_data.EDUCATION==1] &lt;- &#39;2-some&#39;
+g_pyramid$educ[g_pyramid$g_data.EDUCATION==2] &lt;- &#39;3-complete&#39;
+
+g_pyramid$age[g_pyramid$g_data.m_agegr5==0]  &lt;- &#39; 0-4&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==5]  &lt;- &#39; 5-9&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==10] &lt;- &#39;10-14&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==15] &lt;- &#39;15-19&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==20] &lt;- &#39;20-24&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==25] &lt;- &#39;25-29&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==30] &lt;- &#39;30-34&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==35] &lt;- &#39;35-39&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==40] &lt;- &#39;40-44&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==45] &lt;- &#39;45-49&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==50] &lt;- &#39;50-54&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==55] &lt;- &#39;55-59&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==60] &lt;- &#39;60--64&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==65] &lt;- &#39;65-69&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==70] &lt;- &#39;70-74&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==75] &lt;- &#39;75-79&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==80] &lt;- &#39;80-84&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==85] &lt;- &#39;85-89&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==90] &lt;- &#39;90-94&#39;
+g_pyramid$age[g_pyramid$g_data.m_agegr5==95] &lt;- &#39;95+&#39;
+
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==0]  &lt;- &#39;Far West Mountains&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==1]  &lt;- &#39;Far West Hills&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==2]  &lt;- &#39;Far West Flats&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==3]  &lt;- &#39;West Mountains&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==4]  &lt;- &#39;West Hills&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==5]  &lt;- &#39;West Flats&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==6]  &lt;- &#39;Central Mountains&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==7]  &lt;- &#39;Central Hills&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==8]  &lt;- &#39;Central Flats&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==9]  &lt;- &#39;East Mountains&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==10] &lt;- &#39;The Capital&#39;
+g_pyramid$sDistrict[g_pyramid$g_data.DISTRICT==11] &lt;- &#39;East Flats&#39;
+
+####################################################################################################
+# Save global objects
+####################################################################################################
+
+save.image(file=&quot;globals_for_output_analysis.RData&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="02_PopEducPyramids.html" class="btn btn-neutral float-right" title="2.2. Script 2: Age Pyramids by Education" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="AnalysisOutput-Index.html" class="btn btn-neutral" title="2. Output Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

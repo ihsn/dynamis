@@ -1,0 +1,1137 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.2. Step 1: Creating a Population &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.3. Step 2: Birthdays" href="DYNAMIS-POP-Code-Step02.html" />
+    <link rel="prev" title="3.1. The Modgen Micro-simulation Technology" href="DYNAMIS-POP-Code-Intro.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Intro.html">3.1. The Modgen Micro-simulation Technology</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.2. Step 1: Creating a Population</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-description">3.2.1. Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-input">3.2.2. File input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">3.2.3. Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-output">3.2.4. Model Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-organization-and-a-classification-of-files">3.2.5. Code organization and a classification of files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-documentation">3.2.6. Model Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-discussion">3.2.7. Code Discussion</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#model-information-model-info-mpp">3.2.7.1. Model Information: model_info.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-simulation-engine-model-core-mpp">3.2.7.2. The Simulation Engine: model_core.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modgen-simulation-framework-modgen-time-based-mpp">3.2.7.3. Modgen Simulation Framework: modgen_time_based.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-country-version-specific-settings-countrycontext">3.2.7.4. The Country/Version-Specific Settings: _CountryContext</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core-file-of-the-observation-actor-observationcore-mpp">3.2.7.5. Core file of the Observation Actor : ObservationCore.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core-file-of-the-person-actor-personcore-mpp">3.2.7.6. Core file of the Person Actor: PersonCore.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core-file-of-the-clock-actor-clockcore-mpp">3.2.7.7. Core file of the Clock Actor: ClockCore.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#core-file-of-the-globals-actor-globalscore-mpp">3.2.7.8. Core file of the Globals Actor: GlobalsCore.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#actions-at-year-end-calendaryearchange-mpp">3.2.7.9. Actions at Year End: CalendarYearChange.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#micro-data-output-microdataoutput-mpp">3.2.7.10. Micro Data Output: MicroDataOutput.mpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#micro-data-output-tablespopulation-mpp">3.2.7.11. Micro Data Output: TablesPopulation.mpp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step02.html">3.3. Step 2: Birthdays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step03.html">3.4. Step 3: Base Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step04.html">3.5. Step 4: Base Fertility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step05.html">3.6. Step 5: Base Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step06.html">3.7. Step 6: Base Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step07.html">3.8. Step 7: Base Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step08.html">3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.2. Step 1: Creating a Population</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Step01.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="step-1-creating-a-population">
+<h1>3.2. Step 1: Creating a Population<a class="headerlink" href="#step-1-creating-a-population" title="Permalink to this headline">¶</a></h1>
+<p>The DYNAMIS-POP model development starts from a very generic basic template for typical continuous-time interacting population models. The model creates a starting population from a weighted file of observations. While not having much functionality at this point, the model provides a starting point ‘hiding’ some of the more tricky coding. Newcomers to Modgen are not required to fully understand all the code at this point: the following steps of model development introduce the basic concepts from a modelers perspective and provide step-by-step instructions for model building using Modgen.</p>
+<div class="section" id="model-description">
+<h2>3.2.1. Model Description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>DYNAMIS-POP Step 1 constitutes the starting template of the model. It implements some basic functionality common to most interacting population models like file handling, the creation of a starting population, and the handling of weights to automatically scale all output to the total population size. The model creates a starting population from a weighted file of observations. Depending on record weights and the desired simulation size, a population of simulation actors of equal weights is created from the observations, whereby individual observations might or might not be picked or picked various times. The template also supports linking people to families or households. Other functionality includes the production of sample output tables and a module for micro-data output for generating simulated cross-section and panel data. Most of the code does not require any change as the model is developed. Exceptions are:</p>
+<ul class="simple">
+<li>The list of variables of the starting population file set in the ObservationCore file.</li>
+<li>The use of the starting population variables to initialize the states of the simulated actors in the Start() function contained in the PersonCore file.</li>
+<li>The list of states to be included in the model micro-data output file set in the MicroDataOutput file.</li>
+</ul>
+</div>
+<div class="section" id="file-input">
+<h2>3.2.2. File input<a class="headerlink" href="#file-input" title="Permalink to this headline">¶</a></h2>
+<p>The micro-data population <strong>input file</strong> is a csv-file which currently contains the following variables:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">List</span> <span class="n">of</span> <span class="n">Starting</span> <span class="n">population</span> <span class="n">variables</span>
+<span class="n">classification</span> <span class="n">PERSON_MICRODATA_COLUMNS</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="p">(</span><span class="n">uncomment</span> <span class="n">when</span> <span class="n">modeling</span> <span class="n">families</span><span class="p">)</span>   <span class="n">PMC_HHID</span><span class="p">,</span>   <span class="o">//</span><span class="n">EN</span> <span class="n">Household</span> <span class="n">ID</span>
+    <span class="o">//</span> <span class="p">(</span><span class="n">uncomment</span> <span class="n">when</span> <span class="n">modeling</span> <span class="n">families</span><span class="p">)</span>   <span class="n">PMC_ROLE</span><span class="p">,</span>   <span class="o">//</span><span class="n">EN</span> <span class="n">Role</span> <span class="ow">in</span> <span class="n">family</span>
+    <span class="n">PMC_WEIGHT</span><span class="p">,</span>                                         <span class="o">//</span><span class="n">EN</span> <span class="n">Weight</span>
+    <span class="n">PMC_BIRTH</span><span class="p">,</span>                                          <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">birth</span>
+    <span class="n">PMC_SEX</span><span class="p">,</span>                                            <span class="o">//</span><span class="n">EN</span> <span class="n">Sex</span>
+    <span class="n">PMC_PROVINCE</span><span class="p">,</span>                                       <span class="o">//</span><span class="n">EN</span> <span class="n">Province</span>
+    <span class="n">PMC_EDUC</span><span class="p">,</span>                                           <span class="o">//</span><span class="n">EN</span> <span class="n">Education</span>
+    <span class="n">PMC_POB</span><span class="p">,</span>                                            <span class="o">//</span><span class="n">EN</span> <span class="n">Province</span> <span class="n">of</span> <span class="n">birth</span>
+    <span class="n">PMC_UNION</span><span class="p">,</span>                                          <span class="o">//</span><span class="n">EN</span> <span class="n">Union</span> <span class="n">formation</span> <span class="n">time</span>
+    <span class="n">PMC_PARITY</span><span class="p">,</span>                                         <span class="o">//</span><span class="n">EN</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">births</span>
+    <span class="n">PMC_LASTBIR</span><span class="p">,</span>                                        <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">last</span> <span class="n">birth</span>
+    <span class="n">PMC_ETHNO</span>                                           <span class="o">//</span><span class="n">EN</span> <span class="n">Ethnicity</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The variables, including their order, have to correspond with the variables in the starting population file. The list can simply be expanded as required.</p>
+</div>
+<div class="section" id="parameters">
+<h2>3.2.3. Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>The model currently has 7 <strong>parameters</strong> organized into 2 groups: Starting population and Microdata output.</p>
+<div class="figure" id="id1">
+<img alt="../_images/Step01_Para.png" src="../_images/Step01_Para.png" />
+<p class="caption"><span class="caption-text"><em>Figure: Model Parameters</em></span></p>
+</div>
+<p>The starting population parameters are:</p>
+<ul class="simple">
+<li>The file name</li>
+<li>The file size</li>
+<li>The simulated sample size (which can be bigger or smaller than the file)</li>
+<li>The real population size (to which all output is automatically scaled)</li>
+</ul>
+<p>The starting population is generated from a weighted file of observations. Depending on weights and the desired simulation size, a population of actors is created from the observations, whereby individual observations might or might not be picked or picked various times.</p>
+<p>Parameters for micro-data output are:</p>
+<ul class="simple">
+<li>A check-box to switch output on/off</li>
+<li>A file-name for the output file</li>
+<li>Parameters for the timing of the first and the last output and output intervals</li>
+</ul>
+<p>Users can select when output should be written, which can be a single point in time or repeated panel waves with regular intervals.</p>
+</div>
+<div class="section" id="model-output">
+<h2>3.2.4. Model Output<a class="headerlink" href="#model-output" title="Permalink to this headline">¶</a></h2>
+<p>At this point, the model creates 3 output table as well as a micro-data output file. File output is generated in csv format including a header row containing variable names. Tables are part of the graphical user interface and there are various options to copy/paste or export tables.</p>
+</div>
+<div class="section" id="code-organization-and-a-classification-of-files">
+<h2>3.2.5. Code organization and a classification of files<a class="headerlink" href="#code-organization-and-a-classification-of-files" title="Permalink to this headline">¶</a></h2>
+<p>Modgen code is organized in .mpp files which can be classified into 4 groups.</p>
+<p><strong>Simulation engine:</strong> these files contain general model settings and the the code to run a simulation. Most of the code was automatically generated by the Modgen model wizard for time-based models. The code is mostly pure C++ and developers typically are not required to modify – or understand – it. The model is designed to run for various countries. All country and version specific code (like start year) are kept in a separate file _CountryContext.mpp.</p>
+<ul class="simple">
+<li>model_core.mp</li>
+<li>model_info.mpp</li>
+<li>modgen_timebased</li>
+<li>_CountryContext.mpp</li>
+</ul>
+<p><strong>Actor core files:</strong> Each Actor introduced in the model typically has a core file which contains general characteristics and functions of the actor. Our model at this point has four actor types, Observations (one for each record of the starting population file), Persons (the actual simulated entities representing the population), a Clock, and an actor Globals (for storing information easily accessible for all actors). Accordingly, there are four core files:</p>
+<ul class="simple">
+<li>ObservationCore.mpp</li>
+<li>PersonCore.mpp</li>
+<li>ClockCore.mpp</li>
+<li>GlobalsCore.mpp</li>
+</ul>
+<p><strong>Regular modules:</strong> These are the modules developers typically spend most of their time on. Usually there is one such module by modeled behavior (like fertility, mortality, labor force participation) and policy system. At the moment, our model contains just one such module:</p>
+<ul class="simple">
+<li>CalendarYearChange.mpp</li>
+</ul>
+<p><strong>Output modules:</strong> Modgen models produce three types of output: tables, micro-data, and a database of tracked actors used for a visualization tool called BioBrowser. The template provides two output files:</p>
+<ul class="simple">
+<li>Tables.mpp: contains all table output</li>
+<li>MicroDataOutput.mpp: handles micro-data output</li>
+</ul>
+<p>Besides the model code, modes come with one or mode parameter files, as well as micro-data input and output files.</p>
+<p><strong>Parameter .dat files:</strong> values are stored in one or more .dat files, which are readable text-files. Parameters are typically changed within the graphical user interface of the model.</p>
+<ul class="simple">
+<li>Default(PersonCore).dat: contains all model parameters. The file-name consists of a scenario name (Default) and the parameter file name. A user creating and saving a new scenario would generate a new file, e.g. NewScenario(PersonCore).</li>
+</ul>
+<p><strong>Microdata csv input and output</strong>: Micro-data in/output is organized in csv (comma separated values) files, which are readable text files. File-names can be chosen by the model user, e.g.</p>
+<ul class="simple">
+<li>startpop_YYYY_COUNTRY.csv</li>
+<li>micro_output_YYYY_COUNTRY.csv</li>
+</ul>
+</div>
+<div class="section" id="model-documentation">
+<h2>3.2.6. Model Documentation<a class="headerlink" href="#model-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Modgen models are self-documenting: Users can access a help file from the menu of the user interface.</p>
+<p>Labels and notes for modules (as well as any symbols used in the program) are used for the automatically generated model help file for users, thus good documentation is not only best practice for model development, but also creates a detailed documentation for the user.</p>
+<ul class="simple">
+<li>A <strong>label</strong>: a one line description</li>
+<li>A <strong>note</strong>: a more detailed description</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span><span class="n">LABEL</span> <span class="p">(</span><span class="n">CalendarYearChange</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span> <span class="n">Calendar</span> <span class="n">Year</span> <span class="n">Change</span>
+
+<span class="o">/*</span>
+   <span class="n">NOTE</span> <span class="p">(</span><span class="n">CalendarYearChange</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+   <span class="n">This</span> <span class="n">module</span> <span class="n">handles</span> <span class="n">calendar</span> <span class="n">year</span> <span class="n">changes</span><span class="o">.</span> <span class="n">Before</span> <span class="n">a</span> <span class="n">year</span> <span class="n">ends</span><span class="p">,</span> <span class="n">the</span> <span class="n">Person</span> <span class="n">function</span> <span class="n">YearEnd</span><span class="p">()</span>
+   <span class="ow">is</span> <span class="n">called</span> <span class="n">by</span> <span class="n">the</span> <span class="n">Calendar</span> <span class="n">clock</span> <span class="n">actor</span><span class="o">.</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">which</span> <span class="n">models</span> <span class="n">typically</span>
+   <span class="n">update</span> <span class="n">accounts</span> <span class="ow">and</span> <span class="n">perform</span> <span class="n">other</span> <span class="n">end</span> <span class="n">of</span> <span class="n">year</span> <span class="n">routines</span><span class="o">.</span> <span class="n">Immediately</span> <span class="n">after</span> <span class="n">the</span> <span class="n">year</span> <span class="n">end</span><span class="p">,</span> <span class="n">the</span>
+   <span class="n">YearStart</span><span class="p">()</span> <span class="n">routine</span> <span class="ow">is</span> <span class="n">called</span><span class="o">.</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">when</span> <span class="n">the</span> <span class="n">calendar_year</span> <span class="n">state</span> <span class="ow">is</span> <span class="n">changed</span><span class="o">.</span>
+<span class="o">*/</span>
+</pre></div>
+</div>
+<p>Placed above or in the same line of a newly introduced symbol, labels can also be written as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span><span class="n">EN</span> <span class="n">The</span> <span class="n">text</span> <span class="n">of</span> <span class="n">the</span> <span class="n">label</span>
+</pre></div>
+</div>
+<p>Labels are introduced by a language code (EN for English in our case) Modgen also support multilingual applications, in which these labels are translated into (an)other language(s). Besides their purpose of code documentation, these labels are used in the user interface, e.g. for column headings in tables or for the labeling of parameters.</p>
+<div class="figure" id="id2">
+<img alt="../_images/Step01_Help.png" src="../_images/Step01_Help.png" />
+<p class="caption"><span class="caption-text"><em>Figure: Help System</em></span></p>
+</div>
+</div>
+<div class="section" id="code-discussion">
+<h2>3.2.7. Code Discussion<a class="headerlink" href="#code-discussion" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-information-model-info-mpp">
+<h3>3.2.7.1. Model Information: model_info.mpp<a class="headerlink" href="#model-information-model-info-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This file is used for model documentation and contains a model description. The file is for documentation only and does not contain any model code.</p>
+</div>
+<div class="section" id="the-simulation-engine-model-core-mpp">
+<h3>3.2.7.2. The Simulation Engine: model_core.mpp<a class="headerlink" href="#the-simulation-engine-model-core-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module contains general model settings and the simulation engine of the model. It is part of the model template and developers typically are not required to modify or understand it’s code. Model-specific code includes:</p>
+<ul class="simple">
+<li>The creation of Observation actors reading the starting population file</li>
+<li>The calculation of integer weights corresponding with the selected number of simulated actors</li>
+<li>The creation of a starting population of equal weight Person actors</li>
+<li>The removal of all Observation actors as they are not used anymore after the starting population was built.</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">General</span> <span class="n">Model</span> <span class="n">Settings</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">model_type</span> <span class="n">time_based</span><span class="p">,</span> <span class="n">just_in_time</span><span class="p">;</span>        <span class="o">//</span> <span class="n">The</span> <span class="n">model</span> <span class="nb">type</span>
+<span class="n">options</span> <span class="n">packing_level</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>                  <span class="o">//</span> <span class="n">Reduces</span> <span class="n">memory</span> <span class="n">use</span> <span class="n">at</span> <span class="n">the</span> <span class="n">expense</span> <span class="n">of</span> <span class="n">speed</span>
+<span class="n">time_type</span> <span class="n">double</span><span class="p">;</span>                           <span class="o">//</span> <span class="n">The</span> <span class="n">data</span> <span class="nb">type</span> <span class="n">used</span> <span class="n">to</span> <span class="n">represent</span> <span class="n">time</span>
+
+<span class="o">//</span> <span class="n">Other</span> <span class="n">data</span> <span class="n">types</span>
+<span class="n">real_type</span>               <span class="nb">float</span><span class="p">;</span>
+<span class="n">counter_type</span>    <span class="n">ushort</span><span class="p">;</span>
+<span class="n">integer_type</span>    <span class="n">short</span><span class="p">;</span>
+<span class="n">index_type</span>              <span class="n">ulong</span><span class="p">;</span>
+
+<span class="n">languages</span>                                   <span class="o">//</span> <span class="n">Supported</span> <span class="n">languages</span>
+<span class="p">{</span>
+    <span class="n">EN</span> <span class="o">//</span> <span class="n">English</span>
+<span class="p">};</span>
+
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Simulation</span><span class="p">()</span> <span class="ow">is</span> <span class="n">called</span> <span class="n">by</span> <span class="n">the</span> <span class="n">simulation</span> <span class="n">framework</span> <span class="n">to</span> <span class="n">simulate</span> <span class="n">a</span> <span class="n">replicate</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">void</span> <span class="n">Simulation</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">extern</span> <span class="n">void</span> <span class="n">LogSimulationStart</span><span class="p">();</span>
+    <span class="n">extern</span> <span class="n">void</span> <span class="n">SimulateEvents</span><span class="p">();</span>
+    <span class="n">LogSimulationStart</span><span class="p">();</span>                   <span class="o">//</span> <span class="n">Write</span> <span class="n">simulation</span> <span class="n">start</span> <span class="n">message</span> <span class="n">to</span> <span class="n">log</span>
+
+    <span class="o">////////////////////////////////////////////////////////////////////</span>
+    <span class="o">//</span> <span class="n">Start</span> <span class="n">of</span> <span class="n">the</span> <span class="n">model</span><span class="o">-</span><span class="n">specific</span> <span class="n">part</span> <span class="n">of</span> <span class="n">the</span> <span class="n">simulation</span> <span class="n">engine</span>      <span class="o">//</span>
+    <span class="o">////////////////////////////////////////////////////////////////////</span>
+
+    <span class="o">//</span> <span class="n">Create</span> <span class="ow">and</span> <span class="nb">open</span> <span class="n">the</span> <span class="nb">input</span> <span class="n">data</span> <span class="n">file</span>
+    <span class="n">input_csv</span> <span class="n">in_csv</span><span class="p">;</span>
+    <span class="n">in_csv</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">MicroDataInputFile</span><span class="p">);</span>
+    <span class="n">in_csv</span><span class="o">.</span><span class="n">read_header</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">the</span> <span class="n">Actor</span> <span class="n">Globals</span>
+    <span class="n">auto</span> <span class="n">prGlobals</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Globals</span><span class="p">();</span>
+    <span class="n">prGlobals</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">the</span> <span class="n">Clock</span>
+    <span class="n">auto</span> <span class="n">prClock</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Clock</span><span class="p">();</span>
+    <span class="n">prClock</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">observations</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">long</span> <span class="n">nJ</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nJ</span> <span class="o">&lt;</span> <span class="n">MicroDataInputFileSize</span><span class="p">;</span> <span class="n">nJ</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">in_csv</span><span class="o">.</span><span class="n">read_record</span><span class="p">(</span><span class="n">nJ</span><span class="p">);</span>
+        <span class="n">auto</span> <span class="n">paObservation</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Observation</span><span class="p">();</span>
+        <span class="n">paObservation</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">(</span><span class="n">in_csv</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="o">//</span> <span class="n">Set</span> <span class="n">sample</span> <span class="n">weights</span> <span class="p">(</span><span class="n">obs_weight</span><span class="p">)</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">observations</span> <span class="n">to</span> <span class="n">represent</span> <span class="n">the</span> <span class="p">(</span><span class="n">integer</span><span class="p">)</span> <span class="n">number</span> <span class="n">of</span>
+    <span class="o">//</span> <span class="n">persons</span> <span class="n">to</span> <span class="n">be</span> <span class="n">created</span> <span class="n">out</span> <span class="n">of</span> <span class="n">each</span> <span class="n">observation</span>
+    <span class="n">double</span> <span class="n">dSumWeights</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">long</span> <span class="n">nJ</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nJ</span> <span class="o">&lt;</span> <span class="n">MicroDataInputFileSize</span><span class="p">;</span> <span class="n">nJ</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">dSumWeights</span> <span class="o">=</span> <span class="n">dSumWeights</span> <span class="o">+</span> <span class="n">asObservationAll</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nJ</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">pmc</span><span class="p">[</span><span class="n">PMC_WEIGHT</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">long</span> <span class="n">nJ</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nJ</span> <span class="o">&lt;</span> <span class="n">MicroDataInputFileSize</span><span class="p">;</span> <span class="n">nJ</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">double</span>  <span class="n">dWeight</span> <span class="o">=</span> <span class="n">asObservationAll</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nJ</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">pmc</span><span class="p">[</span><span class="n">PMC_WEIGHT</span><span class="p">]</span>
+                    <span class="o">*</span> <span class="n">StartPopSampleSize</span> <span class="o">/</span> <span class="n">dSumWeights</span><span class="p">;</span>
+        <span class="nb">int</span>     <span class="n">nWeight</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="n">dWeight</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">dWeight</span> <span class="o">-</span> <span class="n">nWeight</span><span class="p">)</span> <span class="n">nWeight</span><span class="o">++</span><span class="p">;</span>
+        <span class="n">asObservationAll</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nJ</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">obs_weight</span> <span class="o">=</span> <span class="n">nWeight</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="o">//</span> <span class="n">Calculate</span> <span class="n">exact</span> <span class="n">person</span> <span class="n">weight</span><span class="p">:</span> <span class="n">A</span> <span class="n">small</span> <span class="n">correction</span> <span class="k">as</span> <span class="nb">all</span> <span class="n">family</span> <span class="n">members</span> <span class="n">eventually</span> <span class="n">inherit</span>
+    <span class="o">//</span> <span class="n">the</span> <span class="n">weight</span> <span class="n">of</span> <span class="n">the</span> <span class="n">head</span> <span class="n">which</span> <span class="n">can</span> <span class="n">be</span> <span class="n">different</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">integer</span> <span class="n">weights</span> <span class="n">assigned</span> <span class="n">above</span>
+    <span class="n">long</span> <span class="n">SumSimActors</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">long</span> <span class="n">nH</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nH</span> <span class="o">&lt;</span> <span class="n">asObservationHeads</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">();</span> <span class="n">nH</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="o">//</span> <span class="n">Number</span> <span class="n">family</span> <span class="n">members</span>
+        <span class="nb">int</span> <span class="n">nFamSize</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">asObservationNonHeads</span><span class="p">[</span><span class="n">asObservationHeads</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nH</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">fam_id</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">();</span>
+        <span class="o">//</span> <span class="nb">sum</span> <span class="n">of</span> <span class="n">person</span> <span class="n">weights</span> <span class="ow">in</span> <span class="n">family</span> <span class="k">with</span> <span class="nb">all</span> <span class="n">having</span> <span class="n">same</span> <span class="n">weight</span> <span class="k">as</span> <span class="n">head</span>
+        <span class="n">SumSimActors</span> <span class="o">=</span> <span class="n">SumSimActors</span> <span class="o">+</span> <span class="n">nFamSize</span> <span class="o">*</span> <span class="n">asObservationHeads</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nH</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">obs_weight</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">asGlobals</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">person_weight</span> <span class="o">=</span> <span class="n">StartPopSize</span><span class="o">/</span> <span class="n">SumSimActors</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">the</span> <span class="n">starting</span> <span class="n">population</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">asObservationHeads</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="o">//</span> <span class="n">First</span> <span class="n">create</span> <span class="n">the</span> <span class="n">head</span>
+        <span class="n">auto</span> <span class="n">paObservation</span> <span class="o">=</span> <span class="n">asObservationHeads</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="n">auto</span> <span class="n">paPerson</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Person</span><span class="p">();</span>
+        <span class="n">paPerson</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">(</span><span class="n">paObservation</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>
+        <span class="o">//</span> <span class="n">And</span> <span class="n">now</span> <span class="nb">all</span> <span class="n">other</span> <span class="n">members</span> <span class="n">of</span> <span class="n">this</span> <span class="n">family</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">nJ</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nJ</span> <span class="o">&lt;</span> <span class="n">asObservationNonHeads</span><span class="p">[</span><span class="n">paObservation</span><span class="o">-&gt;</span><span class="n">fam_id</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">();</span> <span class="n">nJ</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">auto</span> <span class="n">paOtherPerson</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Person</span><span class="p">();</span>
+            <span class="n">paOtherPerson</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">(</span><span class="n">asObservationNonHeads</span><span class="p">[</span><span class="n">paObservation</span><span class="o">-&gt;</span><span class="n">fam_id</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nJ</span><span class="p">),</span> <span class="n">paPerson</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">paObservation</span><span class="o">-&gt;</span><span class="n">obs_weight</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="o">//</span> <span class="n">Delete</span> <span class="nb">all</span> <span class="n">observation</span> <span class="n">actors</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">asObservationAll</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">asObservationAll</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">Finish</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="n">Close</span> <span class="n">the</span> <span class="n">microdata</span> <span class="nb">input</span> <span class="n">file</span>
+    <span class="n">in_csv</span><span class="o">.</span><span class="n">close</span><span class="p">();</span>
+
+    <span class="o">////////////////////////////////////////////////////////////////////</span>
+    <span class="o">//</span>   <span class="n">End</span> <span class="n">of</span> <span class="n">the</span> <span class="n">model</span><span class="o">-</span><span class="n">specific</span> <span class="n">part</span> <span class="n">of</span> <span class="n">the</span> <span class="n">simulation</span> <span class="n">engine</span>      <span class="o">//</span>
+    <span class="o">////////////////////////////////////////////////////////////////////</span>
+
+
+    <span class="n">SimulateEvents</span><span class="p">();</span>                       <span class="o">//</span> <span class="n">Simulate</span> <span class="n">events</span> <span class="n">until</span> <span class="n">there</span> <span class="n">are</span> <span class="n">no</span> <span class="n">more</span><span class="o">.</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modgen-simulation-framework-modgen-time-based-mpp">
+<h3>3.2.7.3. Modgen Simulation Framework: modgen_time_based.mpp<a class="headerlink" href="#modgen-simulation-framework-modgen-time-based-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module implements core global functions for time-based models. It should not be necessary to modify any code in this module.</p>
+</div>
+<div class="section" id="the-country-version-specific-settings-countrycontext">
+<h3>3.2.7.4. The Country/Version-Specific Settings: _CountryContext<a class="headerlink" href="#the-country-version-specific-settings-countrycontext" title="Permalink to this headline">¶</a></h3>
+<p>This file contains the country and starting year specific code. This is the only file to be adapted when porting the model to a new country context.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">//</span> <span class="n">COUNTRY</span><span class="p">:</span> <span class="n">ABC</span> <span class="mi">2000</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Types</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="nb">range</span> <span class="n">ALL_YEAR_RANGE</span> <span class="p">{</span> <span class="mi">1899</span><span class="p">,</span> <span class="mi">2100</span> <span class="p">};</span>             <span class="o">//</span><span class="n">EN</span> <span class="n">All</span> <span class="n">calendar</span> <span class="n">years</span>
+<span class="nb">range</span> <span class="n">SIM_YEAR_RANGE</span> <span class="p">{</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">2100</span> <span class="p">};</span>             <span class="o">//</span><span class="n">EN</span> <span class="n">Simulated</span> <span class="n">years</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="core-file-of-the-observation-actor-observationcore-mpp">
+<h3>3.2.7.5. Core file of the Observation Actor : ObservationCore.mpp<a class="headerlink" href="#core-file-of-the-observation-actor-observationcore-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module introduces an actor named ‘Observation’. Each Observation actor corresponds with a record of the starting population file and is created by the simulation engine before Person actors are created. Observation are weighted. According to the size of the simulated population selected by the user, the simulation engine creates integer-weights for each observation by rescaling the original weights and random-rounding. The new observation weights are then used by the simulation engine to decide if and how often an observation is used when creating Person actors (which clone the observation characteristics). After being used for creating the starting population, the observation actors are destroyed to free up teh memory space. Note that for this process, the weight of the household head is used for all members of a family.</p>
+<p>This module is part of the model template and developers typically are not required to modify – or understand – it’s code. The exception is adding new variables to the starting population file which is a frequent requirement in model development:</p>
+<p><strong>How to add a new variable to the starting population?</strong></p>
+<ul class="simple">
+<li>Add a new column to the csv micro-data file</li>
+<li>in this module, extend the list of fields in the classification ‘PERSON_MICRODATA_COLUMNS’ no more coding is required and the variable is read in automatically</li>
+<li>the new variable will typically be used in the Start() function of the Person actor where a corresponding state is initialized by its value. It is accessible using the new dimension name added to the list of fields as an index of the person-micro-column array pmc[NEW_FIELD]. See Code in the Start() function in PersonCore.mpp</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Dimensions</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="o">//</span> <span class="n">LABEL</span><span class="p">(</span><span class="n">PERSON_MICRODATA_COLUMNS</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span> <span class="n">List</span> <span class="n">of</span> <span class="n">Starting</span> <span class="n">population</span> <span class="n">variables</span>
+<span class="n">classification</span> <span class="n">PERSON_MICRODATA_COLUMNS</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="p">(</span><span class="n">uncomment</span> <span class="n">when</span> <span class="n">modeling</span> <span class="n">families</span><span class="p">)</span>   <span class="n">PMC_HHID</span><span class="p">,</span>   <span class="o">//</span><span class="n">EN</span> <span class="n">Household</span> <span class="n">ID</span>
+    <span class="o">//</span> <span class="p">(</span><span class="n">uncomment</span> <span class="n">when</span> <span class="n">modeling</span> <span class="n">families</span><span class="p">)</span>   <span class="n">PMC_ROLE</span><span class="p">,</span>   <span class="o">//</span><span class="n">EN</span> <span class="n">Role</span> <span class="ow">in</span> <span class="n">family</span>
+    <span class="n">PMC_WEIGHT</span><span class="p">,</span>                                         <span class="o">//</span><span class="n">EN</span> <span class="n">Weight</span>
+    <span class="n">PMC_BIRTH</span><span class="p">,</span>                                          <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">birth</span>
+    <span class="n">PMC_SEX</span><span class="p">,</span>                                            <span class="o">//</span><span class="n">EN</span> <span class="n">Sex</span>
+    <span class="n">PMC_PROVINCE</span><span class="p">,</span>                                       <span class="o">//</span><span class="n">EN</span> <span class="n">Province</span>
+    <span class="n">PMC_EDUC</span><span class="p">,</span>                                           <span class="o">//</span><span class="n">EN</span> <span class="n">Education</span>
+    <span class="n">PMC_POB</span><span class="p">,</span>                                            <span class="o">//</span><span class="n">EN</span> <span class="n">Province</span> <span class="n">of</span> <span class="n">birth</span>
+    <span class="n">PMC_UNION</span><span class="p">,</span>                                          <span class="o">//</span><span class="n">EN</span> <span class="n">Union</span> <span class="n">formation</span> <span class="n">time</span>
+    <span class="n">PMC_PARITY</span><span class="p">,</span>                                         <span class="o">//</span><span class="n">EN</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">births</span>
+    <span class="n">PMC_LASTBIR</span><span class="p">,</span>                                        <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">last</span> <span class="n">birth</span>
+    <span class="n">PMC_ETHNO</span>                                           <span class="o">//</span><span class="n">EN</span> <span class="n">Ethnicity</span>
+<span class="p">}</span>
+<span class="p">;</span>
+
+<span class="nb">range</span> <span class="n">FAM_ID</span><span class="p">{</span> <span class="mi">0</span><span class="p">,</span><span class="mi">220000</span> <span class="p">};</span>                       <span class="o">//</span><span class="n">EN</span> <span class="n">Range</span> <span class="n">of</span> <span class="n">Family</span> <span class="n">IDs</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Parameters</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">parameters</span>
+<span class="p">{</span>
+    <span class="n">file</span>    <span class="n">MicroDataInputFile</span><span class="p">;</span>                 <span class="o">//</span><span class="n">EN</span> <span class="n">File</span> <span class="n">name</span> <span class="n">of</span> <span class="n">starting</span> <span class="n">population</span>
+    <span class="n">long</span>    <span class="n">MicroDataInputFileSize</span><span class="p">;</span>             <span class="o">//</span><span class="n">EN</span> <span class="n">File</span> <span class="n">size</span> <span class="n">of</span> <span class="n">starting</span> <span class="n">population</span>
+    <span class="n">double</span>  <span class="n">StartPopSampleSize</span><span class="p">;</span>                 <span class="o">//</span><span class="n">EN</span> <span class="n">Simulated</span> <span class="n">sample</span> <span class="n">size</span> <span class="n">of</span> <span class="n">starting</span> <span class="n">population</span>
+    <span class="n">double</span>  <span class="n">StartPopSize</span><span class="p">;</span>                       <span class="o">//</span><span class="n">EN</span> <span class="n">Real</span> <span class="n">population</span> <span class="n">size</span>
+<span class="p">};</span>
+
+<span class="n">parameter_group</span> <span class="n">PG_ModelSettings</span>                <span class="o">//</span><span class="n">EN</span> <span class="n">Starting</span> <span class="n">population</span>
+<span class="p">{</span>
+    <span class="n">MicroDataInputFile</span><span class="p">,</span> <span class="n">MicroDataInputFileSize</span><span class="p">,</span>
+    <span class="n">StartPopSampleSize</span><span class="p">,</span> <span class="n">StartPopSize</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span><span class="o">-</span><span class="n">Sets</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="o">//</span><span class="n">EN</span> <span class="n">Actor</span><span class="o">-</span><span class="nb">set</span> <span class="n">of</span> <span class="nb">all</span> <span class="n">family</span> <span class="n">heads</span> <span class="ow">in</span> <span class="n">Observations</span>
+<span class="n">actor_set</span> <span class="n">Observation</span> <span class="n">asObservationHeads</span> <span class="nb">filter</span> <span class="n">fam_role</span> <span class="o">==</span> <span class="n">FR_HEAD</span> <span class="o">&amp;&amp;</span> <span class="n">obs_weight</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="o">//</span><span class="n">EN</span> <span class="n">Actor</span><span class="o">-</span><span class="nb">set</span> <span class="n">of</span> <span class="nb">all</span> <span class="n">family</span> <span class="n">members</span> <span class="p">(</span><span class="n">without</span> <span class="n">heads</span><span class="p">)</span> <span class="n">by</span> <span class="n">family</span> <span class="n">ID</span>
+<span class="n">actor_set</span> <span class="n">Observation</span> <span class="n">asObservationNonHeads</span><span class="p">[</span><span class="n">fam_id</span><span class="p">]</span> <span class="nb">filter</span> <span class="n">fam_role</span> <span class="o">!=</span> <span class="n">FR_HEAD</span><span class="p">;</span>
+
+<span class="o">//</span><span class="n">EN</span> <span class="n">All</span> <span class="n">observations</span>
+<span class="n">actor_set</span> <span class="n">Observation</span> <span class="n">asObservationAll</span><span class="p">;</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">states</span> <span class="ow">and</span> <span class="n">functions</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="o">/*</span>  <span class="n">NOTE</span><span class="p">(</span><span class="n">Observation</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+    <span class="n">The</span> <span class="n">Actor</span> <span class="n">Observation</span> <span class="ow">is</span> <span class="n">created</span> <span class="k">as</span> <span class="n">internal</span> <span class="n">representation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">starting</span> <span class="n">population</span> <span class="n">file</span>
+    <span class="n">records</span><span class="o">.</span> <span class="n">It</span> <span class="ow">is</span> <span class="n">used</span> <span class="n">to</span> <span class="n">create</span> <span class="n">Person</span> <span class="n">actors</span> <span class="n">of</span> <span class="n">the</span> <span class="n">starting</span> <span class="n">population</span> <span class="n">which</span> <span class="n">can</span> <span class="n">be</span> <span class="n">smaller</span> <span class="ow">or</span>
+    <span class="n">larger</span> <span class="k">as</span> <span class="n">the</span> <span class="n">starting</span> <span class="n">population</span> <span class="n">file</span><span class="o">.</span> <span class="n">The</span> <span class="n">weights</span> <span class="n">of</span> <span class="n">observations</span> <span class="n">are</span> <span class="n">used</span> <span class="k">for</span> <span class="n">determining</span> <span class="k">if</span>
+    <span class="ow">and</span> <span class="n">how</span> <span class="n">often</span> <span class="n">a</span> <span class="n">single</span> <span class="n">observation</span> <span class="ow">is</span> <span class="n">represented</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">starting</span> <span class="n">population</span><span class="o">.</span>
+<span class="o">*/</span>
+
+
+<span class="n">actor</span> <span class="n">Observation</span>                               <span class="o">//</span><span class="n">EN</span> <span class="n">Actor</span> <span class="n">Observations</span>
+<span class="p">{</span>
+    <span class="n">double</span>      <span class="n">pmc</span><span class="p">[</span><span class="n">PERSON_MICRODATA_COLUMNS</span><span class="p">];</span>  <span class="o">//</span><span class="n">EN</span> <span class="n">Person</span> <span class="n">micro</span> <span class="n">record</span> <span class="n">columns</span>
+    <span class="n">integer</span>     <span class="n">obs_weight</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span> <span class="p">};</span>             <span class="o">//</span><span class="n">EN</span> <span class="n">Observation</span> <span class="n">integer</span> <span class="n">weight</span>
+    <span class="n">FAM_ID</span>      <span class="n">fam_id</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>                 <span class="o">//</span><span class="n">EN</span> <span class="n">Family</span> <span class="n">ID</span>
+    <span class="n">FAM_ROLE</span>    <span class="n">fam_role</span> <span class="o">=</span> <span class="p">{</span> <span class="n">FR_HEAD</span> <span class="p">};</span>         <span class="o">//</span><span class="n">EN</span> <span class="n">Role</span> <span class="ow">in</span> <span class="n">family</span>
+
+    <span class="n">void</span>        <span class="n">Start</span><span class="p">(</span><span class="n">const</span> <span class="n">input_csv</span><span class="o">&amp;</span> <span class="nb">input</span><span class="p">);</span>  <span class="o">//</span><span class="n">EN</span> <span class="n">Function</span> <span class="n">starting</span> <span class="n">the</span> <span class="n">actor</span>
+    <span class="n">void</span>        <span class="n">Finish</span><span class="p">();</span>                       <span class="o">//</span><span class="n">EN</span> <span class="n">Function</span> <span class="n">destroying</span> <span class="n">the</span> <span class="n">actor</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Implementation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">void</span> <span class="n">Observation</span><span class="p">::</span><span class="n">Start</span><span class="p">(</span><span class="n">const</span> <span class="n">input_csv</span><span class="o">&amp;</span> <span class="n">in_csv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">nJ</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nJ</span> <span class="o">&lt;</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">PERSON_MICRODATA_COLUMNS</span><span class="p">);</span> <span class="n">nJ</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">pmc</span><span class="p">[</span><span class="n">nJ</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_csv</span><span class="p">[</span><span class="n">nJ</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="o">//</span> <span class="p">(</span><span class="n">uncomment</span> <span class="n">when</span> <span class="n">modeling</span> <span class="n">families</span><span class="p">)</span> <span class="n">fam_id</span>      <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="n">pmc</span><span class="p">[</span><span class="n">PMC_HHID</span><span class="p">];</span>
+    <span class="o">//</span> <span class="p">(</span><span class="n">uncomment</span> <span class="n">when</span> <span class="n">modeling</span> <span class="n">families</span><span class="p">)</span> <span class="n">fam_role</span>    <span class="o">=</span> <span class="p">(</span><span class="n">FAM_ROLE</span><span class="p">)(</span><span class="nb">int</span><span class="p">)</span><span class="n">pmc</span><span class="p">[</span><span class="n">PMC_ROLE</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="n">void</span> <span class="n">Observation</span><span class="p">::</span><span class="n">Finish</span><span class="p">(){};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="core-file-of-the-person-actor-personcore-mpp">
+<h3>3.2.7.6. Core file of the Person Actor: PersonCore.mpp<a class="headerlink" href="#core-file-of-the-person-actor-personcore-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module introduces the main actor of the model: Person. It contains the core functionality and general states of the actor Person. Each actor typically has a ‘Core’ module for handling general functionalities of the actor. The most essential functions of this module are the Start() and Finish() functions of the actor. Start() is called when an actor is created and initializes all states. It is the only place where the automatically provided states age and time can be set.</p>
+<p>As for any actor, its core file is a good place to declare states and corresponding types which do not belong to specific behaviors but are used by various modules (e.g. sex). Also, the Start() and Finish() functions of each actor are declared in its core file.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Dimensions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+classification SEX                              //EN Sex
+{
+    FEMALE,                                     //EN Female
+    MALE                                        //EN Male
+};
+
+classification PERSON_TYPE                      //EN Person Type
+{
+    PT_START,                                   //EN Person from Starting Population
+    PT_CHILD,                                   //EN Person born in simulation
+    PT_IMMIGRANT                                //EN Immigrant
+};
+
+classification FAM_ROLE                         //EN Role in family
+{
+    FR_HEAD,                                    //EN Head
+    FR_SPOUSE,                                  //EN Spouse of head
+    FR_CHILD                                    //EN Child
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Links
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/* (uncomment when modeling families)
+link Person.lParent Person.mlChild[];               //EN Link between Head and Children
+link Person.lSpouse;                                    //EN Link between spouses
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor sets
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor_set Person asAllPersons filter is_alive;  //EN Entire population
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor states and functions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*      NOTE(Person, EN)
+    The actors Person are the main actors of the simulation. All persons have the
+    same weight and together represent the population.
+*/
+
+actor Person
+{
+    PERSON_TYPE     person_type = { PT_START };                     //EN Person type
+    double          time_of_birth = { 1900 };                       //EN Time of birth
+    ALL_YEAR_RANGE  year_of_birth = int(time_of_birth);             //EN Year of birth
+    SEX             sex = { FEMALE };                               //EN Sex
+    FAM_ROLE        family_role = { FR_HEAD };                      //EN Family Role
+
+    void            Start(Observation *peObservation, Person *pePers);  //EN Starts the actor
+          void            Finish();                                           //EN Finishes the actor
+
+    logical         is_alive = { FALSE };                           //EN Person is alive
+    double          time_set_alive = { TIME_INFINITE };             //EN Time setting actor alive
+    event           timeSetAliveEvent, SetAliveEvent;               //EN Set Alive
+
+    //EN The simulation has entered the projected time
+    logical         in_projected_time = (calendar_year &gt;= MIN(SIM_YEAR_RANGE));
+
+    Person          *peHHead;                                       //EN Pointer to household head
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*      NOTE(Person.Start, EN)
+    The Start() function initializes all states of an actor right at the moment of creation.
+    The function has two parameters, namely pointers to an observation actor and to the household
+    head. If the pointer to an observation is not NULL, the Person comes from the starting
+    population (rather than being born or immigrating in the simulation). The pointer is used to
+    access all states of the observation. The pointer to the household head is used to establish a
+    link to the family head which can be a parent or a spouse. If the parameter is NULL, the Person
+    is a family head herself.
+*/
+
+void Person::Start(Observation *peObservation, Person *pePers)
+{
+    // Setting the actor weight
+    Set_actor_weight(asGlobals-&gt;Item(0)-&gt;person_weight);
+    Set_actor_subsample_weight(asGlobals-&gt;Item(0)-&gt;person_weight);
+
+    // Determine the person type
+    if (!peObservation &amp;&amp; pePers)   person_type = PT_CHILD;   // Born in simulation
+    else if (peObservation)         person_type = PT_START;   // From Starting Pop
+    else person_type = PT_IMMIGRANT;                          // Immigrant
+
+    // Initialize states
+    if (person_type == PT_START) // Person comes from starting population
+    {
+        // (A) States from Starting population file
+        time                = peObservation-&gt;pmc[PMC_BIRTH];
+        sex                 = (SEX)(int)peObservation-&gt;pmc[PMC_SEX];
+        family_role         = peObservation-&gt;fam_role;
+
+        // (B) Other states
+        time_of_birth       = time;
+        calendar_year       = (int)time_of_birth;
+
+        // (C) Links to head resp. spouse
+        // (uncomment when modeling families) if (pePers) peHHead = pePers;
+    }
+    else if (person_type == PT_CHILD) // Person born in simulation
+    {
+        // do nothing (children not modeled yet)
+    }
+    else // Person is an immigrant
+    {
+        // do nothing (immigrants not modeled yet)
+    }
+    time_set_alive = WAIT(0);
+}
+
+/*      NOTE(Person.Finish, EN)
+    Finish is a function to be called when an actor is to be destroyed. Modgen automatically
+    performs memory clean-up routines. Code added here is the last thing executed before an actor
+    is destroyed. Typical uses are the handling of inheritances and accounting routines.
+*/
+void Person::Finish(){}
+
+
+/*  NOTE(Person.SetAliveEvent, EN)
+    This function is called with waiting time 0 immediately after the Start of a Person actor.
+    For people of the starting population the date of birth is only known after getting this
+    information from the corresponding person record, thus after the person actor is created.
+    The SetAliveEvent Event ensures that no person is visible and counted before its actual
+    birth date.
+*/
+
+TIME Person::timeSetAliveEvent() { return time_set_alive; }
+void Person::SetAliveEvent()
+{
+    lClock         = asTheClock-&gt;Item(0);       // link the person to the clock
+    is_alive       = TRUE;                      // set the Person alive
+    time_set_alive = TIME_INFINITE;             // ensure the event does not happen again
+
+
+    /* (uncomment when modeling families)
+    if (person_type == PT_START &amp;&amp; family_role != FR_HEAD &amp;&amp; peHHead)
+    {
+        if (family_role == FR_CHILD) lParent = peHHead;          // Person is a child
+        else lSpouse = peHHead;                                  // Person is a spouse
+    }
+    */
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="core-file-of-the-clock-actor-clockcore-mpp">
+<h3>3.2.7.7. Core file of the Clock Actor: ClockCore.mpp<a class="headerlink" href="#core-file-of-the-clock-actor-clockcore-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module introduces a Clock actor which handles calendar clock events like year changes. This avoids inefficiencies as otherwise all actors would having to schedule their own events individually. Instead of that the Clock announces each year end/start to all other actors</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Links</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">link</span> <span class="n">Person</span><span class="o">.</span><span class="n">lClock</span> <span class="n">Clock</span><span class="o">.</span><span class="n">mlPersons</span><span class="p">[];</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Clock</span> <span class="n">Actor</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="o">/*</span>  <span class="n">NOTE</span> <span class="p">(</span><span class="n">Clock</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+    <span class="n">The</span> <span class="n">Clock</span> <span class="n">actor</span> <span class="n">handles</span> <span class="n">calendar</span> <span class="n">year</span> <span class="ow">and</span> <span class="n">other</span> <span class="n">regular</span> <span class="n">period</span> <span class="n">changes</span><span class="o">.</span>
+<span class="o">*/</span>
+
+<span class="n">actor</span> <span class="n">Clock</span>                                                 <span class="o">//</span><span class="n">EN</span> <span class="n">Clock</span> <span class="n">Actor</span>
+<span class="p">{</span>
+    <span class="n">void</span>    <span class="n">Start</span><span class="p">();</span>                                        <span class="o">//</span><span class="n">EN</span> <span class="n">Start</span> <span class="n">Clock</span>
+    <span class="n">void</span>    <span class="n">Finish</span><span class="p">();</span>                                       <span class="o">//</span><span class="n">EN</span> <span class="n">Finish</span>
+    <span class="nb">int</span>     <span class="n">clock_year</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">2000</span> <span class="p">};</span>                          <span class="o">//</span><span class="n">EN</span> <span class="n">Calendar</span> <span class="n">Year</span>
+    <span class="nb">int</span>     <span class="n">next_clock_year_end</span> <span class="o">=</span> <span class="p">{</span> <span class="n">TIME_INFINITE</span> <span class="p">};</span>        <span class="o">//</span><span class="n">EN</span> <span class="n">Next</span> <span class="n">end</span> <span class="n">year</span> <span class="n">clock</span> <span class="n">tick</span>
+    <span class="nb">int</span>     <span class="n">next_clock_year_start</span> <span class="o">=</span> <span class="p">{</span> <span class="n">TIME_INFINITE</span> <span class="p">};</span>      <span class="o">//</span><span class="n">EN</span> <span class="n">Next</span> <span class="n">start</span> <span class="n">year</span> <span class="n">clock</span> <span class="n">tick</span>
+    <span class="n">event</span>   <span class="n">timeStartYearClock</span><span class="p">,</span> <span class="n">StartYearClock</span><span class="p">;</span>             <span class="o">//</span><span class="n">EN</span> <span class="n">Start</span> <span class="n">year</span> <span class="n">function</span> <span class="n">of</span> <span class="n">clock</span>
+    <span class="n">event</span>   <span class="n">timeEndYearClock</span><span class="p">,</span> <span class="n">EndYearClock</span><span class="p">;</span>                 <span class="o">//</span><span class="n">EN</span> <span class="n">End</span> <span class="n">year</span> <span class="n">function</span> <span class="n">of</span> <span class="n">clock</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">sets</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">actor_set</span> <span class="n">Clock</span> <span class="n">asTheClock</span><span class="p">;</span>                                 <span class="o">//</span><span class="n">EN</span> <span class="n">Actor</span> <span class="n">Set</span> <span class="n">Clock</span> <span class="n">Actor</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Implementation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">void</span> <span class="n">Clock</span><span class="p">::</span><span class="n">Start</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">MIN</span><span class="p">(</span><span class="n">ALL_YEAR_RANGE</span><span class="p">);</span>
+    <span class="n">clock_year</span> <span class="o">=</span> <span class="n">MIN</span><span class="p">(</span><span class="n">ALL_YEAR_RANGE</span><span class="p">);</span>
+    <span class="n">next_clock_year_end</span> <span class="o">=</span> <span class="n">WAIT</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="n">void</span> <span class="n">Clock</span><span class="p">::</span><span class="n">Finish</span><span class="p">()</span> <span class="p">{}</span>
+
+<span class="o">/*</span>      <span class="n">NOTE</span><span class="p">(</span> <span class="n">Clock</span><span class="o">.</span><span class="n">EndYearClock</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+    <span class="n">The</span> <span class="n">function</span> <span class="n">EndYearClock</span> <span class="n">creates</span> <span class="n">an</span> <span class="n">end</span> <span class="n">of</span> <span class="n">year</span> <span class="n">event</span><span class="o">.</span> <span class="n">It</span> <span class="n">calls</span> <span class="nb">all</span> <span class="n">other</span> <span class="n">actors</span> <span class="n">to</span> <span class="n">announce</span>
+    <span class="n">that</span> <span class="n">the</span> <span class="n">year</span> <span class="n">has</span> <span class="n">ended</span> <span class="n">so</span> <span class="n">that</span> <span class="nb">all</span> <span class="n">actors</span> <span class="n">can</span> <span class="n">perform</span> <span class="n">their</span> <span class="n">own</span> <span class="n">end</span> <span class="n">of</span> <span class="n">year</span> <span class="n">routines</span>
+<span class="o">*/</span>
+
+<span class="n">TIME</span> <span class="n">Clock</span><span class="p">::</span><span class="n">timeEndYearClock</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">next_clock_year_end</span><span class="p">;</span> <span class="p">}</span>
+<span class="n">void</span> <span class="n">Clock</span><span class="p">::</span><span class="n">EndYearClock</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">long</span> <span class="n">nPopSize</span> <span class="o">=</span> <span class="n">asAllPersons</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">long</span> <span class="n">nIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nIndex</span> <span class="o">&lt;</span> <span class="n">nPopSize</span><span class="p">;</span> <span class="n">nIndex</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">auto</span> <span class="n">prPerson</span> <span class="o">=</span> <span class="n">asAllPersons</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nIndex</span><span class="p">);</span>
+        <span class="n">prPerson</span><span class="o">-&gt;</span><span class="n">YearEnd</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">next_clock_year_start</span> <span class="o">=</span> <span class="n">WAIT</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">next_clock_year_end</span> <span class="o">=</span> <span class="n">WAIT</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="o">/*</span>      <span class="n">NOTE</span><span class="p">(</span> <span class="n">Clock</span><span class="o">.</span><span class="n">StartYearClock</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+    <span class="n">The</span> <span class="n">function</span> <span class="n">StartYearClock</span> <span class="n">creates</span> <span class="n">a</span> <span class="n">new</span> <span class="n">year</span> <span class="n">event</span><span class="o">.</span> <span class="n">It</span> <span class="n">calls</span> <span class="nb">all</span> <span class="n">other</span> <span class="n">actors</span> <span class="n">to</span> <span class="n">announce</span>
+    <span class="n">that</span> <span class="n">a</span> <span class="n">new</span> <span class="n">year</span> <span class="n">has</span> <span class="n">started</span> <span class="n">so</span> <span class="n">that</span> <span class="nb">all</span> <span class="n">actors</span> <span class="n">can</span> <span class="n">call</span> <span class="n">their</span> <span class="n">own</span> <span class="n">new</span> <span class="n">year</span> <span class="n">routines</span>
+<span class="o">*/</span>
+
+<span class="n">TIME</span> <span class="n">Clock</span><span class="p">::</span><span class="n">timeStartYearClock</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">next_clock_year_start</span><span class="p">;</span> <span class="p">}</span>
+<span class="n">void</span> <span class="n">Clock</span><span class="p">::</span><span class="n">StartYearClock</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">clock_year</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">long</span> <span class="n">nPopSize</span> <span class="o">=</span> <span class="n">asAllPersons</span><span class="o">-&gt;</span><span class="n">Count</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">long</span> <span class="n">nIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nIndex</span> <span class="o">&lt;</span> <span class="n">nPopSize</span><span class="p">;</span> <span class="n">nIndex</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">auto</span> <span class="n">prPerson</span> <span class="o">=</span> <span class="n">asAllPersons</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="n">nIndex</span><span class="p">);</span>
+        <span class="n">prPerson</span><span class="o">-&gt;</span><span class="n">YearStart</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">next_clock_year_start</span> <span class="o">=</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="core-file-of-the-globals-actor-globalscore-mpp">
+<h3>3.2.7.8. Core file of the Globals Actor: GlobalsCore.mpp<a class="headerlink" href="#core-file-of-the-globals-actor-globalscore-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module introduces an actor Globals which handles global variables and constants which are calculated or changed after the pre-simulation phase.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">Globals</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="o">/*</span>      <span class="n">NOTE</span><span class="p">(</span><span class="n">Globals</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+    <span class="n">The</span> <span class="n">actor</span> <span class="n">Globals</span> <span class="n">was</span> <span class="n">created</span> <span class="n">to</span> <span class="n">store</span> <span class="n">some</span> <span class="k">global</span> <span class="n">variables</span> <span class="ow">and</span> <span class="n">constants</span> <span class="n">which</span> <span class="n">are</span> <span class="n">calculated</span>
+    <span class="ow">or</span> <span class="n">changed</span> <span class="n">after</span> <span class="n">the</span> <span class="n">pre</span><span class="o">-</span><span class="n">simulation</span> <span class="n">phase</span><span class="o">.</span>
+<span class="o">*/</span>
+
+<span class="n">actor_set</span> <span class="n">Globals</span> <span class="n">asGlobals</span><span class="p">;</span>                    <span class="o">//</span><span class="n">EN</span> <span class="n">Globals</span> <span class="p">(</span><span class="n">Actor</span> <span class="n">Set</span><span class="p">)</span>
+
+<span class="n">actor</span> <span class="n">Globals</span>                                   <span class="o">//</span><span class="n">EN</span> <span class="n">Actor</span> <span class="n">Globals</span>
+<span class="p">{</span>
+    <span class="n">double</span> <span class="n">person_weight</span> <span class="o">=</span> <span class="p">{</span> <span class="mf">1.0</span> <span class="p">};</span>             <span class="o">//</span><span class="n">EN</span> <span class="n">Person</span> <span class="n">weight</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="actions-at-year-end-calendaryearchange-mpp">
+<h3>3.2.7.9. Actions at Year End: CalendarYearChange.mpp<a class="headerlink" href="#actions-at-year-end-calendaryearchange-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module handles calendar year changes. Before a year ends, the Person function YearEnd() is called by the Calendar clock actor. This is a point in time in which models typically update accounts and perform other end of year routines. Immediately after the year end, the YearStart() routine is called. This is when the calendar_year state is changed.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">Person</span> <span class="n">states</span> <span class="ow">and</span> <span class="n">functions</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">actor</span> <span class="n">Person</span>
+<span class="p">{</span>
+    <span class="n">ALL_YEAR_RANGE</span>  <span class="n">calendar_year</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">2000</span> <span class="p">};</span>                       <span class="o">//</span><span class="n">EN</span> <span class="n">Calendar</span> <span class="n">year</span>
+    <span class="n">void</span>            <span class="n">YearEnd</span><span class="p">();</span>                                      <span class="o">//</span><span class="n">EN</span> <span class="n">Year</span> <span class="n">End</span> <span class="n">Function</span>
+    <span class="n">void</span>            <span class="n">YearStart</span><span class="p">();</span>                                    <span class="o">//</span><span class="n">EN</span> <span class="n">Year</span> <span class="n">Start</span> <span class="n">Function</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Implementation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="o">/*</span>  <span class="n">NOTE</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">YearEnd</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+    <span class="n">The</span> <span class="n">function</span> <span class="n">YearEnd</span> <span class="ow">is</span> <span class="n">called</span> <span class="n">by</span> <span class="n">the</span> <span class="n">Clock</span> <span class="n">actor</span> <span class="n">at</span> <span class="n">the</span> <span class="n">end</span> <span class="n">of</span> <span class="n">each</span> <span class="n">year</span><span class="o">.</span> <span class="n">The</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">this</span>
+    <span class="n">function</span> <span class="ow">is</span> <span class="n">executed</span> <span class="n">last</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">given</span> <span class="n">year</span> <span class="n">before</span> <span class="n">the</span> <span class="n">calendar</span> <span class="n">year</span> <span class="ow">is</span> <span class="n">incremented</span>
+<span class="o">*/</span>
+
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">YearEnd</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">empty</span> <span class="k">for</span> <span class="n">the</span> <span class="n">moment</span>
+<span class="p">}</span>
+
+<span class="o">/*</span>  <span class="n">NOTE</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">YearStart</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+    <span class="n">The</span> <span class="n">function</span> <span class="n">YearStart</span> <span class="ow">is</span> <span class="n">called</span> <span class="n">by</span> <span class="n">the</span> <span class="n">Clock</span> <span class="n">actor</span> <span class="n">at</span> <span class="n">the</span> <span class="n">start</span> <span class="n">of</span> <span class="n">each</span> <span class="n">year</span><span class="o">.</span>
+    <span class="n">The</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">function</span> <span class="ow">is</span> <span class="n">executed</span> <span class="n">first</span> <span class="n">thing</span> <span class="ow">in</span> <span class="n">new</span> <span class="n">year</span>
+<span class="o">*/</span>
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">YearStart</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">calendar_year</span> <span class="o">=</span> <span class="n">lClock</span><span class="o">-&gt;</span><span class="n">clock_year</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="micro-data-output-microdataoutput-mpp">
+<h3>3.2.7.10. Micro Data Output: MicroDataOutput.mpp<a class="headerlink" href="#micro-data-output-microdataoutput-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module implements micro data output written to a csv file. Users can specify the time at which a micro-data file is written out and choose a file name. Output can also be produced in fixed time intervals, e.g. every year or every 5 years. The output csv file includes a header line with variable names. The module can be switched on and off.</p>
+<p><strong>How to add a new variable to the output?</strong></p>
+<ul class="simple">
+<li>In WriteMicroRecord(), add a line which pushes a new variable into the output record</li>
+<li>In PreSimulation() add a line to extend the list of variable names written to the file</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="n">output_csv</span> <span class="n">out_csv</span><span class="p">;</span>                                 <span class="o">//</span><span class="n">EN</span> <span class="n">Microdata</span> <span class="n">output</span> <span class="n">csv</span> <span class="nb">object</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Types</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">classification</span> <span class="n">OUTPUT_TIMES</span>                         <span class="o">//</span><span class="n">EN</span> <span class="n">Micro</span><span class="o">-</span><span class="n">data</span> <span class="n">output</span> <span class="n">times</span>
+<span class="p">{</span>
+    <span class="n">OT_FIRST</span><span class="p">,</span>                                       <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">first</span> <span class="n">output</span>
+    <span class="n">OT_LAST</span><span class="p">,</span>                                        <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">last</span> <span class="n">output</span>
+    <span class="n">OT_INTERVAL</span>                                     <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">interval</span> <span class="p">(</span><span class="mi">0</span> <span class="k">for</span> <span class="n">no</span> <span class="n">repetition</span><span class="p">)</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Parameters</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">parameters</span>
+<span class="p">{</span>
+    <span class="n">logical</span>             <span class="n">WriteMicrodata</span><span class="p">;</span>                     <span class="o">//</span><span class="n">EN</span> <span class="n">Write</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">output</span> <span class="n">file</span> <span class="n">Y</span><span class="o">/</span><span class="n">N</span>
+    <span class="n">double</span>              <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OUTPUT_TIMES</span><span class="p">];</span>      <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">of</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">output</span>
+    <span class="n">file</span>                <span class="n">MicroRecordFileName</span><span class="p">;</span>                <span class="o">//</span><span class="n">EN</span> <span class="n">File</span> <span class="n">name</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">output</span> <span class="n">file</span>
+<span class="p">};</span>
+
+<span class="n">parameter_group</span> <span class="n">PG05_Files</span>                          <span class="o">//</span><span class="n">EN</span> <span class="n">Microdata</span> <span class="n">output</span>
+<span class="p">{</span>
+    <span class="n">WriteMicrodata</span><span class="p">,</span> <span class="n">MicroRecordFileName</span><span class="p">,</span>
+    <span class="n">TimeMicroOutput</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">states</span><span class="p">,</span> <span class="n">functions</span> <span class="ow">and</span> <span class="n">events</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">actor</span> <span class="n">Person</span>
+<span class="p">{</span>
+    <span class="n">TIME</span>  <span class="n">time_microdata_output</span> <span class="o">=</span> <span class="p">{</span><span class="n">TIME_INFINITE</span><span class="p">};</span>  <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="k">for</span> <span class="n">microdata</span> <span class="n">output</span>
+    <span class="n">void</span>  <span class="n">WriteMicroRecord_Start</span><span class="p">();</span>                 <span class="o">//</span><span class="n">EN</span> <span class="n">Initialization</span> <span class="k">for</span> <span class="n">microdata</span> <span class="n">output</span> <span class="n">event</span>
+    <span class="n">hook</span>  <span class="n">WriteMicroRecord_Start</span><span class="p">,</span> <span class="n">Start</span><span class="p">;</span>            <span class="o">//</span><span class="n">EN</span> <span class="n">Function</span> <span class="n">Hook</span>
+    <span class="n">event</span> <span class="n">timeWriteMicroRecord</span><span class="p">,</span> <span class="n">WriteMicroRecord</span><span class="p">;</span>   <span class="o">//</span><span class="n">EN</span> <span class="n">Write</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">record</span> <span class="n">event</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Implementation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">WriteMicroRecord_Start</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">double</span> <span class="n">dFirstOutput</span> <span class="o">=</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_FIRST</span><span class="p">];</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">WriteMicrodata</span> <span class="o">&amp;&amp;</span> <span class="n">dFirstOutput</span> <span class="o">&lt;=</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_LAST</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">dFirstOutput</span> <span class="o">&lt;</span> <span class="n">time</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">dFirstOutput</span> <span class="o">=</span> <span class="n">dFirstOutput</span> <span class="o">+</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">)</span> <span class="n">dFirstOutput</span> <span class="o">=</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">WriteMicrodata</span> <span class="o">&amp;&amp;</span> <span class="n">dFirstOutput</span> <span class="o">&gt;=</span> <span class="n">time</span> <span class="o">&amp;&amp;</span> <span class="n">dFirstOutput</span> <span class="o">&lt;=</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_LAST</span><span class="p">])</span>
+    <span class="p">{</span>
+        <span class="n">time_microdata_output</span> <span class="o">=</span> <span class="n">dFirstOutput</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="n">time_microdata_output</span> <span class="o">=</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">TIME</span> <span class="n">Person</span><span class="p">::</span><span class="n">timeWriteMicroRecord</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">GetReplicate</span><span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>  <span class="k">return</span> <span class="n">time_microdata_output</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">WriteMicroRecord</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">Push</span> <span class="n">the</span> <span class="n">fields</span> <span class="n">into</span> <span class="n">the</span> <span class="n">output</span> <span class="n">record</span><span class="o">.</span>
+
+    <span class="o">//</span> <span class="o">==============================================================</span>
+    <span class="o">//</span> <span class="n">When</span> <span class="n">adding</span> <span class="n">additional</span> <span class="n">variables</span><span class="p">,</span> <span class="n">this</span> <span class="nb">list</span> <span class="n">has</span> <span class="n">to</span> <span class="n">be</span> <span class="n">extended</span>
+    <span class="o">//</span> <span class="o">==============================================================</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">actor_id</span><span class="p">;</span>            <span class="o">//</span> <span class="n">Actor</span> <span class="n">ID</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">actor_weight</span><span class="p">;</span>        <span class="o">//</span> <span class="n">Weight</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">time</span><span class="p">;</span>                <span class="o">//</span> <span class="n">Time</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">time_of_birth</span><span class="p">;</span>       <span class="o">//</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">birth</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="p">(</span> <span class="nb">int</span> <span class="p">)</span><span class="n">sex</span><span class="p">;</span>          <span class="o">//</span> <span class="n">Sex</span>
+
+    <span class="o">//</span> <span class="n">All</span> <span class="n">fields</span> <span class="n">have</span> <span class="n">been</span> <span class="n">pushed</span><span class="p">,</span> <span class="n">now</span> <span class="n">write</span> <span class="n">the</span> <span class="n">record</span><span class="o">.</span>
+    <span class="n">out_csv</span><span class="o">.</span><span class="n">write_record</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="nb">set</span> <span class="nb">next</span> <span class="n">output</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">time_microdata_output</span> <span class="o">+</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">time</span> <span class="o">&amp;&amp;</span>
+        <span class="n">time_microdata_output</span> <span class="o">+</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_LAST</span><span class="p">])</span>
+    <span class="p">{</span>
+        <span class="n">time_microdata_output</span> <span class="o">=</span> <span class="n">time_microdata_output</span> <span class="o">+</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">time_microdata_output</span> <span class="o">=</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Pre</span><span class="o">-</span> <span class="ow">and</span> <span class="n">Post</span><span class="o">-</span><span class="n">Simulation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">void</span> <span class="n">PreSimulation</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">In</span> <span class="n">the</span> <span class="n">pre</span><span class="o">-</span><span class="n">simulation</span> <span class="n">phase</span> <span class="n">of</span> <span class="n">MicroDataOutput</span><span class="o">.</span><span class="n">mpp</span> <span class="n">module</span><span class="p">,</span> <span class="n">the</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">file</span> <span class="ow">is</span> <span class="n">prepared</span>
+    <span class="o">//</span> <span class="k">for</span> <span class="n">writing</span> <span class="n">records</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">If</span> <span class="n">the</span> <span class="n">user</span> <span class="n">selects</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">output</span><span class="p">,</span> <span class="n">a</span> <span class="n">file</span> <span class="ow">is</span>
+    <span class="o">//</span> <span class="n">opened</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">header</span> <span class="n">row</span> <span class="ow">is</span> <span class="n">written</span> <span class="n">containing</span> <span class="nb">all</span> <span class="n">selected</span> <span class="n">states</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">WriteMicrodata</span><span class="p">)</span>
+        <span class="p">{</span>
+        <span class="o">//</span> <span class="o">==============================================================</span>
+        <span class="o">//</span> <span class="n">When</span> <span class="n">adding</span> <span class="n">additional</span> <span class="n">variables</span><span class="p">,</span> <span class="n">this</span> <span class="nb">list</span> <span class="n">has</span> <span class="n">to</span> <span class="n">be</span> <span class="n">extended</span>
+        <span class="o">//</span> <span class="o">==============================================================</span>
+        <span class="n">std_string</span>  <span class="n">myString</span> <span class="o">=</span> <span class="s2">&quot;ID,&quot;</span><span class="p">;</span>            <span class="o">//</span> <span class="n">Actor</span> <span class="n">ID</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;WEIGHT,&quot;</span><span class="p">;</span>        <span class="o">//</span> <span class="n">Weight</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;TIME,&quot;</span><span class="p">;</span>          <span class="o">//</span> <span class="n">Output</span> <span class="n">Time</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;BIRTH,&quot;</span><span class="p">;</span>         <span class="o">//</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">birth</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;MALE,&quot;</span><span class="p">;</span>          <span class="o">//</span> <span class="n">Sex</span>
+
+        <span class="n">out_csv</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">MicroRecordFileName</span><span class="p">);</span>
+                <span class="n">out_csv</span><span class="o">.</span><span class="n">write_header</span><span class="p">(</span><span class="n">myString</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">PostSimulation</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">WriteMicrodata</span><span class="p">)</span> <span class="p">{</span> <span class="n">out_csv</span><span class="o">.</span><span class="n">close</span><span class="p">();</span> <span class="p">}</span>    <span class="o">//</span> <span class="n">closing</span> <span class="n">the</span> <span class="n">file</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="micro-data-output-tablespopulation-mpp">
+<h3>3.2.7.11. Micro Data Output: TablesPopulation.mpp<a class="headerlink" href="#micro-data-output-tablespopulation-mpp" title="Permalink to this headline">¶</a></h3>
+<p>This module contains population output tables of the model</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Population</span> <span class="n">Tables</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">table_group</span> <span class="n">TG_PopulationTables</span>             <span class="o">//</span><span class="n">EN</span> <span class="n">Population</span>
+<span class="p">{</span>
+    <span class="n">TotalPopulation</span><span class="p">,</span>
+    <span class="n">StartingPopulationSummary</span>
+<span class="p">};</span>
+
+<span class="n">table</span> <span class="n">Person</span> <span class="n">TotalPopulation</span>                <span class="o">//</span><span class="n">EN</span> <span class="n">Total</span> <span class="n">Population</span>
+<span class="p">{</span>
+    <span class="p">{</span>
+        <span class="n">unit</span><span class="p">,</span>                               <span class="o">//</span><span class="n">EN</span> <span class="n">Persons</span> <span class="n">at</span> <span class="n">the</span> <span class="n">beginning</span> <span class="n">of</span> <span class="n">each</span> <span class="n">year</span>
+        <span class="n">duration</span><span class="p">()</span>                          <span class="o">//</span><span class="n">EN</span> <span class="n">Average</span> <span class="n">population</span> <span class="p">(</span><span class="n">total</span> <span class="n">time</span> <span class="n">lived</span><span class="p">)</span> <span class="ow">in</span> <span class="n">year</span>
+    <span class="p">}</span>
+    <span class="o">*</span><span class="n">calendar_year</span>
+    <span class="o">*</span> <span class="n">sex</span> <span class="o">+</span>
+<span class="p">};</span>
+
+
+<span class="n">table</span> <span class="n">Person</span> <span class="n">StartingPopulationSummary</span>      <span class="o">//</span><span class="n">EN</span> <span class="n">Starting</span> <span class="n">Population</span> <span class="n">Summary</span>
+<span class="p">[</span><span class="n">person_type</span> <span class="o">==</span> <span class="n">PT_START</span><span class="p">]</span>
+<span class="p">{</span>
+    <span class="p">{</span>
+        <span class="n">unit</span>                                <span class="o">//</span><span class="n">EN</span> <span class="n">Persons</span>
+    <span class="p">}</span>
+    <span class="o">*</span><span class="n">year_of_birth</span> <span class="o">+</span>
+    <span class="o">*</span><span class="n">sex</span> <span class="o">+</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DYNAMIS-POP-Code-Step02.html" class="btn btn-neutral float-right" title="3.3. Step 2: Birthdays" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="DYNAMIS-POP-Code-Intro.html" class="btn btn-neutral" title="3.1. The Modgen Micro-simulation Technology" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

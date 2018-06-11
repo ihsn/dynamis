@@ -1,0 +1,568 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.6. Script 6: Emigration &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.7. Script 7: First Marriage" href="07_FirstMarriage.html" />
+    <link rel="prev" title="1.5. Script 5: Immigration" href="05_Immigration.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="AnalysisInput-Index.html">1. Parameter Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_Setup_ABC_2000.html">1.1. Script 1: Country/Version-Specific Setup File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_CreateStartpop.html">1.2. Script 2: Starting Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_PrimaryEducation.html">1.3. Script 3: Primary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Migration.html">1.4. Script 4: Internal Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Immigration.html">1.5. Script 5: Immigration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.6. Script 6: Emigration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-output">1.6.1. File output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">1.6.2. Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#emigration-by-region">1.6.2.1. Emigration by Region</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#emigration-rates-by-district">1.6.2.2. Emigration rates by District</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#illustration-map-of-male-emigration-rates-by-district">1.6.2.3. Illustration: Map of Male Emigration Rates by District</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07_FirstMarriage.html">1.7. Script 7: First Marriage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_FirstBirths.html">1.8. Script 8: First Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_HigherBirths.html">1.9. Script 9: Higher Order Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_ChildMortality.html">1.10. Script 10: Child Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_Ethnicity.html">1.11. Script 11: Ethnicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_SchoolPlanning.html">1.12. Script 12: School Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_LowerSecondary.html">1.13. Script 13: Lower Secondary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_DemProj.html">1.14. Script 14: Demographic Macro-Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_Settings.html">1.15. Script 15: Model Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Model/Model-Index.html">3. Technical Implementation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="AnalysisInput-Index.html">1. Parameter Generation</a> &raquo;</li>
+        
+      <li>1.6. Script 6: Emigration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Analysis/AnalysisInput/06_Emigration.Rmd.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="script-6-emigration">
+<span id="script-6-emigration"></span><h1>1.6. Script 6: Emigration<a class="headerlink" href="#script-6-emigration" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>Emigration is modeled calculating probabilities by age, sex, and location from the census and a corresponding file of household members who left the country in the past year. Location refers alternatively to regions or districts (Users can choose which model to use)</div></blockquote>
+<div class="section" id="file-output">
+<span id="file-output"></span><h2>1.6.1. File output<a class="headerlink" href="#file-output" title="Permalink to this headline">¶</a></h2>
+<p>The code below generates 2 model parameters stored in a Modgen .dat file</p>
+<ul class="simple">
+<li>Emigration rates by age, sex and region</li>
+<li>Emigration rates by age, sex and district</li>
+</ul>
+<p><img alt="" src="../../_images/ParaEmigration.png" /></p>
+</div>
+<div class="section" id="code">
+<span id="code"></span><h2>1.6.2. Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="emigration-by-region">
+<span id="emigration-by-region"></span><h3>1.6.2.1. Emigration by Region<a class="headerlink" href="#emigration-by-region" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>###################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 6 - Chunk A - Emigration by region
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+###################################################################################################
+
+###################################################################################################
+# Clear work space, load required packages and the input object file
+###################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+library(rgdal)
+
+
+load(file=&quot;globals_for_analysis.RData&quot;)
+
+dat_res &lt;- g_residents_dat
+dat_res &lt;- dat_res[,c(&quot;M_WEIGHT&quot;, &quot;M_AGE&quot;, &quot;M_MALE&quot;, &quot;M_DOR&quot;, &quot;M_PDIST&quot;, &quot;M_PREG&quot;, &quot;M_ROR&quot;)]  
+
+dat_emi &lt;- g_emigrants_dat
+dat_emi &lt;- dat_emi[,c(&quot;M_WEIGHT&quot;, &quot;M_AGE&quot;, &quot;M_MALE&quot;, &quot;M_DOR&quot;, &quot;M_PDIST&quot;, &quot;M_PREG&quot;, &quot;M_ROR&quot;)]  
+
+dat     &lt;- rbind(dat_emi,dat_res)
+
+# Remove objects not needed anymore
+
+rm(dat_emi)
+rm(dat_res)
+
+# Set Parameter Output File
+parafile &lt;- file(g_para_emigration, &quot;w&quot;)
+
+# constant
+n_abroad = max(dat$M_DOR)
+
+
+# Add an integer variable for age a year ago
+dat$m_ageago &lt;- as.integer(dat$M_AGE)-1
+
+# remove those not born a year ago 
+dat &lt;- dat[!(dat$m_ageago&lt;0),]
+
+# Age groups 5 years ago, up to 60+ 
+
+dat$m_agegr5 &lt;- as.integer(dat$m_ageago/5) * 5
+dat$m_agegr5[dat$m_agegr5&gt;60] &lt;- 60
+  
+# Remove those not in the country 12 months ago 
+dat &lt;- dat[dat$M_PDIST&lt;n_abroad,]
+
+# Person is emigrant 
+
+dat$is_migrant &lt;- FALSE
+dat$is_migrant[dat$M_DOR == n_abroad] &lt;- TRUE
+
+
+###################################################################################################
+# Calculate the parameter EmigrationRates[SEX][AGE5_PART][PROVINCE_NAT]                                      #
+###################################################################################################
+
+# Create the parameter for probability of out-migration by sex, age group and province of origin
+
+popall   &lt;- xtabs(dat$M_WEIGHT ~ dat$M_MALE + dat$m_agegr5 + dat$M_PREG)
+migs     &lt;- dat[dat$is_migrant==TRUE,]
+migs     &lt;- migs[,c(&quot;M_WEIGHT&quot;, &quot;M_MALE&quot;,&quot;m_agegr5&quot; ,&quot;M_PREG&quot;)]
+  
+###################################################################################################
+# Create and append a dataset of all possible migrations for each age group
+# This is to avoid empty cells in origin-destination matrices
+# The records have very low weights which do not affect overall migration
+###################################################################################################
+
+umale   &lt;- unique(dat$M_MALE)
+uage    &lt;- sort(unique(dat$m_agegr5))
+upreg   &lt;- sort(unique(dat$M_PREG))
+allmigs &lt;- expand.grid(M_MALE=umale, m_agegr5=uage, M_PREG=upreg)
+allmigs$M_WEIGHT &lt;- 0.0000001
+migs &lt;- rbind(migs, allmigs)
+
+popmig   &lt;- xtabs(migs$M_WEIGHT ~ migs$M_MALE + migs$m_agegr5 + migs$M_PREG)
+propmig  &lt;- as.data.frame(popmig/popall)
+propmig  &lt;- propmig[order(propmig$migs.M_MALE, propmig$migs.m_agegr5, propmig$migs.M_PREG),]
+
+###################################################################################################
+# Write the parameter EmigrationRates[SEX][AGE5_PART][PROVINCE_NAT] 
+###################################################################################################
+
+cat(&quot;parameters { \n  //EN Emigration Rates \ndouble EmigrationRates[SEX][AGE5_PART][PROVINCE_NAT]  = {\n&quot;, file=parafile)
+cat(format(round(-log(1-propmig$Freq),5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n  }; \n\n&quot;, file=parafile, append=TRUE) 
+
+###################################################################################################
+# Illustration: Emigration rates in 5 selected Regions
+###################################################################################################
+
+# graph the probabilities
+par(mfrow=c(1,2))
+
+plot(1:13, xaxt = &quot;n&quot;, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PREG==g_selreg1_val,&quot;Freq&quot;],col=&quot;red&quot;,
+     main = &quot;Male Emigration&quot;,
+     sub  = &quot;(Selected Regions, 5 year age groups)&quot;,
+     xlab = &quot;Age Group&quot;,
+     ylab = &quot;Probability&quot;,
+     type = &quot;l&quot;,
+     ylim=c(0,0.01),
+     xlim=c(1,13)
+)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PREG==g_selreg2_val,&quot;Freq&quot;],col=&quot;blue&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PREG==g_selreg3_val,&quot;Freq&quot;],col=&quot;green&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PREG==g_selreg4_val,&quot;Freq&quot;],col=&quot;brown&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PREG==g_selreg5_val,&quot;Freq&quot;],col=&quot;orange&quot;)
+legend(1,0.15,legend=c(g_selreg1_label,g_selreg2_label,g_selreg3_label, g_selreg4_label, g_selreg5_label), 
+       col=c(&quot;red&quot;,&quot;blue&quot;, &quot;green&quot;, &quot;brown&quot;,&quot;orange&quot;), lty=1)
+axis(1, at=1:13, labels=c(&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;, &quot;40-44&quot;, &quot;45-49&quot;, &quot;50-54&quot;, &quot;55-59&quot;, &quot;60+&quot;))
+
+plot(1:13, xaxt = &quot;n&quot;, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PREG==g_selreg1_val,&quot;Freq&quot;],col=&quot;red&quot;,
+     main = &quot;Female Emigration&quot;,
+     sub  = &quot;(Selected Regions, 5 year age groups)&quot;,
+     xlab = &quot;Age Group&quot;,
+     ylab = &quot;Probability&quot;,
+     type = &quot;l&quot;,
+     ylim=c(0,0.01),
+     xlim=c(1,13)
+)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PREG==g_selreg2_val,&quot;Freq&quot;],col=&quot;blue&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PREG==g_selreg3_val,&quot;Freq&quot;],col=&quot;green&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PREG==g_selreg4_val,&quot;Freq&quot;],col=&quot;brown&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PREG==g_selreg5_val,&quot;Freq&quot;],col=&quot;orange&quot;)
+legend(1,0.15,legend=c(g_selreg1_label,g_selreg2_label,g_selreg3_label, g_selreg4_label, g_selreg5_label), 
+       col=c(&quot;red&quot;,&quot;blue&quot;, &quot;green&quot;, &quot;brown&quot;,&quot;orange&quot;), lty=1)
+axis(1, at=1:13, labels=c(&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;, &quot;40-44&quot;, &quot;45-49&quot;, &quot;50-54&quot;, &quot;55-59&quot;, &quot;60+&quot;))
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/04_01.png" /></p>
+</div>
+<div class="section" id="emigration-rates-by-district">
+<span id="emigration-rates-by-district"></span><h3>1.6.2.2. Emigration rates by District<a class="headerlink" href="#emigration-rates-by-district" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>
+###################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 6 - Chunk B - Emigration by district
+#
+###################################################################################################
+
+###################################################################################################
+# Calculate the parameter EmigrationRatesDistrict[SEX][AGE5_PART][DISTRICT_NAT]                              
+###################################################################################################
+
+# Create the parameter for probability of out-migration by sex, age group and province of origin
+
+popall   &lt;- xtabs(dat$M_WEIGHT ~ dat$M_MALE + dat$m_agegr5 + dat$M_PDIST)
+migs     &lt;- dat[dat$is_migrant==TRUE,]
+migs     &lt;- migs[,c(&quot;M_WEIGHT&quot;, &quot;M_MALE&quot;,&quot;m_agegr5&quot; ,&quot;M_PDIST&quot;)]
+
+###################################################################################################
+# Create and append a dataset of all possible migrations for each age group. This is to avoid empty 
+# cells in origin-destination matrices. The records have very low weights and do not affect 
+# overall migration
+###################################################################################################
+
+umale   &lt;- unique(dat$M_MALE)
+uage    &lt;- sort(unique(dat$m_agegr5))
+updist  &lt;- sort(unique(dat$M_PDIST))
+allmigs &lt;- expand.grid(M_MALE=umale, m_agegr5=uage, M_PDIST=updist)
+allmigs$M_WEIGHT &lt;- 0.0000001
+migs &lt;- rbind(migs, allmigs)
+
+popmig   &lt;- xtabs(migs$M_WEIGHT ~ migs$M_MALE + migs$m_agegr5 + migs$M_PDIST)
+propmig  &lt;- as.data.frame(popmig/popall)
+propmig  &lt;- propmig[order(propmig$migs.M_MALE, propmig$migs.m_agegr5, propmig$migs.M_PDIST),]
+
+###################################################################################################
+# Write the parameter EmigrationRatesDistrict[SEX][AGE5_PART][DISTRICT_NAT]  
+###################################################################################################
+
+cat(&quot;\n\n//EN Emigration Rates district level \ndouble EmigrationRatesDistrict[SEX][AGE5_PART][DISTRICT_NAT]  = {\n&quot;, file=parafile, append=TRUE)
+cat(format(round(-log(1-propmig$Freq),5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n  }; \n};\n&quot;, file=parafile, append=TRUE) 
+close(parafile)
+
+###################################################################################################
+# Illustration: Emigration rates in 5 selected Districts
+###################################################################################################
+
+par(mfrow=c(1,2))
+
+plot(1:13, xaxt = &quot;n&quot;, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PDIST==g_seldist1_val,&quot;Freq&quot;],col=&quot;red&quot;,
+     main = &quot;Male Emigration&quot;,
+     sub  = &quot;(Selected Districts, 5 year age groups)&quot;,
+     xlab = &quot;Age Group&quot;,
+     ylab = &quot;Probability&quot;,
+     type = &quot;l&quot;,
+     ylim=c(0,0.01),
+     xlim=c(1,13)
+)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PDIST==g_seldist2_val,&quot;Freq&quot;],col=&quot;blue&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PDIST==g_seldist3_val,&quot;Freq&quot;],col=&quot;green&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PDIST==g_seldist4_val,&quot;Freq&quot;],col=&quot;brown&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==1 &amp; propmig$migs.M_PDIST==g_seldist5_val,&quot;Freq&quot;],col=&quot;orange&quot;)
+legend(1,0.15,legend=c(g_seldist1_label,g_seldist2_label,g_seldist3_label, g_seldist4_label, g_seldist5_label), 
+       col=c(&quot;red&quot;,&quot;blue&quot;, &quot;green&quot;, &quot;brown&quot;,&quot;orange&quot;), lty=1)
+axis(1, at=1:13, labels=c(&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;, &quot;40-44&quot;, &quot;45-49&quot;, &quot;50-54&quot;, &quot;55-59&quot;, &quot;60+&quot;))
+
+plot(1:13, xaxt = &quot;n&quot;, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PDIST==g_seldist1_val,&quot;Freq&quot;],col=&quot;red&quot;,
+     main = &quot;Female Emigration&quot;,
+     sub  = &quot;(Selected Districts, 5 year age groups)&quot;,
+     xlab = &quot;Age Group&quot;,
+     ylab = &quot;Probability&quot;,
+     type = &quot;l&quot;,
+     ylim=c(0,0.01),
+     xlim=c(1,13)
+)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PDIST==g_seldist2_val,&quot;Freq&quot;],col=&quot;blue&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PDIST==g_seldist3_val,&quot;Freq&quot;],col=&quot;green&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PDIST==g_seldist4_val,&quot;Freq&quot;],col=&quot;brown&quot;)
+lines(1:13, propmig[propmig$migs.M_MALE==0 &amp; propmig$migs.M_PDIST==g_seldist5_val,&quot;Freq&quot;],col=&quot;orange&quot;)
+legend(1,0.15,legend=c(g_seldist1_label,g_seldist2_label,g_seldist3_label, g_seldist4_label, g_seldist5_label), 
+       col=c(&quot;red&quot;,&quot;blue&quot;, &quot;green&quot;, &quot;brown&quot;,&quot;orange&quot;), lty=1)
+axis(1, at=1:13, labels=c(&quot;0-4&quot;,&quot;5-9&quot;,&quot;10-14&quot;,&quot;15-19&quot;,&quot;20-24&quot;,&quot;25-29&quot;,&quot;30-34&quot;,&quot;35-39&quot;, &quot;40-44&quot;, &quot;45-49&quot;, &quot;50-54&quot;, &quot;55-59&quot;, &quot;60+&quot;))
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/04_02.png" /></p>
+</div>
+<div class="section" id="illustration-map-of-male-emigration-rates-by-district">
+<span id="illustration-map-of-male-emigration-rates-by-district"></span><h3>1.6.2.3. Illustration: Map of Male Emigration Rates by District<a class="headerlink" href="#illustration-map-of-male-emigration-rates-by-district" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>###################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 6 - Chunk C - Illustration of Emigration by district
+#  MALE EMIGRATION PROBABILITIES AGE 20-34 BY DISTRICT                                                    
+#
+###################################################################################################
+
+dat_male2035 &lt;- dat[dat$M_MALE == 1 &amp; dat$m_agegr5&gt;=20 &amp; dat$m_agegr5&lt;=35, ]
+
+popall       &lt;- xtabs(dat_male2035$M_WEIGHT ~ dat_male2035$M_PDIST)
+migs         &lt;- dat_male2035[dat_male2035$is_migrant==TRUE,]
+
+migs         &lt;- migs[,c(&quot;M_WEIGHT&quot;, &quot;M_MALE&quot;,&quot;m_agegr5&quot; ,&quot;M_PDIST&quot;)]
+
+###################################################################################################
+# Create and append a dataset of all possible migrations for each age group. This is to avoid empty 
+# cells in origin-destination matrices. The records have very low weights which do not affect 
+# overall migration
+###################################################################################################
+
+umale   &lt;- unique(dat$M_MALE)
+uage    &lt;- sort(unique(dat$m_agegr5))
+updist  &lt;- sort(unique(dat$M_PDIST))
+allmigs &lt;- expand.grid(M_MALE=umale, m_agegr5=uage, M_PDIST=updist)
+allmigs$M_WEIGHT &lt;- 0.0000001
+migs &lt;- rbind(migs, allmigs)
+
+popmig       &lt;- xtabs(migs$M_WEIGHT ~ migs$M_PDIST)
+propmig      &lt;- as.data.frame(popmig/popall)
+propmig      &lt;- propmig[order(propmig$migs.M_PDIST),]
+
+country_shape &lt;- rgdal::readOGR(g_shapes)
+
+## Census districts as coded in Census in the order of districts in the Nepal shape object (ID_3)
+country_shape$censusdist &lt;- g_shape_display_order
+
+###################################################################################################
+# Function taking a SpatialPolygonsDataFrame and adding a vector of values to be displayed on map
+# The values come in the order of provinces as coded in the census and are re-ordered to fit the 
+# Nepal shape object
+###################################################################################################
+
+AddVectorForDisplay &lt;- function(country_shape,VectorForDisplay) 
+{
+  testb          &lt;- data.frame(cbind(new_order=country_shape$censusdist,orig_order=c(0:max(g_shape_display_order))))
+  testb          &lt;- testb[order(testb$new_order),]
+  testb$newcol   &lt;- VectorForDisplay
+  testb          &lt;- testb[order(testb$orig_order),]
+  country_shape$graphval &lt;- testb$newcol
+  return(country_shape)
+}
+
+###################################################################################################
+# Plot data 
+###################################################################################################
+
+spplot(AddVectorForDisplay(country_shape,propmig$Freq),c(&quot;graphval&quot;), 
+
+       main = &quot;Emigration Probabilities\nMale, age 20-34&quot;
+)
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/04_03.png" /></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="07_FirstMarriage.html" class="btn btn-neutral float-right" title="1.7. Script 7: First Marriage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="05_Immigration.html" class="btn btn-neutral" title="1.5. Script 5: Immigration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

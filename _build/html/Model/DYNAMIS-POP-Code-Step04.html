@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.5. Step 4: Base Fertility &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.6. Step 5: Base Migration" href="DYNAMIS-POP-Code-Step05.html" />
+    <link rel="prev" title="3.4. Step 3: Base Mortality" href="DYNAMIS-POP-Code-Step03.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Intro.html">3.1. The Modgen Micro-simulation Technology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step01.html">3.2. Step 1: Creating a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step02.html">3.3. Step 2: Birthdays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step03.html">3.4. Step 3: Base Mortality</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.5. Step 4: Base Fertility</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-description">3.5.1. Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-new-module-fertilityagetfr-mpp">3.5.2. The new module: FertilityAgeTFR.mpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-of-the-start-function-in-personcore-mpp">3.5.3. Update of the Start() function in PersonCore.mpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step05.html">3.6. Step 5: Base Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step06.html">3.7. Step 6: Base Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step07.html">3.8. Step 7: Base Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step08.html">3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.5. Step 4: Base Fertility</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Step04.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="step-4-base-fertility">
+<h1>3.5. Step 4: Base Fertility<a class="headerlink" href="#step-4-base-fertility" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-description">
+<h2>3.5.1. Model Description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>At this step we add a module for fertility based on age-specific fertility profiles and projected total fertility rates (TFRs). This is the base version of fertility resembling a typical macro population projection approach. It will be complemented with refined models going beyond age and sex when modeling fertility. Besides the introduction of the new module FertilityAgeTFR.mpp, the Start() function of the PeronCore.mpp module is updated for initializing states at birth of new actors born in the simulation. These new baby actors can access characteristics of their mother what is used to set the current time and the state time_of_birth.</p>
+</div>
+<div class="section" id="the-new-module-fertilityagetfr-mpp">
+<h2>3.5.2. The new module: FertilityAgeTFR.mpp<a class="headerlink" href="#the-new-module-fertilityagetfr-mpp" title="Permalink to this headline">¶</a></h2>
+<p>This module implements fertility based on age-specific fertility rates calculated from two parameters: an age distribution of fertility and a projected total fertility rate (TFR) for future years. Another parameter is the sex-ratio. This module is a microsimulation implementation of a typical cohort component model.</p>
+<p>The actual age-specific period fertility rates are calculated in the PreSimulation function to meet the projected TFR for each year.</p>
+<p>The model is prepared for being complemented or over-ridden by an alternative refined fertility model. This is done by three logical states:</p>
+<ul class="simple">
+<li>The state use_base_fertility_model is initialized as TRUE; it indicates that the base model is to be used. When adding another model choice this flag can be changed in another module.</li>
+<li>The state use_base_fertility_for_alignment is initialized with FALSE; it indicates if another model is to be aligned to the fertility outcome of this base model.</li>
+<li>The state baby_looking_for_mother is set to TRUE at a birth event if the base model is used for alignment only and the actual birth has to be assigned to another person of the population.</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+range FERTILE_AGE_RANGE { 10, 49 };                                 //EN Fertile age range
+range PARITY_RANGE { 0, 15 };                                       //EN Parity range
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+parameters
+{
+    //EN Age distribution of fertility
+    double  AgeSpecificFertility[FERTILE_AGE_RANGE][SIM_YEAR_RANGE];
+
+    //EN Total fertility rate
+    double  TotalFertilityRate[SIM_YEAR_RANGE];
+
+    //EN Sex ratio (male per 100 female)
+    double  SexRatio[SIM_YEAR_RANGE];
+
+    //EN Age specific fertility rate
+    model_generated     double  AgeSpecificFertilityRate[FERTILE_AGE_RANGE][SIM_YEAR_RANGE];
+};
+
+parameter_group PG03a_Fertility_Model_A  //EN Fertility Base Model
+{
+    AgeSpecificFertility, TotalFertilityRate, SexRatio
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor declarations
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    logical use_base_fertility_model = { TRUE };            //EN Use the base model
+    logical use_base_fertility_for_alignment = { FALSE };   //EN Use the model for alignment
+    logical baby_looking_for_mother = { FALSE };            //EN A birth is still to be created
+
+    //EN Indicator that perion is a potential mother
+    logical is_potential_mother = (sex == FEMALE &amp;&amp; WITHIN(FERTILE_AGE_RANGE, integer_age)
+    &amp;&amp; parity &lt; MAX(PARITY_RANGE) &amp;&amp; in_projected_time) ? TRUE : FALSE;
+
+    PARITY_RANGE parity;                                    //EN Parity
+    event       timeBirthEvent, BirthEvent;                     //EN Birth event
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Event Implementations
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TIME Person::timeBirthEvent()
+{
+    double dEventTime = TIME_INFINITE;
+    double dHazard = 0.0;
+
+    if (is_potential_mother &amp;&amp; (use_base_fertility_model || use_base_fertility_for_alignment))
+    {
+        dHazard = AgeSpecificFertilityRate[RANGE_POS(FERTILE_AGE_RANGE, integer_age)]
+                [RANGE_POS(SIM_YEAR_RANGE, calendar_year)];
+        if (dHazard &gt; 0.0) dEventTime = WAIT(-TIME(log(RandUniform(3)) / dHazard));
+    }
+    return dEventTime;
+}
+
+void Person::BirthEvent()
+{
+    // event applies to individual without alignment
+    if (use_base_fertility_model)
+    {
+        parity++;                   // increment parity
+        auto peChild = new Person;  // Create and point to a new actor
+        peChild-&gt;Start(NULL, this);   // Call Start() function of baby and pass own address
+    }
+    else if (use_base_fertility_for_alignment)
+    {
+        baby_looking_for_mother = TRUE;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Pre-Simulation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PreSimulation()
+{
+    double dSum;
+    for (int nYear = 0; nYear &lt; SIZE(SIM_YEAR_RANGE); nYear++)
+    {
+        dSum = 0.0;
+        // check if distribution parameter adds up too 1
+        for (int nAge = 0; nAge &lt; SIZE(FERTILE_AGE_RANGE); nAge++)
+        {
+            dSum = dSum + AgeSpecificFertility[nAge][nYear];
+        }
+        // scale distribution to 1 and convert to fertility rates; copy to model generated parameter
+        for (int nAge = 0; nAge &lt; SIZE(FERTILE_AGE_RANGE); nAge++)
+        {
+            if (dSum &gt; 0.0)
+            {
+                AgeSpecificFertilityRate[nAge][nYear]
+                    = AgeSpecificFertility[nAge][nYear] / dSum * TotalFertilityRate[nYear];
+            }
+            else AgeSpecificFertilityRate[nAge][nYear] = 0.0;
+        }
+    }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-of-the-start-function-in-personcore-mpp">
+<h2>3.5.3. Update of the Start() function in PersonCore.mpp<a class="headerlink" href="#update-of-the-start-function-in-personcore-mpp" title="Permalink to this headline">¶</a></h2>
+<p>The Start() function is updated in order to initialize all states at the birth of a baby born in the simulation. In this case values do not come from the starting popiulation file but have to be derived otherwise, e.g. by accessing mother’s characteristics (e.g. for setting the time) or by sampling (e.g. sex according to a parameter for sex ratio).</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+void Person::Start(Observation *peObservation, Person *pePers)
+{
+    // Setting the actor weight
+    Set_actor_weight(asGlobals-&gt;Item(0)-&gt;person_weight);
+    Set_actor_subsample_weight(asGlobals-&gt;Item(0)-&gt;person_weight);
+
+    // Determine the person type
+    if (!peObservation &amp;&amp; pePers)   person_type = PT_CHILD;   // Born in simulation
+    else if (peObservation)         person_type = PT_START;   // From Starting Pop
+    else person_type = PT_IMMIGRANT;                          // Immigrant
+
+    // Initialize states
+    if (person_type == PT_START) // Person comes from starting population
+    {
+        // (A) States from Starting population file
+        time                = peObservation-&gt;pmc[PMC_BIRTH];
+        sex                 = (SEX)(int)peObservation-&gt;pmc[PMC_SEX];
+        family_role         = peObservation-&gt;fam_role;
+
+        // (B) Other states
+        time_of_birth       = time;
+        calendar_year       = (int)time_of_birth;
+
+        // (C) Links to head resp. spouse
+        // (uncomment when modeling families) if (pePers) peHHead = pePers;
+    }
+    else if (person_type == PT_CHILD) // Person born in simulation
+    {
+        // (A) States corresponding to Starting population file variables
+        if (RandUniform(4) &lt; 100.0 / (100.0 + SexRatio[RANGE_POS(SIM_YEAR_RANGE, calendar_year)]))
+        {
+            sex  = FEMALE;
+        }
+        else sex = MALE;
+        time                = pePers-&gt;time;
+        family_role         = FR_CHILD;
+
+        // (B) Other states
+        time_of_birth       = time;
+        calendar_year       = (int)time_of_birth;
+
+        // (C) Links to head resp. spouse
+        // (uncomment when modeling families) if (pePers) peHHead = pePers;
+    }
+    else // Person is an immigrant
+    {
+        // do nothing (immigrants not modeled yet)
+    }
+    time_set_alive = WAIT(0);
+}
+//
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DYNAMIS-POP-Code-Step05.html" class="btn btn-neutral float-right" title="3.6. Step 5: Base Migration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="DYNAMIS-POP-Code-Step03.html" class="btn btn-neutral" title="3.4. Step 3: Base Mortality" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="3.8. Step 7: Base Immigration" href="DYNAMIS-POP-Code-Step07.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Intro.html">3.1. The Modgen Micro-simulation Technology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step01.html">3.2. Step 1: Creating a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step02.html">3.3. Step 2: Birthdays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step03.html">3.4. Step 3: Base Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step04.html">3.5. Step 4: Base Fertility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step05.html">3.6. Step 5: Base Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step06.html">3.7. Step 6: Base Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step07.html">3.8. Step 7: Base Immigration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-description">3.9.1. Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-updated-collection-of-tables-tablespopulation-mpp">3.9.2. The Updated Collection of Tables: TablesPopulation.mpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-districts-in-microdataoutput-mpp">3.9.3. Adding Districts in MicroDataOutput.mpp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Step08.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="step-8-the-micro-simulation-implementation-of-a-cohort-component-model">
+<h1>3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model<a class="headerlink" href="#step-8-the-micro-simulation-implementation-of-a-cohort-component-model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-description">
+<h2>3.9.1. Model Description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>This step is a fully functional micro-simulation implementation of a typical cohort-component population projection model. It consolidates all previous steps by adding rich table output and expanding micro-data output.</p>
+<div class="figure" id="id1">
+<img alt="../_images/Step08_Tables.png" src="../_images/Step08_Tables.png" />
+<p class="caption"><span class="caption-text"><em>Figure: The complete micro-simulation implementation of a cohort-component model</em></span></p>
+</div>
+</div>
+<div class="section" id="the-updated-collection-of-tables-tablespopulation-mpp">
+<h2>3.9.2. The Updated Collection of Tables: TablesPopulation.mpp<a class="headerlink" href="#the-updated-collection-of-tables-tablespopulation-mpp" title="Permalink to this headline">¶</a></h2>
+<p>This module contains demographic output tables of the model. The information of this collection of tables corresponds with the simulation output of typical cohort-component models projecting populations by age, sex and geographical region. It includes projected population numbers, age pyramds at various points in time, and the number of births, deaths, immigrants and emigrants.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types and States used in tables only
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+classification SEL_YEAR   //EN Selected Year
+{
+    SY_START,   //EN Start Year
+    SY_2025,    //EN 2025
+    SY_2050,    //EN 2050
+    SY_2075,    //EN 2075
+    SY_2100     //EN 2100
+};
+
+//EN Age Group
+partition TAB_AGE5 { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95 };
+
+//EN Age Group
+partition TAB_AGEC5 {1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95};
+
+actor Person
+{
+    //EN Year
+    SIM_YEAR_RANGE sim_year = COERCE(SIM_YEAR_RANGE, calendar_year);
+
+    //EN Selected year
+    SEL_YEAR sel_year = ( calendar_year == MIN(SIM_YEAR_RANGE) ) ? SY_START :
+                        ( calendar_year == 2025 ) ? SY_2025 :
+                        ( calendar_year == 2050 ) ? SY_2050 :
+                        ( calendar_year == 2075 ) ? SY_2075 : SY_2100;
+
+    //EN In selected year
+    logical in_sel_year = ( calendar_year == MIN(SIM_YEAR_RANGE) || calendar_year == 2025
+                        || calendar_year == 2050 || calendar_year == 2075 || calendar_year == 2100);
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Population Tables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+table_group TG_PopulationTables                     //EN Population
+{
+    TabTotalPopulation,
+    TabPopPyramids,
+    TabNumberBirths,
+    TabNumberDeaths,
+    TabDeathsByAge,
+    TabInternalMigrationRate,
+    TabNumberImmigrants,
+    TabNumberEmigrants,
+    TabEmigrationRates
+};
+
+table Person TabTotalPopulation                     //EN Total population
+[ in_projected_time ]
+{
+    sex+ *
+    person_type+ *
+    {
+        duration()                                  //EN Average population in year
+    }
+    * sim_year
+    * district_nat+
+};
+
+table Person TabNumberBirths                                            //EN Births
+[in_projected_time &amp;&amp; person_type == PT_CHILD]
+{
+    sex+ *
+    {
+        entrances(is_alive, TRUE)                                       //EN Births
+    }
+    * sim_year
+    * district_nat+
+};
+
+table Person TabNumberDeaths                        //EN Deaths
+[in_projected_time]
+{
+    sex+ *
+    {
+        transitions(is_alive, TRUE, FALSE)          //EN Deaths
+    }
+    * sim_year
+    * district_nat+
+};
+
+table Person TabNumberImmigrants                    //EN Immigrants
+[in_projected_time &amp;&amp; person_type == PT_IMMIGRANT]
+{
+    sex+ *
+    {
+        entrances(is_alive, TRUE)                   //EN Immigrants
+    }
+    * sim_year
+    * district_nat+
+};
+
+table Person TabPopPyramids                         //EN Population by age
+[in_sel_year]
+{
+    sel_year *
+    district_nat+ *
+    {
+        duration()                                  //EN Population
+    }
+    * split(integer_age, TAB_AGE5)+                 //EN Age Group
+    * sex+
+};
+
+table Person TabNumberEmigrants                     //EN Emigrants
+[in_projected_time]
+{
+    sex+ *
+    {
+        entrances(has_emigrated, TRUE)              //EN Number Emigrants
+    }
+    * sim_year
+    * district_nat+
+};
+
+table Person TabEmigrationRates                     //EN Emigration rates
+[in_projected_time]
+{
+    sex+ *
+    {
+        entrances(has_emigrated, TRUE)/duration()   //EN Emigration Rate decimals=4
+    }
+    * split(integer_age, AGE5_PART)+                //EN Age Group
+    * district_nat+
+};
+
+table Person TabDeathsByAge                                 //EN Mortality by age
+[in_projected_time]
+{   sex+ *
+    {
+        transitions(is_alive, TRUE, FALSE),                 //EN Deaths
+        transitions(is_alive, TRUE, FALSE) / duration()     //EN Mortality Rate decimals=4
+    }
+    * split(integer_age, TAB_AGEC5)                         //EN Age group
+    * sim_year                                              //EN Calendar Year
+};
+
+table Person TabInternalMigrationRate                       //EN Internal out migration rate
+[ in_projected_time ]
+{
+    sex + *
+    {
+        number_migrations / duration()                      //EN Migration rate decimals=4
+    }
+    * split(integer_age, AGE5_PART)                         //EN Age group
+    * district_nat +
+};
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-districts-in-microdataoutput-mpp">
+<h2>3.9.3. Adding Districts in MicroDataOutput.mpp<a class="headerlink" href="#adding-districts-in-microdataoutput-mpp" title="Permalink to this headline">¶</a></h2>
+<p>The state district_nat is added to the list of output variables and the header row of micro-data output.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">WriteMicroRecord</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">Push</span> <span class="n">the</span> <span class="n">fields</span> <span class="n">into</span> <span class="n">the</span> <span class="n">output</span> <span class="n">record</span><span class="o">.</span>
+
+    <span class="o">//</span> <span class="o">==============================================================</span>
+    <span class="o">//</span> <span class="n">When</span> <span class="n">adding</span> <span class="n">additional</span> <span class="n">variables</span><span class="p">,</span> <span class="n">this</span> <span class="nb">list</span> <span class="n">has</span> <span class="n">to</span> <span class="n">be</span> <span class="n">extended</span>
+    <span class="o">//</span> <span class="o">==============================================================</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">actor_id</span><span class="p">;</span>            <span class="o">//</span> <span class="n">Actor</span> <span class="n">ID</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">actor_weight</span><span class="p">;</span>        <span class="o">//</span> <span class="n">Weight</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">time</span><span class="p">;</span>                <span class="o">//</span> <span class="n">Time</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="n">time_of_birth</span><span class="p">;</span>       <span class="o">//</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">birth</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="p">(</span> <span class="nb">int</span> <span class="p">)</span><span class="n">sex</span><span class="p">;</span>          <span class="o">//</span> <span class="n">Sex</span>
+    <span class="n">out_csv</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="n">district_nat</span><span class="p">;</span>   <span class="o">//</span> <span class="n">District</span> <span class="n">of</span> <span class="n">residence</span>
+
+    <span class="o">//</span> <span class="n">All</span> <span class="n">fields</span> <span class="n">have</span> <span class="n">been</span> <span class="n">pushed</span><span class="p">,</span> <span class="n">now</span> <span class="n">write</span> <span class="n">the</span> <span class="n">record</span><span class="o">.</span>
+    <span class="n">out_csv</span><span class="o">.</span><span class="n">write_record</span><span class="p">();</span>
+
+    <span class="o">//</span> <span class="nb">set</span> <span class="nb">next</span> <span class="n">output</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">time_microdata_output</span> <span class="o">+</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">time</span> <span class="o">&amp;&amp;</span>
+        <span class="n">time_microdata_output</span> <span class="o">+</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_LAST</span><span class="p">])</span>
+    <span class="p">{</span>
+        <span class="n">time_microdata_output</span> <span class="o">=</span> <span class="n">time_microdata_output</span> <span class="o">+</span> <span class="n">TimeMicroOutput</span><span class="p">[</span><span class="n">OT_INTERVAL</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="n">time_microdata_output</span> <span class="o">=</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Pre</span><span class="o">-</span> <span class="ow">and</span> <span class="n">Post</span><span class="o">-</span><span class="n">Simulation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">void</span> <span class="n">PreSimulation</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">In</span> <span class="n">the</span> <span class="n">pre</span><span class="o">-</span><span class="n">simulation</span> <span class="n">phase</span> <span class="n">of</span> <span class="n">MicroDataOutput</span><span class="o">.</span><span class="n">mpp</span> <span class="n">module</span><span class="p">,</span> <span class="n">the</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">file</span> <span class="ow">is</span> <span class="n">prepared</span>
+    <span class="o">//</span> <span class="k">for</span> <span class="n">writing</span> <span class="n">records</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">If</span> <span class="n">the</span> <span class="n">user</span> <span class="n">selects</span> <span class="n">micro</span><span class="o">-</span><span class="n">data</span> <span class="n">output</span><span class="p">,</span> <span class="n">a</span> <span class="n">file</span> <span class="ow">is</span>
+    <span class="o">//</span> <span class="n">opened</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">header</span> <span class="n">row</span> <span class="ow">is</span> <span class="n">written</span> <span class="n">containing</span> <span class="nb">all</span> <span class="n">selected</span> <span class="n">states</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">WriteMicrodata</span><span class="p">)</span>
+        <span class="p">{</span>
+        <span class="o">//</span> <span class="o">==============================================================</span>
+        <span class="o">//</span> <span class="n">When</span> <span class="n">adding</span> <span class="n">additional</span> <span class="n">variables</span><span class="p">,</span> <span class="n">this</span> <span class="nb">list</span> <span class="n">has</span> <span class="n">to</span> <span class="n">be</span> <span class="n">extended</span>
+        <span class="o">//</span> <span class="o">==============================================================</span>
+        <span class="n">std_string</span>  <span class="n">myString</span> <span class="o">=</span> <span class="s2">&quot;ID,&quot;</span><span class="p">;</span>            <span class="o">//</span> <span class="n">Actor</span> <span class="n">ID</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;WEIGHT,&quot;</span><span class="p">;</span>        <span class="o">//</span> <span class="n">Weight</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;TIME,&quot;</span><span class="p">;</span>          <span class="o">//</span> <span class="n">Output</span> <span class="n">Time</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;BIRTH,&quot;</span><span class="p">;</span>         <span class="o">//</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">birth</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;MALE,&quot;</span><span class="p">;</span>          <span class="o">//</span> <span class="n">Sex</span>
+        <span class="n">myString</span>  <span class="o">=</span> <span class="n">myString</span> <span class="o">+</span> <span class="s2">&quot;DISTRICT,&quot;</span><span class="p">;</span>      <span class="o">//</span> <span class="n">District</span>
+
+        <span class="n">out_csv</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">MicroRecordFileName</span><span class="p">);</span>
+                <span class="n">out_csv</span><span class="o">.</span><span class="n">write_header</span><span class="p">(</span><span class="n">myString</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="DYNAMIS-POP-Code-Step07.html" class="btn btn-neutral" title="3.8. Step 7: Base Immigration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

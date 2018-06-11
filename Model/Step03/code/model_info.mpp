@@ -1,0 +1,12 @@
+//LABEL(model_info, EN) Model information
+/* NOTE(model_info, EN)
+This module contains the model version, description, and notes.
+*/
+
+version 1, 0, 1, 3;
+
+//LABEL(model, EN) DYNAMIS-POP Step 3
+
+/* NOTE(model, EN)
+At this step we add a module for mortality based on a standard life table and projected life expectancy. This is the base version of Mortality resembling a typical macro population projection approach. It will be complemented with refined models going beyond age and sex when modeling mortality.
+*/

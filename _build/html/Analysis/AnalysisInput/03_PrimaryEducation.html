@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.3. Script 3: Primary Education &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.4. Script 4: Internal Migration" href="04_Migration.html" />
+    <link rel="prev" title="1.2. Script 2: Starting Population" href="02_CreateStartpop.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="AnalysisInput-Index.html">1. Parameter Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_Setup_ABC_2000.html">1.1. Script 1: Country/Version-Specific Setup File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_CreateStartpop.html">1.2. Script 2: Starting Population</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.3. Script 3: Primary Education</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-output">1.3.1. File output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">1.3.2. Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#school-entry">1.3.2.1. School Entry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#school-retention">1.3.2.2. School Retention</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#general-settings-and-parameters-of-the-alternative-model-version-default-values">1.3.2.3. General Settings And Parameters of The Alternative Model Version (Default Values)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04_Migration.html">1.4. Script 4: Internal Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Immigration.html">1.5. Script 5: Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_Emigration.html">1.6. Script 6: Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_FirstMarriage.html">1.7. Script 7: First Marriage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_FirstBirths.html">1.8. Script 8: First Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_HigherBirths.html">1.9. Script 9: Higher Order Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_ChildMortality.html">1.10. Script 10: Child Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_Ethnicity.html">1.11. Script 11: Ethnicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_SchoolPlanning.html">1.12. Script 12: School Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_LowerSecondary.html">1.13. Script 13: Lower Secondary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_DemProj.html">1.14. Script 14: Demographic Macro-Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_Settings.html">1.15. Script 15: Model Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Model/Model-Index.html">3. Technical Implementation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="AnalysisInput-Index.html">1. Parameter Generation</a> &raquo;</li>
+        
+      <li>1.3. Script 3: Primary Education</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Analysis/AnalysisInput/03_PrimaryEducation.Rmd.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="script-3-primary-education">
+<span id="script-3-primary-education"></span><h1>1.3. Script 3: Primary Education<a class="headerlink" href="#script-3-primary-education" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>Primary Education is modeled in two alternative ways. The first follows a cohort approach driven by probabilities to enter and graduate by year of birth, sex, and place of birth. The second approach follows a period approach parameterized by intake-, progression- and repetition- rates by calendar year, sex, grade and location.</div></blockquote>
+<p>The code below calculates parameters for the cohort model. Place of birth refers alternatively to regions or to districts (2 sets of parameters selected by the model user). For the period model option, data have to be provided from other sources, or can be simulated using the cohort model (which produces period rates as part of its table output). For teh alternative model version, the code below creates corresponding parameter tables containing default values. The code also produces some illustrative maps displaying the current regional differences in school entry and retention by sex.</p>
+<div class="section" id="file-output">
+<span id="file-output"></span><h2>1.3.1. File output<a class="headerlink" href="#file-output" title="Permalink to this headline">¶</a></h2>
+<p>The code below generates model parameters stored in a Modgen .dat file</p>
+<p>General parameters:</p>
+<ul class="simple">
+<li>Start at school season</li>
+<li>End of school season</li>
+<li>Regular school entry age</li>
+</ul>
+<p>Parameters of the base cohort model</p>
+<ul class="simple">
+<li>Distribution of primary entry age (around regular age) by year of birth</li>
+<li>School entry by region of birth, sex and year of birth</li>
+<li>School entry by district of birth, sex and year of birth</li>
+<li>School retention by region of birth, sex and year of birth</li>
+<li>School retention by district of birth, sex and year of birth</li>
+<li>Primary reference system flows (start values for calibration to track students through grade system)</li>
+</ul>
+<p>Flow Rates of alternative period model:</p>
+<ul class="simple">
+<li>Primary Period Intake by region, sex, age, year</li>
+<li>Primary Period Success by region, sex, age, year</li>
+<li>Primary Period Direct Progression Intake by region, sex, age, year</li>
+<li>Primary Period Delayed Progression Intake by region, sex, age, year</li>
+<li>Primary Period Direct Repetition Intake by region, sex, age, year</li>
+<li>Primary Period Delayed Repetition Intake by region, sex, age, year</li>
+</ul>
+<p><img alt="" src="../../_images/ParaPrimaryEducation.png" /></p>
+</div>
+<div class="section" id="code">
+<span id="code"></span><h2>1.3.2. Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="school-entry">
+<span id="school-entry"></span><h3>1.3.2.1. School Entry<a class="headerlink" href="#school-entry" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 3 Chunk A - Primary Education School Entry
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+load(file=&quot;globals_for_analysis.RData&quot;)
+parafile        &lt;- file(g_para_primaryeduc, &quot;w&quot;) # Output Parameter File
+dat             &lt;- g_residents_dat               # Main data object for education analysis
+
+# Constants
+
+n_maxdist       &lt;- max(dat$M_DOB)
+n_maxdistP1     &lt;- n_maxdist + 1
+n_maxreg        &lt;- max(dat$M_ROB)
+n_maxregP1      &lt;- n_maxreg + 1
+
+# Add some variables
+
+dat$m_age       &lt;- as.integer(dat$M_AGE)
+dat$m_any_educ  &lt;- as.logical(dat$M_EDUC &gt; 0)
+dat$m_finish    &lt;- as.logical(dat$M_EDUC &gt; 1)
+
+####################################################################################################
+# Model school Entry by region
+####################################################################################################
+
+# remove those out of age range 12-32
+
+dat &lt;- dat[!(dat$m_age &lt; 12),]
+dat &lt;- dat[!(dat$m_age &gt; 32),]
+
+# logistic regression school entry male
+
+MaleEntry        &lt;- glm(m_any_educ ~ m_age+factor(M_ROB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==1,])
+MaleEntryPredict &lt;- predict(MaleEntry,data.frame(m_age=rep(11:-51,each=n_maxregP1),M_ROB=rep(0:n_maxreg,63)))
+MaleEntryPredict &lt;- exp(MaleEntryPredict) / (1+exp(MaleEntryPredict))
+
+# logistic regression school entry female
+
+FemEntry        &lt;- glm(m_any_educ ~ m_age+factor(M_ROB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==0,])
+FemEntryPredict &lt;- predict(FemEntry,data.frame(m_age=rep(11:-51,each=n_maxregP1),M_ROB=rep(0:n_maxreg,63)))
+FemEntryPredict &lt;- exp(FemEntryPredict) / (1+exp(FemEntryPredict))
+
+####################################################################################################
+# Write Parameters school Entry by region
+####################################################################################################
+
+cat(&quot;parameters  {\n\n//EN School entry\ndouble  StartPrimary[SEX][YOB_START_PRIMARY][PROVINCE_INT] = {\n&quot;, file=parafile)
+cat(format(round(FemEntryPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(MaleEntryPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n}; \n\n&quot;, file=parafile, append=TRUE) 
+
+
+####################################################################################################
+# Model School Entry By Districts
+####################################################################################################
+
+# logistic regression school entry male
+
+MaleEntry        &lt;- glm(m_any_educ ~ m_age+factor(M_DOB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==1,])
+MaleEntryPredict &lt;- predict(MaleEntry,data.frame(m_age=rep(11:-51,each=n_maxdistP1),M_DOB=rep(0:n_maxdist,63)))
+MaleEntryPredict &lt;- exp(MaleEntryPredict) / (1+exp(MaleEntryPredict))
+
+# logistic regression school entry female
+
+FemEntry        &lt;- glm(m_any_educ ~ m_age+factor(M_DOB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==0,])
+FemEntryPredict &lt;- predict(FemEntry,data.frame(m_age=rep(11:-51,each=n_maxdistP1),M_DOB=rep(0:n_maxdist,63)))
+FemEntryPredict &lt;- exp(FemEntryPredict) / (1+exp(FemEntryPredict))
+
+####################################################################################################
+# Write Parameters School Entry By Districts
+####################################################################################################
+
+cat(&quot;\n\n//EN School entry by district\ndouble  StartPrimaryDistrict[SEX][YOB_START_PRIMARY][DISTRICT_INT] = {\n&quot;, file=parafile, append=TRUE)
+cat(format(round(FemEntryPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(MaleEntryPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n}; \n\n&quot;, file=parafile, append=TRUE) 
+
+####################################################################################################
+# Map Illustration current preobabilities (children currently age 12)
+####################################################################################################
+
+male_vector   &lt;- head(MaleEntryPredict,length(g_shape_display_order))
+female_vector &lt;- head(FemEntryPredict,length(g_shape_display_order))
+
+country_shape &lt;- rgdal::readOGR(g_shapes)
+
+## Districts as coded in Census in the order of districts in the country shape object 
+country_shape$censusdist &lt;- g_shape_display_order
+
+## Function taking a SpatialPolygonsDataFrame and adding a vector of values to be displayed on map
+## The values come in the order of provinces as coded in the census and are re-ordered to fit the 
+## Country shape object
+
+AddVectorForDisplay &lt;- function(country_shape,VectorForDisplay) 
+{
+  testb          &lt;- data.frame(cbind(new_order=country_shape$censusdist,orig_order=c(0:max(g_shape_display_order))))
+  testb          &lt;- testb[order(testb$new_order),]
+  testb$newcol   &lt;- VectorForDisplay
+  testb          &lt;- testb[order(testb$orig_order),]
+  country_shape$graphval &lt;- testb$newcol
+  return(country_shape)
+}
+
+## The code to plot data 
+spplot(AddVectorForDisplay(country_shape,male_vector),c(&quot;graphval&quot;), main = &quot;Male Primary Entry&quot; )
+spplot(AddVectorForDisplay(country_shape,female_vector),c(&quot;graphval&quot;), main = &quot;Female Primary Entry&quot; )
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/03_01.png" />
+<img alt="" src="../../_images/03_02.png" /></p>
+</div>
+<div class="section" id="school-retention">
+<span id="school-retention"></span><h3>1.3.2.2. School Retention<a class="headerlink" href="#school-retention" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 3 Chunk B - Primary Education School Retention
+#
+####################################################################################################
+
+####################################################################################################
+# Model school retention by region
+####################################################################################################
+
+# remove those out of age range &lt; 16 and those who never entered
+
+dat &lt;- dat[!(dat$m_age &lt; 16),]
+dat &lt;- dat[(dat$m_any_educ == TRUE),]
+
+# logistic regression school entry male
+
+MaleFinish        &lt;- glm(m_finish ~ m_age+factor(M_ROB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==1,])
+MaleFinishPredict &lt;- predict(MaleFinish,data.frame(m_age=rep(15:-51,each=n_maxregP1),M_ROB=rep(0:n_maxreg,67)))
+MaleFinishPredict &lt;- exp(MaleFinishPredict) / (1+exp(MaleFinishPredict))
+
+# logistic regression school entry female
+
+FemFinish        &lt;- glm(m_finish ~ m_age+factor(M_ROB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==0,])
+FemFinishPredict &lt;- predict(FemFinish,data.frame(m_age = rep(15:-51,each=n_maxregP1),M_ROB=rep(0:n_maxreg,67)))
+FemFinishPredict &lt;- exp(FemFinishPredict) / (1+exp(FemFinishPredict))
+
+####################################################################################################
+# Write parameters for school retention by region
+####################################################################################################
+
+cat(&quot;\n\n//EN School retention\ndouble  GradPrimary[SEX][YOB_GRAD_PRIMARY][PROVINCE_INT] = {\n&quot;, file=parafile, append=TRUE)
+cat(format(round(FemFinishPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(MaleFinishPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n}; \n\n&quot;, file=parafile, append=TRUE) 
+
+####################################################################################################
+# Model School Retention By Districts
+####################################################################################################
+
+MaleFinish        &lt;- glm(m_finish ~ m_age+factor(M_DOB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==1,])
+MaleFinishPredict &lt;- predict(MaleFinish,data.frame(m_age=rep(15:-51,each=n_maxdistP1),M_DOB=rep(0:n_maxdist,67)))
+MaleFinishPredict &lt;- exp(MaleFinishPredict) / (1+exp(MaleFinishPredict))
+
+# logistic regression school entry female
+
+FemFinish        &lt;- glm(m_finish ~ m_age+factor(M_DOB), family = quasibinomial, weights = M_WEIGHT, data = dat[dat$M_MALE==0,])
+FemFinishPredict &lt;- predict(FemFinish,data.frame(m_age = rep(15:-51,each=n_maxdistP1),M_DOB=rep(0:n_maxdist,67)))
+FemFinishPredict &lt;- exp(FemFinishPredict) / (1+exp(FemFinishPredict))
+
+####################################################################################################
+# Write parameters for School Retention By Districts
+####################################################################################################
+
+cat(&quot;\n\n//EN School retention\ndouble  GradPrimaryDistrict[SEX][YOB_GRAD_PRIMARY][DISTRICT_INT] = {\n&quot;, file=parafile, append=TRUE)
+cat(format(round(FemFinishPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(MaleFinishPredict,7),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n  }; &quot;, file=parafile, append=TRUE) 
+
+####################################################################################################
+# Map Illustration current retention (children currently age 12)
+####################################################################################################
+
+male_vector   &lt;- head(MaleFinishPredict,length(g_shape_display_order))
+female_vector &lt;- head(FemFinishPredict,length(g_shape_display_order))
+
+country_shape &lt;- rgdal::readOGR(g_shapes)
+
+## Census districts as coded in Census in the order of districts in the Nepal shape object (ID_3)
+country_shape$censusdist &lt;- g_shape_display_order
+
+## The code to plot data 
+spplot(AddVectorForDisplay(country_shape,male_vector),c(&quot;graphval&quot;), main = &quot;Male Primary Retention&quot; )
+spplot(AddVectorForDisplay(country_shape,female_vector),c(&quot;graphval&quot;), main = &quot;Female Primary Retention&quot;)
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/03_03.png" />
+<img alt="" src="../../_images/03_04.png" /></p>
+</div>
+<div class="section" id="general-settings-and-parameters-of-the-alternative-model-version-default-values">
+<span id="general-settings-and-parameters-of-the-alternative-model-version-default-values"></span><h3>1.3.2.3. General Settings And Parameters of The Alternative Model Version (Default Values)<a class="headerlink" href="#general-settings-and-parameters-of-the-alternative-model-version-default-values" title="Permalink to this headline">¶</a></h3>
+<p>Parameters for the alternative model version are default progression rates and have to be replaced by model users by actual data and scenarios when using this model option. These parameters are included in the output as their size depends on country specifica like the number of province and they are required to run a model also when the base scenario is chosen.</p>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 3 Chunk C - Primary Education Settings and Alternative Model
+#
+####################################################################################################
+
+cat(&quot;\n&quot;, file=parafile, append=TRUE)
+cat(&quot;   double  SchoolSeasonStart = &quot;,g_school_season+0.0001,&quot;; //EN Start at school season\n&quot;, file=parafile, append=TRUE)
+cat(&quot;   double  SchoolSeasonEnd = &quot;,g_school_season,&quot;; //EN End of school season\n&quot;, file=parafile, append=TRUE)
+cat(&quot;   cumrate PrimEntryAge[YOB_START_PRIMARY][PRIM_SYST_ENTRY_AGES] = {(63){0.05, 0.80, (3) 0.05,},}; //EN Distribution of primary entry age\n&quot;, file=parafile, append=TRUE)
+cat(&quot;   double  PrimaryReferenceSystem[PRIM_FLOW][PRIM_GRADES] = {(5) { (6) 0.9, }, }; //EN Primary reference system flows\n&quot;, file=parafile, append=TRUE)
+cat(&quot;   int AgeEnterPrimary = &quot;,g_school_entry,&quot;; //EN School entry age primary\n&quot;, file=parafile, append=TRUE) 
+
+cat(&quot;   //EN Primary Period Intake\n&quot;, file=parafile, append=TRUE)  
+cat(&quot;   double  PrimaryPeriodIntake[PROVINCE_NAT][SEX][PRIM_SYST_ENTRY_AGES][SIM_YEAR_RANGE] = {(&quot;,n_maxreg,&quot;) {(2) {(101) 0.05, (101) 0.80, (303) 0.05,},},};\n&quot;, file=parafile, append=TRUE)  
+cat(&quot;   //EN Primary Period Success\n&quot;, file=parafile, append=TRUE) 
+cat(&quot;   double  PrimaryPeriodSuccess[PROVINCE_NAT][SEX][PRIM_GRADES][SIM_YEAR_RANGE] = {(&quot;,n_maxreg,&quot;) {(1212) 0.95,},};\n&quot;, file=parafile, append=TRUE)    
+
+cat(&quot;   //EN Primary Period Direct Progression Intake\n&quot;, file=parafile, append=TRUE)   
+cat(&quot;   double  PrimaryPeriodDirectProgressionIntake[PROVINCE_NAT][SEX][PRIM_GRADES2P][SIM_YEAR_RANGE] = {(&quot;,n_maxreg,&quot;) {(1010) 0.95,},};\n&quot;, file=parafile, append=TRUE)  
+
+cat(&quot;   //EN Primary Period Delayed Progression Intake\n&quot;, file=parafile, append=TRUE)  
+cat(&quot;   double  PrimaryPeriodDelayedProgressionIntake[PROVINCE_NAT][SEX][PRIM_GRADES2P][SIM_YEAR_RANGE] = {(&quot;,n_maxreg,&quot;) {(1010) 0.95,},};\n&quot;, file=parafile, append=TRUE) 
+
+cat(&quot;   //EN Primary Period Direct Repetition Intake\n&quot;, file=parafile, append=TRUE)    
+cat(&quot;   double  PrimaryPeriodDirectRepetitionIntake[PROVINCE_NAT][SEX][PRIM_GRADES][SIM_YEAR_RANGE] = {(&quot;,n_maxreg,&quot;) {(1212) 0.95,},};\n&quot;, file=parafile, append=TRUE) 
+
+cat(&quot;   //EN Primary Period Delayed Repetition Intake\n&quot;, file=parafile, append=TRUE)   
+cat(&quot;   double PrimaryPeriodDelayedRepetitionIntake[PROVINCE_NAT][SEX][PRIM_GRADES][SIM_YEAR_RANGE] = {(&quot;,n_maxreg,&quot;) {(1212) 0.95,},};\n&quot;, file=parafile, append=TRUE) 
+
+# end and close parameter output writing
+cat(&quot;\n\n};&quot;, file=parafile, append=TRUE) 
+close(parafile)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="04_Migration.html" class="btn btn-neutral float-right" title="1.4. Script 4: Internal Migration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="02_CreateStartpop.html" class="btn btn-neutral" title="1.2. Script 2: Starting Population" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

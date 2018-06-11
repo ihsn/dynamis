@@ -1,0 +1,63 @@
+# Script 12: School Planning
+
+>  This file creates the parameter for school infrastructure planning concerning the number of primary school teachers and classrooms. This is a szenario parameter and filled with some default values only
+
+## File output
+
+The code below generates one model parameter stored in a Modgen .dat file
+
+- Primary education infrastructure: number of teacher and classrooms by region and year
+
+
+## Code
+
+```{r, message=FALSE, warning=FALSE}
+####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 12 - School Planning
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+load(file="globals_for_analysis.RData")
+dat             <- g_residents_dat
+
+# Constants
+n_maxreg        <- max(dat$M_ROB)
+
+####################################################################################################
+# PARAMETER: PrimaryInfrastructure[PRIMARY_INFRA][PROVINCE_NAT][SIM_YEAR_RANGE]
+####################################################################################################
+
+# Set Parameter Output File
+
+parafile <- file(g_para_schoolplanning, "w")
+
+# Write the parameter PrimaryInfrastructure[PRIMARY_INFRA][PROVINCE_NAT][SIM_YEAR_RANGE]
+
+cat("parameters { \n", file=parafile)
+cat("//EN Pupil to teacher and classroom ratios\n", file=parafile, append=TRUE) 
+cat("double	PrimaryInfrastructure[PRIMARY_INFRA][PROVINCE_NAT][SIM_YEAR_RANGE] = {(", file=parafile, append=TRUE) 
+cat(n_maxreg,") {	(7) 40, 38, 36, 34, 32, 30, 28, 26, 24, 22, (85) 20, }, (", file=parafile, append=TRUE) 		
+cat(n_maxreg,") {	(7) 50, 48, 46, 44, 42, 40, 38, 36, 34, 32, 30, 28, 26, (82) 24, }, \n	};", file=parafile, append=TRUE) 		
+cat("\n};\n", file=parafile, append=TRUE) 
+close(parafile)
+
+```

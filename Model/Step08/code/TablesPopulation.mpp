@@ -1,0 +1,157 @@
+﻿//LABEL (TablesPopulation, EN) Population Tables
+/* NOTE(TablesPopulation, EN)
+This module contains demographic output tables of the model. The information of this collection of tables corresponds with the simulation output of typical cohort-component models projecting populations by age, sex and geographical region. It includes projected population numbers, age pyramds at various points in time, and the number of births, deaths, immigrants and emigrants.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types and States used in tables only
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+classification SEL_YEAR   //EN Selected Year
+{
+    SY_START,   //EN Start Year
+    SY_2025,    //EN 2025
+    SY_2050,    //EN 2050
+    SY_2075,    //EN 2075
+    SY_2100     //EN 2100
+};
+
+//EN Age Group
+partition TAB_AGE5 { 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95 };
+
+//EN Age Group
+partition TAB_AGEC5 {1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95};	
+
+actor Person
+{
+    //EN Year
+    SIM_YEAR_RANGE sim_year = COERCE(SIM_YEAR_RANGE, calendar_year); 
+
+    //EN Selected year
+    SEL_YEAR sel_year = ( calendar_year == MIN(SIM_YEAR_RANGE) ) ? SY_START :
+                        ( calendar_year == 2025 ) ? SY_2025 :
+                        ( calendar_year == 2050 ) ? SY_2050 : 
+                        ( calendar_year == 2075 ) ? SY_2075 : SY_2100;
+    
+    //EN In selected year
+    logical in_sel_year = ( calendar_year == MIN(SIM_YEAR_RANGE) || calendar_year == 2025 
+                        || calendar_year == 2050 || calendar_year == 2075 || calendar_year == 2100);
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Population Tables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+table_group TG_PopulationTables                     //EN Population
+{
+    TabTotalPopulation, 
+    TabPopPyramids,
+    TabNumberBirths,
+    TabNumberDeaths,
+    TabDeathsByAge,
+    TabInternalMigrationRate,
+    TabNumberImmigrants,
+    TabNumberEmigrants,
+    TabEmigrationRates
+};
+
+table Person TabTotalPopulation                     //EN Total population
+[ in_projected_time ]
+{
+    sex+ *
+    person_type+ *
+    {
+        duration()                                  //EN Average population in year
+    }
+    * sim_year
+    * district_nat+ 
+};
+
+table Person TabNumberBirths						//EN Births 
+[in_projected_time && person_type == PT_CHILD]
+{
+    sex+ *
+    {
+        entrances(is_alive, TRUE) 					//EN Births
+    }
+    * sim_year
+    * district_nat+ 
+};
+
+table Person TabNumberDeaths                        //EN Deaths 
+[in_projected_time]
+{
+    sex+ *
+    {
+        transitions(is_alive, TRUE, FALSE)          //EN Deaths	
+    }
+    * sim_year
+    * district_nat+ 
+};
+
+table Person TabNumberImmigrants                    //EN Immigrants 
+[in_projected_time && person_type == PT_IMMIGRANT]
+{
+    sex+ *
+    {
+        entrances(is_alive, TRUE)                   //EN Immigrants	
+    }
+    * sim_year
+    * district_nat+ 
+};
+
+table Person TabPopPyramids                         //EN Population by age 
+[in_sel_year]
+{
+    sel_year *
+    district_nat+ *
+    {
+        duration()                                  //EN Population	
+    }
+    * split(integer_age, TAB_AGE5)+                 //EN Age Group
+    * sex+ 
+};
+
+table Person TabNumberEmigrants                     //EN Emigrants 
+[in_projected_time]
+{
+    sex+ *
+    {
+        entrances(has_emigrated, TRUE)              //EN Number Emigrants	
+    }
+    * sim_year
+    * district_nat+ 
+};
+
+table Person TabEmigrationRates                     //EN Emigration rates 
+[in_projected_time]
+{
+    sex+ *
+    {
+        entrances(has_emigrated, TRUE)/duration()   //EN Emigration Rate decimals=4	
+    }
+    * split(integer_age, AGE5_PART)+                //EN Age Group
+    * district_nat+ 
+};
+
+table Person TabDeathsByAge                                 //EN Mortality by age 
+[in_projected_time]
+{   sex+ *
+    {
+        transitions(is_alive, TRUE, FALSE),                 //EN Deaths	
+        transitions(is_alive, TRUE, FALSE) / duration()     //EN Mortality Rate decimals=4
+    }
+    * split(integer_age, TAB_AGEC5)                         //EN Age group
+    * sim_year                                              //EN Calendar Year        
+};
+
+table Person TabInternalMigrationRate                       //EN Internal out migration rate
+[ in_projected_time ]
+{
+    sex + *
+    {
+        number_migrations / duration()                      //EN Migration rate decimals=4
+    }
+    * split(integer_age, AGE5_PART)                         //EN Age group
+    * district_nat +
+};

@@ -1,0 +1,594 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.10. Script 10: Child Mortality &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.11. Script 11: Ethnicity" href="11_Ethnicity.html" />
+    <link rel="prev" title="1.9. Script 9: Higher Order Births" href="09_HigherBirths.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="AnalysisInput-Index.html">1. Parameter Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_Setup_ABC_2000.html">1.1. Script 1: Country/Version-Specific Setup File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_CreateStartpop.html">1.2. Script 2: Starting Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_PrimaryEducation.html">1.3. Script 3: Primary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Migration.html">1.4. Script 4: Internal Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Immigration.html">1.5. Script 5: Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_Emigration.html">1.6. Script 6: Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_FirstMarriage.html">1.7. Script 7: First Marriage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_FirstBirths.html">1.8. Script 8: First Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_HigherBirths.html">1.9. Script 9: Higher Order Births</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.10. Script 10: Child Mortality</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-output">1.10.1. File Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">1.10.2. Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-data-and-analysis-by-mothers-education">1.10.2.1. Setting up Data and Analysis by Mothers Education</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis-by-age-of-mother">1.10.2.2. Analysis by Age of Mother</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis-by-sex">1.10.2.3. Analysis by Sex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis-by-period">1.10.2.4. Analysis by Period</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hazard-regression">1.10.2.5. Hazard regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#summary-of-coefficients">1.10.2.6. Summary of coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#baseline-hazards">1.10.2.7. Baseline hazards</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameter-file-output">1.10.2.8. Parameter file output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="11_Ethnicity.html">1.11. Script 11: Ethnicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_SchoolPlanning.html">1.12. Script 12: School Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_LowerSecondary.html">1.13. Script 13: Lower Secondary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_DemProj.html">1.14. Script 14: Demographic Macro-Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_Settings.html">1.15. Script 15: Model Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Model/Model-Index.html">3. Technical Implementation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="AnalysisInput-Index.html">1. Parameter Generation</a> &raquo;</li>
+        
+      <li>1.10. Script 10: Child Mortality</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Analysis/AnalysisInput/10_ChildMortality.Rmd.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="script-10-child-mortality">
+<span id="script-10-child-mortality"></span><h1>1.10. Script 10: Child Mortality<a class="headerlink" href="#script-10-child-mortality" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>Child mortality is an optional module which, when activated, replaces the general mortality module for ages 0-4. The model is based on a proportional hazard regression models. Baseline risks are mortality by age and sex. Relative risks are mother’s age and mother’s education. In addition to these parameters, users can define time trends different from the overall mortality trends.</div></blockquote>
+<div class="section" id="file-output">
+<span id="file-output"></span><h2>1.10.1. File Output<a class="headerlink" href="#file-output" title="Permalink to this headline">¶</a></h2>
+<p>The R code below produces three parameters tables as a Modgen .dat text file:</p>
+<ul class="simple">
+<li>Child mortality base risk by age and sex</li>
+<li>Child mortality relative risks by age, mothers education, mothers age at birth</li>
+<li>Child mortality trend by age and year</li>
+</ul>
+<p><img alt="" src="../../_images/ParaChildMortality.png" /></p>
+</div>
+<div class="section" id="code">
+<span id="code"></span><h2>1.10.2. Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="setting-up-data-and-analysis-by-mothers-education">
+<span id="setting-up-data-and-analysis-by-mothers-education"></span><h3>1.10.2.1. Setting up Data and Analysis by Mothers Education<a class="headerlink" href="#setting-up-data-and-analysis-by-mothers-education" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 10 - Chunk A - Child Mortality
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+load(file=&quot;globals_for_analysis.RData&quot;)
+
+# Read data
+
+alldat   &lt;- g_childmort_dat
+
+# Set Parameter Output File
+
+parafile &lt;- file(g_para_childmort, &quot;w&quot;)
+
+
+# Age group of mother at birth
+
+alldat$m_agemo &lt;- alldat$M_AGEMO/12
+alldat$m_agemo[alldat$m_agemo &lt; 15] &lt;- 0
+alldat$m_agemo[alldat$m_agemo &gt;= 15 &amp; alldat$m_agemo &lt; 17] &lt;- 1
+alldat$m_agemo[alldat$m_agemo &gt;= 17] &lt;- 2
+
+# Time of interview 
+alldat$m_inter &lt;- alldat$M_INTERV/12+1900
+
+####################################################################################################
+# Split dataset into calendar time episodes
+####################################################################################################
+
+# Start of process (birth)
+alldat$m_start &lt;- (alldat$M_BIRTH)/12+1900
+
+# Remove births in interview month (no observation time)
+alldat &lt;- alldat[alldat$m_start &lt; alldat$m_inter,]
+
+# Death
+alldat$m_death &lt;- (alldat$M_DEATH)/12+1900
+alldat$m_death[alldat$m_death - alldat$m_start &gt; 5] &lt;- NA
+
+# Avoid immediate events with start=death by moving birth by a very small time interval
+alldat$m_start[!is.na(alldat$m_death) &amp; alldat$m_death == alldat$m_start] &lt;- alldat$m_start[!is.na(alldat$m_death) &amp; alldat$m_death == alldat$m_start] - 0.001
+
+# Event (&quot;Failure&quot;)
+alldat$m_event &lt;- FALSE
+alldat$m_event[!is.na(alldat$m_death)] &lt;- TRUE
+
+# End of process: at interview, max 5 years after birth or at death event
+alldat$m_end &lt;- alldat$m_inter 
+alldat$m_end[!is.na(alldat$m_death)] &lt;- alldat$m_death[!is.na(alldat$m_death)]
+alldat$m_end[alldat$m_end - alldat$m_start &gt; 5] &lt;- alldat$m_start[alldat$m_end - alldat$m_start &gt; 5] + 5
+
+# Birth date (keep it for following splits)
+alldat$m_birth &lt;- alldat$m_start
+
+# Calendar time split (4 period episodes)
+alldatsplit &lt;- survSplit(alldat, cut=g_childmort_timecuts, end=&quot;m_end&quot;, event = &quot;m_event&quot;, start=&quot;m_start&quot;, episode = &quot;m_period&quot; )
+
+####################################################################################################
+# Now do the split in years of age
+####################################################################################################
+
+# reference time is now birth
+alldatsplit$m_start = alldatsplit$m_start - alldatsplit$m_birth
+alldatsplit$m_end = alldatsplit$m_end - alldatsplit$m_birth
+
+# Age split (5 age episodes)
+alldatsplit &lt;- survSplit(alldatsplit, cut=c(1,2,3,4), end=&quot;m_end&quot;, event = &quot;m_event&quot;, start=&quot;m_start&quot;, episode = &quot;m_age&quot; )
+
+####################################################################################################
+# Kaplan-Meier estimator by education of mother for most recent decade
+####################################################################################################
+
+data2000     &lt;- alldatsplit[alldatsplit$m_period==4,]
+surv2000     &lt;- Surv(time=data2000$m_start, time2=data2000$m_end, event = data2000$m_event)
+fit2000      &lt;- survfit(surv2000 ~ M_EDUCMO, data = data2000)
+result2000   &lt;- summary(fit2000,times=seq(from=0, to=5, by=1/12))
+matrix2000   &lt;- matrix(data=result2000$surv,nrow=3, ncol=61, byrow=TRUE)
+
+plot(0:60,matrix2000[1,], type=&quot;l&quot;,
+     col  = &quot;darkred&quot;,
+     main = &quot;Child Survival by Mother&#39;s Education&quot;,
+     sub  = &quot;Kaplan-Meier model (most recent decade)&quot;,
+     xlab = &quot;Age of Child (Months)&quot;,
+     ylab = &quot;Survival&quot;,
+     ylim=c(0.75,1),
+     xlim=c(0,60))
+lines(0:60,matrix2000[2,], col=&quot;orange&quot;)
+lines(0:60,matrix2000[3,], col=&quot;darkgreen&quot;)
+legend(0,0.85,legend=c(&quot;never entered school&quot;,&quot;school dropout&quot;,&quot;promary school graduate&quot;), col=c(&quot;darkred&quot;,&quot;orange&quot;,&quot;darkgreen&quot;), lty=1)
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/10_01.png" /></p>
+</div>
+<div class="section" id="analysis-by-age-of-mother">
+<span id="analysis-by-age-of-mother"></span><h3>1.10.2.2. Analysis by Age of Mother<a class="headerlink" href="#analysis-by-age-of-mother" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 10 - Chunk B - Analysis output 
+#  Kaplan-Meier estimator by age of mother for most recent decade
+#
+####################################################################################################
+
+data2000     &lt;- alldatsplit[alldatsplit$m_period==4,]
+surv2000     &lt;- Surv(time=data2000$m_start, time2=data2000$m_end, event = data2000$m_event)
+fit2000      &lt;- survfit(surv2000 ~ m_agemo, data = data2000)
+result2000   &lt;- summary(fit2000,times=seq(from=0, to=5, by=1/12))
+matrix2000   &lt;- matrix(data=result2000$surv,nrow=3, ncol=61, byrow=TRUE)
+
+plot(0:60,matrix2000[1,], type=&quot;l&quot;,
+     col  = &quot;darkred&quot;,
+     main = &quot;Child Survival by Mother&#39;s Age&quot;,
+     sub  = &quot;Kaplan-Meier model (most recent decade)&quot;,
+     xlab = &quot;Age of Child (Months)&quot;,
+     ylab = &quot;Survival&quot;,
+     ylim=c(0.75,1),
+     xlim=c(0,60))
+lines(0:60,matrix2000[2,], col=&quot;orange&quot;)
+lines(0:60,matrix2000[3,], col=&quot;darkgreen&quot;)
+legend(0,0.85,legend=c(&quot;below 15&quot;,&quot;below 17&quot;,&quot;17+&quot;), col=c(&quot;darkred&quot;,&quot;orange&quot;,&quot;darkgreen&quot;), lty=1)
+
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/10_02.png" /></p>
+</div>
+<div class="section" id="analysis-by-sex">
+<span id="analysis-by-sex"></span><h3>1.10.2.3. Analysis by Sex<a class="headerlink" href="#analysis-by-sex" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 10 - Chunk C - Analysis output Kaplan Meier
+#  Kaplan-Meier estimator by sex for most recent decade
+#
+####################################################################################################
+
+data2000     &lt;- alldatsplit[alldatsplit$m_period==4,]
+surv2000     &lt;- Surv(time=data2000$m_start, time2=data2000$m_end, event = data2000$m_event)
+fit2000      &lt;- survfit(surv2000 ~ M_MALE, data = data2000)
+result2000   &lt;- summary(fit2000,times=seq(from=0, to=5, by=1/12))
+matrix2000   &lt;- matrix(data=result2000$surv,nrow=2, ncol=61, byrow=TRUE)
+
+plot(0:60,matrix2000[1,], type=&quot;l&quot;,
+     col  = &quot;darkred&quot;,
+     main = &quot;Child Survival by sex&quot;,
+     sub  = &quot;Kaplan-Meier model (most recent decade)&quot;,
+     xlab = &quot;Age of Child (Months)&quot;,
+     ylab = &quot;Survival&quot;,
+     ylim=c(0.75,1),
+     xlim=c(0,60))
+lines(0:60,matrix2000[2,], col=&quot;orange&quot;)
+legend(0,0.85,legend=c(&quot;Female&quot;,&quot;Male&quot;), col=c(&quot;darkred&quot;,&quot;orange&quot;), lty=1)
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/10_03.png" /></p>
+</div>
+<div class="section" id="analysis-by-period">
+<span id="analysis-by-period"></span><h3>1.10.2.4. Analysis by Period<a class="headerlink" href="#analysis-by-period" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 10 - Chunk D - Analysis output Kaplan Meier
+#  Kaplan-Meier estimator by period
+#
+####################################################################################################
+
+data2000     &lt;- alldatsplit[alldatsplit$m_period&gt;1,]
+surv2000     &lt;- Surv(time=data2000$m_start, time2=data2000$m_end, event = data2000$m_event)
+fit2000      &lt;- survfit(surv2000 ~ m_period, data = data2000)
+result2000   &lt;- summary(fit2000,times=seq(from=0, to=5, by=1/12))
+matrix2000   &lt;- matrix(data=result2000$surv,nrow=3, ncol=61, byrow=TRUE)
+
+plot(0:60,matrix2000[1,], type=&quot;l&quot;,
+     col  = &quot;darkred&quot;,
+     main = &quot;Child Survival by Period&quot;,
+     sub  = &quot;Kaplan-Meier model past three decades&quot;,
+     xlab = &quot;Age of Child (Months)&quot;,
+     ylab = &quot;Survival&quot;,
+     ylim=c(0.75,1),
+     xlim=c(0,60))
+lines(0:60,matrix2000[2,], col=&quot;orange&quot;)
+lines(0:60,matrix2000[3,], col=&quot;darkgreen&quot;)
+legend(0,0.85,legend=c(&quot;past 30-20 years&quot;,&quot;past 20-10 years&quot;,&quot;past 10 years&quot;), col=c(&quot;darkred&quot;,&quot;orange&quot;,&quot;darkgreen&quot;), lty=1)
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/10_04.png" /></p>
+</div>
+<div class="section" id="hazard-regression">
+<span id="hazard-regression"></span><h3>1.10.2.5. Hazard regression<a class="headerlink" href="#hazard-regression" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 10 - Chunk F - Hazard Regression
+#  Piece-wise constant hazard regression model
+#
+####################################################################################################
+
+# new factors in reverse order
+
+alldatsplit$r_period &lt;- -alldatsplit$m_period + 4
+alldatsplit$r_educmo &lt;- -alldatsplit$M_EDUCMO + 2
+alldatsplit$r_agemo  &lt;- -alldatsplit$m_agemo + 2
+
+# piecewise constant 
+mortmodel &lt;- phreg(Surv(time=alldatsplit$m_start, time2=alldatsplit$m_end, event = alldatsplit$m_event) 
+                        ~ factor(r_period)+factor(r_educmo)+factor(r_agemo)+factor(M_MALE), 
+                        data = alldatsplit, 
+                        dist = &quot;pch&quot;, 
+                        cuts = c(1,2,3,4))
+
+m_coefficients &lt;- exp(mortmodel$coefficients)
+fem_hazards    &lt;- mortmodel$hazards
+male_hazards   &lt;- fem_hazards * m_coefficients[8]
+m_hazards      &lt;- rbind(fem_hazards,male_hazards)
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="summary-of-coefficients">
+<span id="summary-of-coefficients"></span><h3>1.10.2.6. Summary of coefficients<a class="headerlink" href="#summary-of-coefficients" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>summary(mortmodel)
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SAMPLE</span> <span class="n">OUTPUT</span> <span class="n">FROM</span> <span class="n">IMAGINARY</span> <span class="n">COUNTRY</span> <span class="n">ABC</span>
+
+<span class="n">Covariate</span>          <span class="n">W</span><span class="o">.</span><span class="n">mean</span>      <span class="n">Coef</span> <span class="n">Exp</span><span class="p">(</span><span class="n">Coef</span><span class="p">)</span>  <span class="n">se</span><span class="p">(</span><span class="n">Coef</span><span class="p">)</span>    <span class="n">Wald</span> <span class="n">p</span>
+<span class="n">factor</span><span class="p">(</span><span class="n">r_period</span><span class="p">)</span> 
+               <span class="mi">0</span>    <span class="mf">0.348</span>     <span class="mi">0</span>         <span class="mi">1</span>           <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+               <span class="mi">1</span>    <span class="mf">0.248</span>     <span class="mf">0.107</span>     <span class="mf">1.113</span>     <span class="mf">0.015</span>     <span class="mf">0.000</span> 
+               <span class="mi">2</span>    <span class="mf">0.174</span>     <span class="mf">0.203</span>     <span class="mf">1.224</span>     <span class="mf">0.016</span>     <span class="mf">0.000</span> 
+               <span class="mi">3</span>    <span class="mf">0.230</span>     <span class="mf">0.390</span>     <span class="mf">1.477</span>     <span class="mf">0.014</span>     <span class="mf">0.000</span> 
+<span class="n">factor</span><span class="p">(</span><span class="n">r_educmo</span><span class="p">)</span> 
+               <span class="mi">0</span>    <span class="mf">0.219</span>     <span class="mi">0</span>         <span class="mi">1</span>           <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+               <span class="mi">1</span>    <span class="mf">0.179</span>     <span class="mf">0.397</span>     <span class="mf">1.487</span>     <span class="mf">0.022</span>     <span class="mf">0.000</span> 
+               <span class="mi">2</span>    <span class="mf">0.603</span>     <span class="mf">0.899</span>     <span class="mf">2.458</span>     <span class="mf">0.018</span>     <span class="mf">0.000</span> 
+<span class="n">factor</span><span class="p">(</span><span class="n">r_agemo</span><span class="p">)</span> 
+               <span class="mi">0</span>    <span class="mf">0.980</span>     <span class="mi">0</span>         <span class="mi">1</span>           <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+               <span class="mi">1</span>    <span class="mf">0.019</span>     <span class="mf">0.453</span>     <span class="mf">1.574</span>     <span class="mf">0.029</span>     <span class="mf">0.000</span> 
+               <span class="mi">2</span>    <span class="mf">0.001</span>     <span class="mf">1.097</span>     <span class="mf">2.996</span>     <span class="mf">0.080</span>     <span class="mf">0.000</span> 
+<span class="n">factor</span><span class="p">(</span><span class="n">M_MALE</span><span class="p">)</span> 
+               <span class="mi">0</span>    <span class="mf">0.500</span>     <span class="mi">0</span>         <span class="mi">1</span>           <span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+               <span class="mi">1</span>    <span class="mf">0.500</span>     <span class="mf">0.013</span>     <span class="mf">1.014</span>     <span class="mf">0.011</span>     <span class="mf">0.216</span> 
+
+
+<span class="n">Events</span>                    <span class="mi">34044</span> 
+<span class="n">Total</span> <span class="n">time</span> <span class="n">at</span> <span class="n">risk</span>        <span class="mi">2651467</span> 
+<span class="n">Max</span><span class="o">.</span> <span class="n">log</span><span class="o">.</span> <span class="n">likelihood</span>      <span class="o">-</span><span class="mi">164751</span> 
+<span class="n">LR</span> <span class="n">test</span> <span class="n">statistic</span>         <span class="mf">5380.94</span> 
+<span class="n">Degrees</span> <span class="n">of</span> <span class="n">freedom</span>        <span class="mi">8</span> 
+<span class="n">Overall</span> <span class="n">p</span><span class="o">-</span><span class="n">value</span>           <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="baseline-hazards">
+<span id="baseline-hazards"></span><h3>1.10.2.7. Baseline hazards<a class="headerlink" href="#baseline-hazards" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>mortmodel$hazards
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SAMPLE</span> <span class="n">OUTPUT</span> <span class="n">FROM</span> <span class="n">IMAGINARY</span> <span class="n">COUNTRY</span> <span class="n">ABC</span>
+
+        <span class="p">(</span><span class="o">..</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>      <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>      <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>      <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,]</span> <span class="mf">0.01575439</span> <span class="mf">0.003816716</span> <span class="mf">0.001953527</span> <span class="mf">0.001943953</span> <span class="mf">0.001894747</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameter-file-output">
+<span id="parameter-file-output"></span><h3>1.10.2.8. Parameter file output<a class="headerlink" href="#parameter-file-output" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# Write parameter file ChildMortalityParameters.dat
+####################################################################################################
+
+# Write the parameter ChildMortalityBaseRisk[CHILD_MORTALITY_AGE][SEX]
+
+cat(&quot;parameters {\n\n  //EN Child mortality baseline risk\n  double ChildMortalityBaseRisk[CHILD_MORTALITY_AGE][SEX] = {\n    &quot;, 
+    file=parafile)
+cat(format(round(m_hazards,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n  }; \n\n&quot;, file=parafile, append=TRUE) 
+
+####################################################################################################
+# Write the parameter ChildMortalityTrend[CHILD_MORTALITY_AGE][CHILD_MORTALITY_YEARS]
+####################################################################################################
+
+cat(&quot;//EN Child mortality time trend\n&quot;, file=parafile, append=TRUE) 
+cat(&quot;double ChildMortalityTrend[CHILD_MORTALITY_AGE][CHILD_MORTALITY_YEARS] = { (5) {   (96) 1.0,   },};\n&quot;, file=parafile, append=TRUE) 
+
+####################################################################################################
+# Write the parameter ChildMortalityRelativeRisks[CHILD_MORTALITY_AGE][CHILD_MORTALITY_RISKS]
+####################################################################################################
+
+cat(&quot;\n  //EN Child mortality relative risk\n  double ChildMortalityRelativeRisks[CHILD_MORTALITY_AGE][CHILD_MORTALITY_RISKS] = {\n    (5) { &quot;,file=parafile, append=TRUE)
+# age &lt; 15
+cat(format(round(m_coefficients[7],5),scientific=FALSE), file=parafile, append=TRUE)
+cat(&quot;, &quot;, file=parafile, append=TRUE)
+# age &lt; 17
+cat(format(round(m_coefficients[6],5),scientific=FALSE), file=parafile, append=TRUE)
+cat(&quot;, &quot;, file=parafile, append=TRUE)
+# mothers educ never entered primary
+cat(format(round(m_coefficients[5],5),scientific=FALSE), file=parafile, append=TRUE)
+cat(&quot;, &quot;, file=parafile, append=TRUE)
+# mothers educ primary dropout
+cat(format(round(m_coefficients[4],5),scientific=FALSE), file=parafile, append=TRUE)
+cat(&quot; },\n  };\n}; \n\n&quot;, file=parafile, append=TRUE) 
+close(parafile)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="11_Ethnicity.html" class="btn btn-neutral float-right" title="1.11. Script 11: Ethnicity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="09_HigherBirths.html" class="btn btn-neutral" title="1.9. Script 9: Higher Order Births" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

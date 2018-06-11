@@ -1,0 +1,12 @@
+//LABEL(model_info, EN) Model information
+/* NOTE(model_info, EN)
+This module contains the model version, description, and notes.
+*/
+
+version 1, 0, 1, 4;
+
+//LABEL(model, EN) DYNAMIS-POP Step 4
+
+/* NOTE(model, EN)
+At this step we add a module for fertility based on age-specific fertility profiles and projected total fertility rates (TFRs). This is the base version of fertility resembling a typical macro population projection approach. It will be complemented with refined models going beyond age and sex when modeling fertility. Besides the introduction of the new module FertilityAgeTFR.mpp, the Start() function of the PeronCore.mpp module is updated for initializing states at birth of new actors born in the simulation. These new baby actors can access characteristics of their mother what is used to set the current time and the state time_of_birth.   
+*/

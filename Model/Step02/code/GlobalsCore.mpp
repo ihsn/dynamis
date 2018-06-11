@@ -1,0 +1,21 @@
+﻿//LABEL (GlobalsCore, EN) Globals
+
+/*  NOTE(GlobalsCore, EN)
+This module introduces an actor Globals which handles global variables and constants which are calculated or changed after the pre-simulation phase.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor Globals
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*	NOTE(Globals, EN)
+    The actor Globals was created to store some global variables and constants which are calculated
+    or changed after the pre-simulation phase.
+*/
+
+actor_set Globals asGlobals;                    //EN Globals (Actor Set)
+
+actor Globals                                   //EN Actor Globals
+{
+    double person_weight = { 1.0 };             //EN Person weight
+};

@@ -1,0 +1,13 @@
+//LABEL(model_info, EN) Model information
+/* NOTE(model_info, EN)
+This module contains the model version, description, and notes.
+*/
+
+version 1, 0, 1, 7;
+
+//LABEL(model, EN) DYNAMIS-POP Step 7
+
+/* NOTE(model, EN)
+At this step we add a module for immigration based on age, sex and district of landing. This is a simple version of immigration resembling a typical macro population projection approach. 
+*/
+

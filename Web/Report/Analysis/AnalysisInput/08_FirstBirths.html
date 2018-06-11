@@ -1,0 +1,506 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.8. Script 8: First Births &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.9. Script 9: Higher Order Births" href="09_HigherBirths.html" />
+    <link rel="prev" title="1.7. Script 7: First Marriage" href="07_FirstMarriage.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="AnalysisInput-Index.html">1. Parameter Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_Setup_ABC_2000.html">1.1. Script 1: Country/Version-Specific Setup File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_CreateStartpop.html">1.2. Script 2: Starting Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_PrimaryEducation.html">1.3. Script 3: Primary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Migration.html">1.4. Script 4: Internal Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Immigration.html">1.5. Script 5: Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_Emigration.html">1.6. Script 6: Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_FirstMarriage.html">1.7. Script 7: First Marriage</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.8. Script 8: First Births</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-output">1.8.1. File output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">1.8.2. Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="09_HigherBirths.html">1.9. Script 9: Higher Order Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_ChildMortality.html">1.10. Script 10: Child Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_Ethnicity.html">1.11. Script 11: Ethnicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_SchoolPlanning.html">1.12. Script 12: School Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_LowerSecondary.html">1.13. Script 13: Lower Secondary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_DemProj.html">1.14. Script 14: Demographic Macro-Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_Settings.html">1.15. Script 15: Model Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Model/Model-Index.html">3. Technical Implementation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="AnalysisInput-Index.html">1. Parameter Generation</a> &raquo;</li>
+        
+      <li>1.8. Script 8: First Births</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Analysis/AnalysisInput/08_FirstBirths.Rmd.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="script-8-first-births">
+<span id="script-8-first-births"></span><h1>1.8. Script 8: First Births<a class="headerlink" href="#script-8-first-births" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>First births are modeled from the census depending on education, age, region of residence and marriage using logistic regression. Models are estimated separately by education and assume proportionality between regions.</div></blockquote>
+<div class="section" id="file-output">
+<span id="file-output"></span><h2>1.8.1. File output<a class="headerlink" href="#file-output" title="Permalink to this headline">¶</a></h2>
+<p>The code below generates model parameters stored in a Modgen .dat file</p>
+<ul class="simple">
+<li>First birth rates by education, union status, age and region</li>
+<li>A birth trend parameter by parity and year with default values (no trend)</li>
+</ul>
+<p><img alt="" src="../../_images/ParaFirstBirths.png" /></p>
+</div>
+<div class="section" id="code">
+<span id="code"></span><h2>1.8.2. Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 8 - First Births
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+
+load(file=&quot;globals_for_analysis.RData&quot;)
+
+
+####################################################################################################
+# alldat: ever-married females 10.5 -50.5 who were childless 1 year ago
+####################################################################################################
+
+alldat &lt;- g_residents_dat
+
+# Set Parameter Output File
+
+parafile &lt;- file(g_para_firstbirths, &quot;w&quot;)
+
+# select observations 
+alldat &lt;- alldat[alldat$M_MALE == 0 &amp; alldat$M_AGE &gt;= 10.5 &amp; alldat$M_AGE &lt; 50.5,]
+alldat &lt;- alldat[alldat$M_PARITY == alldat$M_BIR12,] 
+
+# variables
+alldat$age     &lt;- as.integer(alldat$M_AGE-0.5)
+alldat$birth   &lt;- as.logical(alldat$M_BIR12 &gt; 0)
+
+####################################################################################################
+# Regressions
+####################################################################################################
+
+n_regions &lt;- length(unique(alldat$M_ROR))
+
+# logistic regression age 10-14 married
+
+BirthYoungMar &lt;- glm(birth ~ factor(age)+factor(M_EDUC)+factor(M_ROR), family = quasibinomial, 
+                             weights = M_WEIGHT, data = alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age &lt; 15 ,])
+
+# Educ 0
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 10 &amp; alldat$M_EDUC==0,]) &gt; 0) { 
+  BirthYoungMarPredict0 &lt;- predict(BirthYoungMar,data.frame(age=rep(10,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=0)) 
+  BirthYoungMarPredict0 &lt;- exp(BirthYoungMarPredict0) / (1+exp(BirthYoungMarPredict0)) 
+} else BirthYoungMarPredict0 &lt;-rep(0,n_regions)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 11 &amp; alldat$M_EDUC==0,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(11,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=0))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict0 &lt;- c(BirthYoungMarPredict0, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 12 &amp; alldat$M_EDUC==0,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(12,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=0))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict0 &lt;- c(BirthYoungMarPredict0, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 13 &amp; alldat$M_EDUC==0,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(13,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=0))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict0 &lt;- c(BirthYoungMarPredict0, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 14 &amp; alldat$M_EDUC==0,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(14,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=0))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict0 &lt;- c(BirthYoungMarPredict0, a_add)
+
+# Educ 1
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 10 &amp; alldat$M_EDUC==1,]) &gt; 0) { 
+  BirthYoungMarPredict1 &lt;- predict(BirthYoungMar,data.frame(age=rep(10,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=1)) 
+  BirthYoungMarPredict1 &lt;- exp(BirthYoungMarPredict1) / (1+exp(BirthYoungMarPredict1)) 
+} else BirthYoungMarPredict1 &lt;-rep(0,n_regions)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 11 &amp; alldat$M_EDUC==1,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(11,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=1))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict1 &lt;- c(BirthYoungMarPredict1, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 12 &amp; alldat$M_EDUC==1,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(12,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=1))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict1 &lt;- c(BirthYoungMarPredict1, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 13 &amp; alldat$M_EDUC==1,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(13,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=1))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict1 &lt;- c(BirthYoungMarPredict1, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 14 &amp; alldat$M_EDUC==1,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(14,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=1))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict1 &lt;- c(BirthYoungMarPredict1, a_add)
+
+# Educ 2
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 10 &amp; alldat$M_EDUC==2,]) &gt; 0) { 
+  BirthYoungMarPredict2 &lt;- predict(BirthYoungMar,data.frame(age=rep(10,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=2)) 
+  BirthYoungMarPredict2 &lt;- exp(BirthYoungMarPredict2) / (1+exp(BirthYoungMarPredict2)) 
+} else BirthYoungMarPredict2 &lt;-rep(0,n_regions)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 11 &amp; alldat$M_EDUC==2,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(11,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=2))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict2 &lt;- c(BirthYoungMarPredict2, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 12 &amp; alldat$M_EDUC==2,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(12,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=2))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict2 &lt;- c(BirthYoungMarPredict2, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 13 &amp; alldat$M_EDUC==2,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(13,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=2))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict2 &lt;- c(BirthYoungMarPredict2, a_add)
+
+if (count(alldat[ !is.na(alldat$M_AGEMAR) &amp; alldat$age == 14 &amp; alldat$M_EDUC==2,]) &gt; 0) {
+  a_add &lt;- predict(BirthYoungMar,data.frame(age=rep(14,each=n_regions),M_ROR=rep(0:(n_regions-1),1), M_EDUC=2))
+  a_add &lt;- exp(a_add) / (1+exp(a_add)) 
+} else a_add &lt;- rep(0,n_regions)
+BirthYoungMarPredict2 &lt;- c(BirthYoungMarPredict2, a_add)
+
+
+# logistic regression age 10-14 unmarried
+
+BirthYoungSing         &lt;- glm(birth ~ factor(age)+factor(M_EDUC), family = quasibinomial, weights = M_WEIGHT, 
+                          data = alldat[is.na(alldat$M_AGEMAR) &amp; alldat$age &lt; 15,])
+
+BirthYoungSingPredict0 &lt;- predict(BirthYoungSing,data.frame(age=rep(10:14,each=n_regions),M_EDUC=0))
+BirthYoungSingPredict0 &lt;- exp(BirthYoungSingPredict0) / (1+exp(BirthYoungSingPredict0))
+
+BirthYoungSingPredict1 &lt;- predict(BirthYoungSing,data.frame(age=rep(10:14,each=n_regions),M_EDUC=1))
+BirthYoungSingPredict1 &lt;- exp(BirthYoungSingPredict1) / (1+exp(BirthYoungSingPredict1))
+
+BirthYoungSingPredict2 &lt;- predict(BirthYoungSing,data.frame(age=rep(10:14,each=n_regions),M_EDUC=2))
+BirthYoungSingPredict2 &lt;- exp(BirthYoungSingPredict2) / (1+exp(BirthYoungSingPredict2))
+
+# logistic regression age 15-49 unmarried
+
+BirthSing             &lt;- glm(birth ~ factor(age)+factor(M_EDUC)+factor(M_ROR), family = quasibinomial, weights = M_WEIGHT, 
+                         data = alldat[ is.na(alldat$M_AGEMAR) &amp; alldat$age &gt;= 15 ,])
+BirthSingPredict0     &lt;- predict(BirthSing,data.frame(age=rep(15:49,each=n_regions),M_ROR=rep(0:(n_regions-1),35), M_EDUC=0))
+BirthSingPredict0     &lt;- exp(BirthSingPredict0) / (1+exp(BirthSingPredict0))
+
+BirthSingPredict1     &lt;- predict(BirthSing,data.frame(age=rep(15:49,each=n_regions),M_ROR=rep(0:(n_regions-1),35), M_EDUC=1))
+BirthSingPredict1     &lt;- exp(BirthSingPredict1) / (1+exp(BirthSingPredict1))
+
+BirthSingPredict2     &lt;- predict(BirthSing,data.frame(age=rep(15:49,each=n_regions),M_ROR=rep(0:(n_regions-1),35), M_EDUC=2))
+BirthSingPredict2     &lt;- exp(BirthSingPredict2) / (1+exp(BirthSingPredict2))
+
+# Married age &gt;= 15
+# logistic regression education level 0
+
+BirthEduc0            &lt;- glm(birth ~ factor(age)+factor(M_ROR), family = quasibinomial, weights = M_WEIGHT, data =
+                         alldat[alldat$M_EDUC==0 &amp; !is.na(alldat$M_AGEMAR) &amp; alldat$age &gt;=15,])
+BirthEduc0Predict     &lt;- predict(BirthEduc0,data.frame(age=rep(15:49,each=n_regions),M_ROR=rep(0:(n_regions-1),35)))
+BirthEduc0Predict     &lt;- exp(BirthEduc0Predict) / (1+exp(BirthEduc0Predict))
+
+# logistic regression education level 1
+
+BirthEduc1            &lt;- glm(birth ~ factor(age)+factor(M_ROR), family = quasibinomial, weights = M_WEIGHT, 
+                         data = alldat[alldat$M_EDUC==1 &amp; !is.na(alldat$M_AGEMAR) &amp; alldat$age &gt;=15,])
+BirthEduc1Predict     &lt;- predict(BirthEduc1,data.frame(age=rep(15:49,each=n_regions),M_ROR=rep(0:(n_regions-1),35)))
+BirthEduc1Predict     &lt;- exp(BirthEduc1Predict) / (1+exp(BirthEduc1Predict))
+
+# logistic regression education level 3
+
+BirthEduc2            &lt;- glm(birth ~ factor(age)+factor(M_ROR), family = quasibinomial, weights = M_WEIGHT, 
+                         data = alldat[alldat$M_EDUC==2 &amp; !is.na(alldat$M_AGEMAR) &amp; alldat$age &gt;=15,])
+
+BirthEduc2Predict     &lt;- predict(BirthEduc2,data.frame(age=rep(15:49,each=n_regions),M_ROR=rep(0:(n_regions-1),35)))
+BirthEduc2Predict     &lt;- exp(BirthEduc2Predict) / (1+exp(BirthEduc2Predict))
+
+####################################################################################################
+# Write the parameter FirstBirthRates[PRIMARY_LEVEL][UNION_STATUS][FERTILE_AGE_RANGE][PROVINCE_NAT]
+####################################################################################################
+
+cat(&quot;parameters {\n  //EN First Birth Rates\ndouble  FirstBirthRates[PRIMARY_LEVEL][UNION_STATUS][FERTILE_AGE_RANGE][PROVINCE_NAT] = {\n&quot;, file=parafile)
+
+cat(format(round(BirthYoungSingPredict0,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthSingPredict0,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthYoungMarPredict0,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthEduc0Predict,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+
+cat(format(round(BirthYoungSingPredict1,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthSingPredict1,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthYoungMarPredict1,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthEduc1Predict,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+
+cat(format(round(BirthYoungSingPredict2,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthSingPredict2,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthYoungMarPredict2,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;,\n&quot;, file=parafile, append=TRUE)
+cat(format(round(BirthEduc2Predict,5),scientific=FALSE), file=parafile, sep=&quot;, &quot;, append=TRUE)
+cat(&quot;\n};&quot;, file=parafile, append=TRUE)
+
+####################################################################################################
+# Write parameter for birth trends
+####################################################################################################
+
+cat(&quot;//EN Birth Trends\n&quot;, file=parafile, append=TRUE)
+cat(&quot;double BirthTrends[PARITY_RANGE1][SIM_YEAR_RANGE] = {(1515) 1.0 };\n&quot;, file=parafile, append=TRUE)
+
+cat(&quot;\n};&quot;, file=parafile, append=TRUE)
+close(parafile)
+
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="09_HigherBirths.html" class="btn btn-neutral float-right" title="1.9. Script 9: Higher Order Births" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="07_FirstMarriage.html" class="btn btn-neutral" title="1.7. Script 7: First Marriage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

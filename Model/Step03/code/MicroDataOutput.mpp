@@ -1,0 +1,137 @@
+﻿//LABEL(MicroDataOutput, EN) Micro data output
+
+/*	NOTE(MicroDataOutput, EN)
+This module implements micro data output written to a csv file. Users can specify the time at which a micro-data file is written out and choose a file name. Output can also be produced in fixed time intervals, e.g. every year or every 5 years. The output csv file includes a header line with variable names. The module can be switched on and off.
+
+**How to add a new variable to the output?**
+
+- In WriteMicroRecord(), add a line which pushes a new variable into the output record
+- In PreSimulation() add a line to extend the list of variable names written to the file    
+*/
+
+output_csv out_csv;                                 //EN Microdata output csv object
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+classification OUTPUT_TIMES                         //EN Micro-data output times
+{
+    OT_FIRST,                                       //EN Time of first output
+    OT_LAST,                                        //EN Time of last output
+    OT_INTERVAL                                     //EN Time interval (0 for no repetition)
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+parameters
+{
+    logical		WriteMicrodata;                     //EN Write micro-data output file Y/N
+    double		TimeMicroOutput[OUTPUT_TIMES];      //EN Time(s) of micro-data output
+    file		MicroRecordFileName;                //EN File name micro-data output file
+};
+
+parameter_group PG05_Files                          //EN Microdata output
+{
+    WriteMicrodata, MicroRecordFileName,
+    TimeMicroOutput
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor states, functions and events
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    TIME  time_microdata_output = {TIME_INFINITE};  //EN Time for microdata output
+    void  WriteMicroRecord_Start();                 //EN Initialization for microdata output event
+    hook  WriteMicroRecord_Start, Start;            //EN Function Hook
+    event timeWriteMicroRecord, WriteMicroRecord;   //EN Write micro-data record event
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Person::WriteMicroRecord_Start()
+{
+    double dFirstOutput = TimeMicroOutput[OT_FIRST];
+    while (WriteMicrodata && dFirstOutput <= TimeMicroOutput[OT_LAST] && dFirstOutput < time)
+    {
+        dFirstOutput = dFirstOutput + TimeMicroOutput[OT_INTERVAL];
+        if ( TimeMicroOutput[OT_INTERVAL] <= 0 ) dFirstOutput = TIME_INFINITE;
+    }
+
+    if (WriteMicrodata && dFirstOutput >= time && dFirstOutput <= TimeMicroOutput[OT_LAST])
+    {
+        time_microdata_output = dFirstOutput;
+    }
+    else time_microdata_output = TIME_INFINITE;
+}
+
+TIME Person::timeWriteMicroRecord()
+{
+    if (GetReplicate()==0)  return time_microdata_output;
+    else return TIME_INFINITE;
+}
+
+void Person::WriteMicroRecord()
+{
+    // Push the fields into the output record.
+
+    // ==============================================================
+    // When adding additional variables, this list has to be extended
+    // ==============================================================
+    out_csv << actor_id;            // Actor ID
+    out_csv << actor_weight;        // Weight
+    out_csv << time;                // Time
+    out_csv << time_of_birth;       // Time of birth
+    out_csv << ( int )sex;          // Sex
+
+    // All fields have been pushed, now write the record.
+    out_csv.write_record();
+
+    // set next output
+    if (time_microdata_output + TimeMicroOutput[OT_INTERVAL] > time &&
+        time_microdata_output + TimeMicroOutput[OT_INTERVAL] <= TimeMicroOutput[OT_LAST])
+    {
+        time_microdata_output = time_microdata_output + TimeMicroOutput[OT_INTERVAL];
+    }
+    else
+    {
+        time_microdata_output = TIME_INFINITE;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Pre- and Post-Simulation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PreSimulation()
+{
+    // In the pre-simulation phase of MicroDataOutput.mpp module, the micro-data file is prepared
+    // for writing records in the simulation. If the user selects micro-data output, a file is
+    // opened and the header row is written containing all selected states
+
+    if (WriteMicrodata)
+	{
+        // ==============================================================
+        // When adding additional variables, this list has to be extended
+        // ==============================================================
+        std_string  myString = "ID,";            // Actor ID
+        myString  = myString + "WEIGHT,";        // Weight
+        myString  = myString + "TIME,";          // Output Time
+        myString  = myString + "BIRTH,";         // Time of birth
+        myString  = myString + "MALE,";          // Sex
+
+        out_csv.open(MicroRecordFileName);
+		out_csv.write_header(myString);
+	}
+}
+
+void PostSimulation()
+{
+    if (WriteMicrodata) { out_csv.close(); }    // closing the file
+}

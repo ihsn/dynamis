@@ -1,0 +1,13 @@
+//LABEL(model_info, EN) Model information
+/* NOTE(model_info, EN)
+This module contains the model version, description, and notes.
+*/
+
+version 1, 0, 1, 8;
+
+//LABEL(model, EN) DYNAMIS-POP Step 8
+
+/* NOTE(model, EN)
+This step is a fully functional micro-simulation implementation of a typical cohort-component population projection model. It consolidates all previous steps by adding rich table output and expanding micro-data output. 
+*/
+

@@ -1,0 +1,16 @@
+//LABEL(model_info, EN) Model information
+/* NOTE(model_info, EN)
+This module contains the model version, description, and notes.
+*/
+
+version 1, 0, 1, 0;
+
+//LABEL(model, EN) DYNAMIS-POP Template
+
+/* NOTE(model, EN)
+DYNAMIS-POP Step 1 constitutes the starting template of the model. It implements some basic functionality common to most interacting population models like file handling, the creation of a starting population, and the handling of weights to automatically scale all output to the total population size. The model creates a starting population from a weighted file of observations. Depending on record weights and the desired simulation size, a population of simulation actors of equal weights is created from the observations, whereby individual observations might or might not be picked or picked various times. The template also supports linking people to families or households. Other functionality includes the production of sample output tables and a module for micro-data output for generating simulated cross-section and panel data. Most of the code does not require any change as the model is developed. Exceptions are:
+
+- The list of variables of the starting population file set in the ObservationCore file.
+- The use of the starting population variables to initialize the states of the simulated actors in the Start() function contained in the PersonCore file.
+- The list of states to be included in the model micro-data output file set in the MicroDataOutput file.
+*/

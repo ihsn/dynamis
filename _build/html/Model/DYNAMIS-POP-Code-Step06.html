@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.7. Step 6: Base Emigration &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.8. Step 7: Base Immigration" href="DYNAMIS-POP-Code-Step07.html" />
+    <link rel="prev" title="3.6. Step 5: Base Migration" href="DYNAMIS-POP-Code-Step05.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Intro.html">3.1. The Modgen Micro-simulation Technology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step01.html">3.2. Step 1: Creating a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step02.html">3.3. Step 2: Birthdays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step03.html">3.4. Step 3: Base Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step04.html">3.5. Step 4: Base Fertility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step05.html">3.6. Step 5: Base Migration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.7. Step 6: Base Emigration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-description">3.7.1. Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-new-module-emigrationagesexdistrict-mpp">3.7.2. The new module: EmigrationAgeSexDistrict.mpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step07.html">3.8. Step 7: Base Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step08.html">3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.7. Step 6: Base Emigration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Step06.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="step-6-base-emigration">
+<h1>3.7. Step 6: Base Emigration<a class="headerlink" href="#step-6-base-emigration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-description">
+<h2>3.7.1. Model Description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>At this step we add a module for emigration based on age, sex and district of residence. This is the base version of emigration resembling a typical macro population projection approach. It will be complemented with refined models going beyond age and sex when modeling emigration.</p>
+</div>
+<div class="section" id="the-new-module-emigrationagesexdistrict-mpp">
+<h2>3.7.2. The new module: EmigrationAgeSexDistrict.mpp<a class="headerlink" href="#the-new-module-emigrationagesexdistrict-mpp" title="Permalink to this headline">¶</a></h2>
+<p>This module implements a base version of emigration. It is based on age, sex,and district based emigration rates, which is a typical approach in cohort-component models. The module can be switched on/off by the user. People who emigrate are removed from the population.</p>
+<p>The module is prepared for being replaced by a refined model accounting for more detailed personal characteristics than age and sex and/or allowing for return migration. For this purpose a logical state use_base_emigration_model is introduced and initialized with TRUE; Other modules can override this module by setting the state to FALSE whenever an alternative model is applied.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Parameters</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">parameters</span>
+<span class="p">{</span>
+    <span class="o">//</span><span class="n">EN</span> <span class="n">Switch</span> <span class="n">emigration</span> <span class="n">on</span><span class="o">/</span><span class="n">off</span>
+    <span class="n">logical</span>     <span class="n">ModelEmigration</span><span class="p">;</span>
+
+    <span class="o">//</span><span class="n">EN</span> <span class="n">Emigration</span> <span class="n">rates</span> <span class="n">on</span> <span class="n">district</span> <span class="n">level</span>
+    <span class="n">double</span>  <span class="n">EmigrationRatesDistrict</span><span class="p">[</span><span class="n">SEX</span><span class="p">][</span><span class="n">AGE5_PART</span><span class="p">][</span><span class="n">DISTRICT_NAT</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="n">parameter_group</span> <span class="n">PG_EmigrationBase</span>  <span class="o">//</span><span class="n">EN</span> <span class="n">Emigration</span> <span class="n">Base</span> <span class="n">Version</span>
+<span class="p">{</span>
+    <span class="n">ModelEmigration</span><span class="p">,</span> <span class="n">EmigrationRatesDistrict</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">bloc</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">actor</span> <span class="n">Person</span>
+<span class="p">{</span>
+    <span class="n">logical</span> <span class="n">use_base_emigration_model</span> <span class="o">=</span> <span class="p">{</span> <span class="n">TRUE</span> <span class="p">};</span>           <span class="o">//</span><span class="n">EN</span> <span class="n">Use</span> <span class="n">base</span> <span class="n">model</span> <span class="n">version</span>
+    <span class="n">logical</span> <span class="n">has_emigrated</span> <span class="o">=</span> <span class="p">{</span> <span class="n">FALSE</span> <span class="p">};</span>                      <span class="o">//</span><span class="n">EN</span> <span class="n">Person</span> <span class="n">has</span> <span class="n">emigrated</span>
+    <span class="n">event</span>   <span class="n">timeEmigrationEvent</span><span class="p">,</span> <span class="n">EmigrationEvent</span><span class="p">;</span>           <span class="o">//</span><span class="n">EN</span> <span class="n">Emigration</span> <span class="n">event</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Implementation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">TIME</span> <span class="n">Person</span><span class="p">::</span><span class="n">timeEmigrationEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ModelEmigration</span> <span class="o">&amp;&amp;</span> <span class="n">in_projected_time</span> <span class="o">&amp;&amp;</span> <span class="n">use_base_emigration_model</span> <span class="o">&amp;&amp;</span>
+        <span class="n">EmigrationRatesDistrict</span><span class="p">[</span><span class="n">sex</span><span class="p">][</span><span class="n">SPLIT</span><span class="p">(</span><span class="n">integer_age</span><span class="p">,</span> <span class="n">AGE5_PART</span><span class="p">)][</span><span class="n">district_nat</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">WAIT</span><span class="p">(</span><span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="o">/</span>
+            <span class="n">EmigrationRatesDistrict</span><span class="p">[</span><span class="n">sex</span><span class="p">][</span><span class="n">SPLIT</span><span class="p">(</span><span class="n">integer_age</span><span class="p">,</span> <span class="n">AGE5_PART</span><span class="p">)][</span><span class="n">district_nat</span><span class="p">]);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">EmigrationEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">has_emigrated</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+    <span class="n">Finish</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DYNAMIS-POP-Code-Step07.html" class="btn btn-neutral float-right" title="3.8. Step 7: Base Immigration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="DYNAMIS-POP-Code-Step05.html" class="btn btn-neutral" title="3.6. Step 5: Base Migration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

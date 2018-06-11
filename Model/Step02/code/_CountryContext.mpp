@@ -1,0 +1,14 @@
+﻿//LABEL (_CountryContext, EN) Country Context
+
+/*  NOTE(_CountryContext, EN)
+This file contains the country and starting year specific code. This is the only file to be adapted when porting the model to a new country context.
+*/
+
+// COUNTRY: ABC 2000
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+range ALL_YEAR_RANGE { 1899, 2100 };            //EN All calendar years
+range SIM_YEAR_RANGE { 2000, 2100 };            //EN Simulated years

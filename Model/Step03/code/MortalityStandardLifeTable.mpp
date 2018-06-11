@@ -1,0 +1,115 @@
+﻿// LABEL(MortalityStandardLifeTable, EN) Base Mortality
+
+/* NOTE(MortalityStandardLifeTable, EN)
+This module implements a simple model of mortality. People can die at any moment of time based on age-specific mortality rates. Age specific mortality rates are calculated from a standard life table and a trend factor. The trend factor is found in pre-simulation and calibrates mortality to reach a target period life expectancy. The standard life table and target life expectancies are model parameters. At death, the state is_alive is set to FALSE and the Modgen function Finish() is called which clears up memory space.
+
+This module is a typical implementation of a stochastic event depending on hazard rates. The time function calculates a random waiting time to death based on the age-specific hazard rates of death. The time function is very typical for time functions scheduling an event in continuous time. If a person is at risk of the event, an exponentially distributed random waiting time is drawn and the event time returned. Whenever a state that influences the waiting time changes (in this case only integer_age), a new waiting time is drawn automatically based on the updated rate and the event is automatically re-scheduled.
+
+The module contains a PreSimulation() function. This is the place to calculate "model generated parameters" - which are parameters based on model parameters. The MortalityTrend factor for calibrating the model is found by a binary search algorithm.
+
+The module is prepared for being combined with or replaced by a refined model accounting for more detailed personal characteristics than age and sex. For this purpose a logical state use_base_mortality is introduced and initialized with TRUE; Other modules can override the waiting time function of this module by setting the state to FALSE whenever an alternative model is applied.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+parameters
+{
+    double  MortalityTable[AGE_RANGE][SEX];	                        //EN Mortality hazard by age
+    double	LifeExpectancy[SIM_YEAR_RANGE][SEX];		            //EN Life Expectancy
+    model_generated double	MortalityTrend[SIM_YEAR_RANGE][SEX];	//EN Mortality trend
+};
+
+parameter_group PG02_OverallMortality                               //EN Overall mortality
+{
+    MortalityTable, LifeExpectancy
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor states and functions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    logical use_base_mortality = { TRUE };                      //EN Use the base version
+    event	timeMortalityEvent, MortalityEvent;		                //EN Mortality event
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation of functions and events
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TIME Person::timeMortalityEvent()
+{
+    TIME    dEventTime = TIME_INFINITE;
+    double  dMortalityHazard
+        = MortalityTable[integer_age][sex]
+          * MortalityTrend[RANGE_POS(SIM_YEAR_RANGE, calendar_year)][sex];
+
+    // check if a person is at risk
+    if (dMortalityHazard > 0.0 && in_projected_time && use_base_mortality)
+    {
+        // determine the event time
+        // the formula [ -log(rand) / hazard ] calculates an exponentially distributed waiting time
+        // based on a uniform distributed random number and a given hazard rate
+        dEventTime = WAIT(-log(RandUniform(2)) / dMortalityHazard);
+    }
+    // return the event time, if the maximum age is not reached at that point
+    if (dEventTime < time_of_birth + MAX(AGE_RANGE) + 1.0) return dEventTime;
+    // otherwise, return the moment, at which the maximum age is reached
+    else return time_of_birth + MAX(AGE_RANGE) + 0.9999;
+}
+
+void Person::MortalityEvent()
+{
+    is_alive = FALSE;
+    Finish(); // Remove the actor from the simulation.
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Pre-Simulation: Finding calibration factors for target life expectancy
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PreSimulation()
+{
+    double	dLower, dUpper, dCenter, dResult, dTarget, dAlive, dDeaths;
+    int		nIterations;
+    for (int nSex = 0; nSex < SIZE(SEX); nSex++)
+    {
+        for (int nYear = 0; nYear < SIZE(SIM_YEAR_RANGE); nYear++)
+        {
+            dTarget = LifeExpectancy[nYear][nSex];      // Target: life expectancy
+            dResult = 0.0;                              // Search result: life expectancy
+            nIterations = 10000;                        // Maximum number of iterations in search
+            dLower = 0.1;                               // Lower limit of relative risk)
+            dUpper = 3.0;                               // Upper limit of relative risk
+
+            while (abs(dResult - dTarget) > 0.0001 && nIterations > 0)
+            {
+                nIterations--;
+                dCenter = (dLower + dUpper) / 2.0;      // New calibration factor for probing
+
+                dResult = 0.0;
+                dAlive = 1.0;                           // Proportion of people still alive
+
+                // Life expectancy calculated applying calibration factor
+                for (int nAge = 0; nAge < SIZE(AGE_RANGE); nAge++)
+                {
+                    // proportion of deaths in year: survival = exp(-hazard)
+                    dDeaths = dAlive * (1 - exp(-MortalityTable[nAge][nSex] * dCenter));
+                    dAlive = dAlive - dDeaths;
+                    // people dying in this year are assumed to die in th emiddle of the year
+                    dResult = dResult + dDeaths * 0.5 + dAlive;
+                }
+                // Moving the search limits for next iteration
+                if (dTarget < dResult) dLower = dCenter;
+                else dUpper = dCenter;
+            }
+            // copying the best solution into the model-generated mortality trend parameter
+            MortalityTrend[nYear][nSex] = dCenter;
+        }
+    }
+}

@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.3. Step 2: Birthdays &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.4. Step 3: Base Mortality" href="DYNAMIS-POP-Code-Step03.html" />
+    <link rel="prev" title="3.2. Step 1: Creating a Population" href="DYNAMIS-POP-Code-Step01.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Intro.html">3.1. The Modgen Micro-simulation Technology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step01.html">3.2. Step 1: Creating a Population</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.3. Step 2: Birthdays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-description">3.3.1. Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-new-module-birthdays-mpp">3.3.2. The new module: BirthDays.mpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step03.html">3.4. Step 3: Base Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step04.html">3.5. Step 4: Base Fertility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step05.html">3.6. Step 5: Base Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step06.html">3.7. Step 6: Base Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step07.html">3.8. Step 7: Base Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step08.html">3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.3. Step 2: Birthdays</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Step02.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="step-2-birthdays">
+<h1>3.3. Step 2: Birthdays<a class="headerlink" href="#step-2-birthdays" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-description">
+<h2>3.3.1. Model Description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>At this step we add a module for birthday events to the model template. Unlike calendar year changes which happen to all actors at the same time and are thus implemented by a common clock, birthdays happen at individual pints in time throughout the year and are therefore implemented on the individual level. Besides the maintenance of a state for age in full years (which could be implemented directly as a self-scheduling state), the explicit modeling of a birthday event prepares the model for routines which typically happen on birthdays, e.g. the update of longitudinal accounts. All new code added at this step is contained in the new module BirthDays.mpp.</p>
+</div>
+<div class="section" id="the-new-module-birthdays-mpp">
+<h2>3.3.2. The new module: BirthDays.mpp<a class="headerlink" href="#the-new-module-birthdays-mpp" title="Permalink to this headline">¶</a></h2>
+<p>This module implements birthday events of the person actors. The module showcases the implementation of a clock event: a state integer_age is updated at yearly intervals. The module also demonstrates the typical arrangement of code within a regular simulation module:</p>
+<ul class="simple">
+<li>Introduction of new types: here an age range for the allowed life span. It is needed as a dimension of parameters (e.g. a lifetable) and as a table dimension.</li>
+<li>An “actor block” for the declaration of new states (here: integer_age and a variable to store the time of the next birthday) and new events: the birthday.</li>
+<li>The implementation of new functions and events. In our case the implementation of the birthday event. Like all events birthdays have two functions: a timing function returning the next occurrence of the event, and the event function performing all code to happen at the occurrence of the event.</li>
+</ul>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Types</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="nb">range</span> <span class="n">AGE_RANGE</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">105</span> <span class="p">};</span>                                 <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span> <span class="n">Range</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">states</span> <span class="ow">and</span> <span class="n">functions</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">actor</span> <span class="n">Person</span>
+<span class="p">{</span>
+    <span class="n">AGE_RANGE</span>   <span class="n">integer_age</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>                        <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span>
+
+    <span class="n">TIME</span>        <span class="n">time_next_birthday</span> <span class="o">=</span> <span class="p">{</span> <span class="n">TIME_INFINITE</span> <span class="p">};</span>     <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="nb">next</span> <span class="n">birthday</span>
+    <span class="n">event</span>       <span class="n">timeBirthdayEvent</span><span class="p">,</span> <span class="n">BirthdayEvent</span><span class="p">;</span>           <span class="o">//</span><span class="n">EN</span> <span class="n">Birthday</span> <span class="n">Event</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Event</span> <span class="n">Implementation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="o">/*</span> <span class="n">NOTE</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">BirthdayEvent</span><span class="p">,</span> <span class="n">EN</span><span class="p">)</span>
+   <span class="n">At</span> <span class="n">each</span> <span class="n">birthday</span> <span class="n">integer</span> <span class="n">age</span> <span class="ow">is</span> <span class="n">incremented</span> <span class="ow">and</span> <span class="nb">all</span> <span class="n">code</span> <span class="n">to</span> <span class="n">be</span> <span class="n">performed</span> <span class="n">at</span> <span class="n">birthdays</span> <span class="ow">is</span> <span class="n">executed</span>
+<span class="o">*/</span>
+
+<span class="n">TIME</span> <span class="n">Person</span><span class="p">::</span><span class="n">timeBirthdayEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">integer_age</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="k">return</span> <span class="n">time_of_birth</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">;</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="n">time_next_birthday</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">BirthdayEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">Increment</span> <span class="n">integer</span> <span class="n">age</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">integer_age</span> <span class="o">&lt;</span> <span class="n">MAX</span><span class="p">(</span><span class="n">AGE_RANGE</span><span class="p">))</span> <span class="n">integer_age</span><span class="o">++</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Code</span> <span class="n">to</span> <span class="n">be</span> <span class="n">performed</span> <span class="n">at</span> <span class="n">each</span> <span class="n">birthday</span> <span class="n">can</span> <span class="n">be</span> <span class="n">entered</span> <span class="n">here</span>
+
+    <span class="o">//</span> <span class="n">Set</span> <span class="n">clock</span> <span class="k">for</span> <span class="nb">next</span> <span class="n">birthday</span>
+    <span class="n">time_next_birthday</span> <span class="o">=</span> <span class="n">WAIT</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DYNAMIS-POP-Code-Step03.html" class="btn btn-neutral float-right" title="3.4. Step 3: Base Mortality" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="DYNAMIS-POP-Code-Step01.html" class="btn btn-neutral" title="3.2. Step 1: Creating a Population" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

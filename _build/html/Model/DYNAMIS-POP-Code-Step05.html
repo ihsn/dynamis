@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.6. Step 5: Base Migration &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.7. Step 6: Base Emigration" href="DYNAMIS-POP-Code-Step06.html" />
+    <link rel="prev" title="3.5. Step 4: Base Fertility" href="DYNAMIS-POP-Code-Step04.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Intro.html">3.1. The Modgen Micro-simulation Technology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step01.html">3.2. Step 1: Creating a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step02.html">3.3. Step 2: Birthdays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step03.html">3.4. Step 3: Base Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step04.html">3.5. Step 4: Base Fertility</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.6. Step 5: Base Migration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-description">3.6.1. Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-new-module-migrationagesex-mpp">3.6.2. The new module: MigrationAgeSex.mpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-of-the-start-function-in-personcore-mpp">3.6.3. Update of the Start() function in PersonCore.mpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#declaration-of-the-list-of-districts-in-countrycontext-mpp">3.6.4. Declaration of the List of Districts in _CountryContext.mpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step06.html">3.7. Step 6: Base Emigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step07.html">3.8. Step 7: Base Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step08.html">3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.6. Step 5: Base Migration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Step05.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="step-5-base-migration">
+<h1>3.6. Step 5: Base Migration<a class="headerlink" href="#step-5-base-migration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-description">
+<h2>3.6.1. Model Description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>At this step we add a module for internal migration based on age and sex specific origin-destination matrices. This is the base version of migration resembling a typical macro population projection approach. It will be complemented with refined models going beyond age and sex when modeling migration.</p>
+</div>
+<div class="section" id="the-new-module-migrationagesex-mpp">
+<h2>3.6.2. The new module: MigrationAgeSex.mpp<a class="headerlink" href="#the-new-module-migrationagesex-mpp" title="Permalink to this headline">¶</a></h2>
+<p>This module implements a base version of internal migration. It is based on age and sex specific transition matrices, which is a typical approach in cohort-component models. As the transitions are typically obtained from Census data recording the place of residence now and one year ago, only one transition per year is allowed. The module has three parameters, one to switch migration on/off, one containing the probabilities to move away (by origin, age, sex), and one to sample the destination (by origin, age and sex).</p>
+<p>The module introduces and maintains a new state district_nat - the district of residence. The state is of type DISTRICT_NAT, which is a classification of national districts. As the number and names of districts is country-specific, the classification is declare in the _CountryContext.mpp module. The district of residence is available from the starting population file, is inherited from the mother, or set at immigration. This is done in the Start() function of the Person actor. The initialization was added there when introducing this module.</p>
+<p>The module is prepared for being replaced by a refined model accounting for more detailed personal characteristics than age and sex. For this purpose a logical state use_base_migration_model is introduced and initialized with TRUE; Other modules can override this module by setting the state to FALSE whenever an alternative model is applied.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Types</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">partition</span> <span class="n">AGE5_PART</span><span class="p">{</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">60</span> <span class="p">};</span>   <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span> <span class="n">Groups</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Parameters</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">parameters</span>
+<span class="p">{</span>
+    <span class="o">//</span><span class="n">EN</span> <span class="n">Migration</span> <span class="n">switched</span> <span class="n">on</span><span class="o">/</span><span class="n">off</span>
+    <span class="n">logical</span> <span class="n">ModelMigration</span><span class="p">;</span>
+
+    <span class="o">//</span><span class="n">EN</span> <span class="n">Migration</span> <span class="n">probability</span>
+    <span class="n">double</span>  <span class="n">MigrationProbability</span><span class="p">[</span><span class="n">SEX</span><span class="p">][</span><span class="n">AGE5_PART</span><span class="p">][</span><span class="n">DISTRICT_NAT</span><span class="p">];</span>
+
+    <span class="o">//</span><span class="n">EN</span> <span class="n">Migration</span> <span class="n">Destination</span>
+    <span class="n">cumrate</span> <span class="n">MigrationDestination</span><span class="p">[</span><span class="n">SEX</span><span class="p">][</span><span class="n">DISTRICT_NAT</span><span class="p">][</span><span class="n">AGE5_PART</span><span class="p">][</span><span class="n">DISTRICT_NAT</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="n">parameter_group</span> <span class="n">PG_MigrationBase</span> <span class="o">//</span><span class="n">EN</span> <span class="n">Internal</span> <span class="n">Migration</span> <span class="n">Base</span> <span class="n">Version</span>
+<span class="p">{</span>
+    <span class="n">ModelMigration</span><span class="p">,</span> <span class="n">MigrationProbability</span><span class="p">,</span> <span class="n">MigrationDestination</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">block</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">actor</span> <span class="n">Person</span>
+<span class="p">{</span>
+    <span class="n">DISTRICT_NAT</span>    <span class="n">district_nat</span> <span class="o">=</span> <span class="p">{</span> <span class="n">DISTN_00</span> <span class="p">};</span>                <span class="o">//</span><span class="n">EN</span> <span class="n">District</span> <span class="n">of</span> <span class="n">residence</span>
+    <span class="n">logical</span>         <span class="n">use_base_migration_model</span> <span class="o">=</span> <span class="p">{</span> <span class="n">TRUE</span> <span class="p">};</span>        <span class="o">//</span><span class="n">EN</span> <span class="n">Use</span> <span class="n">the</span> <span class="n">base</span> <span class="n">model</span>
+    <span class="n">integer</span>         <span class="n">age_at_last_move</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">999</span> <span class="p">};</span>                 <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span> <span class="n">at</span> <span class="n">last</span> <span class="n">migration</span>
+    <span class="n">integer</span>         <span class="n">number_migrations</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>                  <span class="o">//</span><span class="n">EN</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">internal</span> <span class="n">migrations</span>
+    <span class="n">event</span>           <span class="n">timeMigrationEvent</span><span class="p">,</span> <span class="n">MigrationEvent</span><span class="p">;</span>         <span class="o">//</span><span class="n">EN</span> <span class="n">Migration</span> <span class="n">Event</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Implementation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">TIME</span> <span class="n">Person</span><span class="p">::</span><span class="n">timeMigrationEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">Check</span> <span class="k">if</span> <span class="n">a</span> <span class="n">person</span> <span class="ow">is</span> <span class="n">at</span> <span class="n">risk</span> <span class="k">for</span> <span class="n">moving</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ModelMigration</span> <span class="o">&amp;&amp;</span> <span class="n">use_base_migration_model</span> <span class="o">&amp;&amp;</span> <span class="n">in_projected_time</span>
+        <span class="o">&amp;&amp;</span> <span class="n">age_at_last_move</span> <span class="o">!=</span> <span class="n">integer_age</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="o">//</span> <span class="n">get</span> <span class="n">the</span> <span class="n">current</span> <span class="n">age</span> <span class="n">index</span> <span class="n">using</span> <span class="n">SPLIT</span><span class="p">()</span>
+        <span class="nb">int</span> <span class="n">nAge5</span> <span class="o">=</span> <span class="n">SPLIT</span><span class="p">(</span><span class="n">integer_age</span><span class="p">,</span> <span class="n">AGE5_PART</span><span class="p">);</span>
+
+        <span class="o">//</span> <span class="n">get</span> <span class="n">the</span> <span class="n">probability</span> <span class="n">to</span> <span class="n">move</span>
+        <span class="n">double</span> <span class="n">dMoveProb</span> <span class="o">=</span> <span class="n">MigrationProbability</span><span class="p">[</span><span class="n">sex</span><span class="p">][</span><span class="n">nAge5</span><span class="p">][</span><span class="n">district_nat</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">dMoveProb</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">return</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>     <span class="o">//</span> <span class="n">Not</span> <span class="n">at</span> <span class="n">risk</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">dMoveProb</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">return</span> <span class="n">WAIT</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>      <span class="o">//</span> <span class="mi">100</span><span class="o">%</span> <span class="n">move</span> <span class="n">immediately</span>
+        <span class="k">else</span>                                            <span class="o">//</span> <span class="n">positive</span> <span class="n">probability</span> <span class="n">below</span> <span class="mi">100</span><span class="o">%</span>
+        <span class="p">{</span>
+            <span class="o">//</span> <span class="n">calculate</span> <span class="n">a</span> <span class="n">random</span> <span class="n">waiting</span> <span class="n">time</span> <span class="n">based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">given</span> <span class="n">probability</span> <span class="n">converted</span> <span class="n">to</span>
+            <span class="o">//</span> <span class="n">a</span> <span class="n">hazard</span> <span class="n">rate</span> <span class="o">=</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">probability</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">WAIT</span><span class="p">(</span><span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="o">-</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dMoveProb</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">TIME_INFINITE</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">Person</span><span class="p">::</span><span class="n">MigrationEvent</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nb">int</span> <span class="n">nDestination</span><span class="p">;</span>
+    <span class="nb">int</span> <span class="n">nAge5</span> <span class="o">=</span> <span class="n">SPLIT</span><span class="p">(</span><span class="n">integer_age</span><span class="p">,</span> <span class="n">AGE5_PART</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">Sample</span> <span class="n">the</span> <span class="n">destination</span>
+    <span class="n">Lookup_MigrationDestination</span><span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">sex</span><span class="p">,</span> <span class="n">district_nat</span><span class="p">,</span> <span class="n">nAge5</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nDestination</span><span class="p">);</span>
+
+    <span class="o">//</span> <span class="n">Move</span> <span class="n">the</span> <span class="n">actor</span> <span class="n">to</span> <span class="n">the</span> <span class="n">destination</span>
+    <span class="n">district_nat</span> <span class="o">=</span> <span class="p">(</span><span class="n">DISTRICT_NAT</span><span class="p">)</span><span class="n">nDestination</span><span class="p">;</span>
+
+    <span class="o">//</span> <span class="n">Updates</span> <span class="n">ndicators</span>
+    <span class="n">age_at_last_move</span> <span class="o">=</span> <span class="n">integer_age</span><span class="p">;</span>
+    <span class="n">number_migrations</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-of-the-start-function-in-personcore-mpp">
+<h2>3.6.3. Update of the Start() function in PersonCore.mpp<a class="headerlink" href="#update-of-the-start-function-in-personcore-mpp" title="Permalink to this headline">¶</a></h2>
+<p>The Start() function is updated in order to initialize the new state for district of residence (district_nat).</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+void Person::Start(Observation *peObservation, Person *pePers)
+{
+    // Setting the actor weight
+    Set_actor_weight(asGlobals-&gt;Item(0)-&gt;person_weight);
+    Set_actor_subsample_weight(asGlobals-&gt;Item(0)-&gt;person_weight);
+
+    // Determine the person type
+    if (!peObservation &amp;&amp; pePers)   person_type = PT_CHILD;   // Born in simulation
+    else if (peObservation)         person_type = PT_START;   // From Starting Pop
+    else person_type = PT_IMMIGRANT;                          // Immigrant
+
+    // Initialize states
+    if (person_type == PT_START) // Person comes from starting population
+    {
+        // (A) States from Starting population file
+        time                = peObservation-&gt;pmc[PMC_BIRTH];
+        sex                 = (SEX)(int)peObservation-&gt;pmc[PMC_SEX];
+        family_role         = peObservation-&gt;fam_role;
+        district_nat        = (DISTRICT_NAT)(int)peObservation-&gt;pmc[PMC_DISTRICT];
+
+        // (B) Other states
+        time_of_birth       = time;
+        calendar_year       = (int)time_of_birth;
+
+        // (C) Links to head resp. spouse
+        // (uncomment when modeling families) if (pePers) peHHead = pePers;
+    }
+    else if (person_type == PT_CHILD) // Person born in simulation
+    {
+        // (A) States corresponding to Starting population file variables
+        if (RandUniform(4) &lt; 100.0 / (100.0 + SexRatio[RANGE_POS(SIM_YEAR_RANGE, calendar_year)]))
+        {
+            sex  = FEMALE;
+        }
+        else sex = MALE;
+        time                = pePers-&gt;time;
+        family_role         = FR_CHILD;
+        district_nat        = pePers-&gt;district_nat;
+
+        // (B) Other states
+        time_of_birth       = time;
+        calendar_year       = (int)time_of_birth;
+
+        // (C) Links to head resp. spouse
+        // (uncomment when modeling families) if (pePers) peHHead = pePers;
+    }
+    else // Person is an immigrant
+    {
+        // do nothing (immigrants not modeled yet)
+    }
+    time_set_alive = WAIT(0);
+}
+//
+</pre></div>
+</div>
+</div>
+<div class="section" id="declaration-of-the-list-of-districts-in-countrycontext-mpp">
+<h2>3.6.4. Declaration of the List of Districts in _CountryContext.mpp<a class="headerlink" href="#declaration-of-the-list-of-districts-in-countrycontext-mpp" title="Permalink to this headline">¶</a></h2>
+<p>As the number and names of districts is country-specific, it is declared in the module _CountryContext.mpp.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="n">classification</span> <span class="n">DISTRICT_NAT</span>     <span class="o">//</span><span class="n">EN</span> <span class="n">District</span>
+<span class="p">{</span>
+    <span class="n">DISTN_00</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">Far</span><span class="o">-</span><span class="n">West</span> <span class="n">Mountains</span>
+    <span class="n">DISTN_01</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">Far</span><span class="o">-</span><span class="n">West</span> <span class="n">Hills</span>
+    <span class="n">DISTN_02</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">Far</span><span class="o">-</span><span class="n">West</span> <span class="n">Lowlands</span>
+    <span class="n">DISTN_03</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">West</span> <span class="n">Mountains</span>
+    <span class="n">DISTN_04</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">West</span> <span class="n">Hills</span>
+    <span class="n">DISTN_05</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">West</span> <span class="n">Lowlands</span>
+    <span class="n">DISTN_06</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">Central</span> <span class="n">Mountains</span>
+    <span class="n">DISTN_07</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">Central</span> <span class="n">Hills</span>
+    <span class="n">DISTN_08</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">Central</span> <span class="n">Lowlands</span>
+    <span class="n">DISTN_09</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">East</span> <span class="n">Mountains</span>
+    <span class="n">DISTN_10</span><span class="p">,</span>                   <span class="o">//</span><span class="n">EN</span> <span class="n">The</span> <span class="n">Capital</span>
+    <span class="n">DISTN_11</span>                    <span class="o">//</span><span class="n">EN</span> <span class="n">East</span> <span class="n">Lowlands</span>
+<span class="p">};</span>
+<span class="o">//</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DYNAMIS-POP-Code-Step06.html" class="btn btn-neutral float-right" title="3.7. Step 6: Base Emigration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="DYNAMIS-POP-Code-Step04.html" class="btn btn-neutral" title="3.5. Step 4: Base Fertility" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

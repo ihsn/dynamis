@@ -1,0 +1,131 @@
+# Script 2: Starting Population
+
+
+> This script produces the starting population file of DYNAMIS-POP. The output is a csv file containing all startging population variables. In addition, this script produces a parameter file containing parameters calculated from the starting population, like the number of records, the total population size (sum of weights), as well as a set of parameters containing default values.
+
+### The Starting population Variables:
+
+````
+   WEIGHT          person weight                    e.g., 8.275     
+   BIRTH           time of birth                    e.g., 1966.532    
+   SEX             sex                              0 Female, 1 Male
+   POR             district of residence            0 .. n
+   EDUC            primary education                0 never entered, 1 dropout, 2 completed
+   POB             district of birth                0 .. n, (n for is abroad)
+   UNION           time of first union (marriage)   e.g. 1988.234
+   PARITY          number of children ever born     0, 1, ..
+   LASTBIR         time of last birth               e.g., 2012.34
+   ETHNO           ethnicity                        0 .. n
+````
+
+### Parameters:
+
+- File size of starting population
+- Use weights in starting population file Y/N (default: TRUE)
+- Sample size of starting population (default: 100000)
+- Scale population Y/N (default: TRUE)
+- Write micro-data output file Y/N (default: FALSE)
+- File name of starting population
+- Total Population Size 
+- Time(s) of micro-data output (default: never)
+- File name micro-data output (a default name)
+- Output variable selection (default: all)
+
+```{r, message=FALSE, warning=FALSE}
+####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 2 - Starting Population
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+load(file="globals_for_analysis.RData")
+
+####################################################################################################
+# Generate variables for the starting population file
+####################################################################################################
+
+pmc_weight    <- g_residents_dat$M_WEIGHT
+pmc_birth     <- g_census_year - g_residents_dat$M_AGE
+pmc_sex       <- g_residents_dat$M_MALE
+pmc_province  <- g_residents_dat$M_DOR
+pmc_educ      <- g_residents_dat$M_EDUC
+pmc_pob       <- g_residents_dat$M_DOB
+
+pmc_union     <- rep(9999,length(pmc_weight))
+pmc_union[!is.na(g_residents_dat$M_AGEMAR)]   <- pmc_birth[!is.na(g_residents_dat$M_AGEMAR)] + 
+                                                 g_residents_dat$M_AGEMAR[!is.na(g_residents_dat$M_AGEMAR)]
+
+pmc_parity    <- rep(0,length(pmc_weight))
+pmc_parity[!is.na(g_residents_dat$M_PARITY)]  <- g_residents_dat$M_PARITY[!is.na(g_residents_dat$M_PARITY)]  
+
+pmc_lastbir   <- rep(9999,length(pmc_weight))
+pmc_lastbir[!is.na(g_residents_dat$M_AGEBIR)] <- g_residents_dat$M_AGEBIR[!is.na(g_residents_dat$M_AGEBIR)] + 
+                                                 pmc_birth[!is.na(g_residents_dat$M_AGEBIR)]
+       
+pmc_group     <- g_residents_dat$M_ETHNO
+
+####################################################################################################
+# Generate and write the starting population file
+####################################################################################################
+
+startpop_file <- cbind(pmc_weight, pmc_birth, pmc_sex, pmc_province, pmc_educ, pmc_pob, pmc_union, pmc_parity, pmc_lastbir, pmc_group)
+write.table(startpop_file, file = g_startpop_file,sep=", ",col.names=F, row.names=F )
+
+####################################################################################################
+# Calculate model parameters
+####################################################################################################
+
+n_popsize     <- sum(pmc_weight) 
+n_filesize    <- length(pmc_weight)
+
+####################################################################################################
+# Write parameter file for starting population parameters
+####################################################################################################
+
+parafile      <- file(g_para_startpop, "w")
+
+cat("parameters\n{\n\n", file=parafile)
+cat("  long     MicroDataInputFileSize = { ",n_filesize,"}; //EN File size of starting population\n", file=parafile, append=TRUE)
+cat("  logical	UseWeightsInFile = TRUE; //EN Use weights in starting population file\n", file=parafile, append=TRUE)
+cat("  long	    StartPopSampleSize = 100000; //EN Sample size of starting population\n", file=parafile, append=TRUE)
+cat("  logical	ScalePopulation = TRUE; //EN Scale population\n", file=parafile, append=TRUE)
+cat("  logical	WriteMicrodata = FALSE; //EN Write micro-data output file Y/N\n", file=parafile, append=TRUE)
+cat("  file	    MicroDataInputFile = \"",g_startpop_name,"\"; //EN File name of starting population\n", sep = "", file=parafile, append=TRUE)
+cat("  double	  StartPopSize = {",n_popsize,"}; //EN Total Population Size\n",file=parafile, append=TRUE)
+cat("  double	  TimeMicroOutput[OUTPUT_TIMES] = { 9999, 9999, 0, }; //EN Time(s) of micro-data output\n",file=parafile, append=TRUE)
+cat("  file	    MicroRecordFileName = \"MicroDataOutput.csv\"; //EN File name micro-data output file\n",file=parafile, append=TRUE)
+cat("  logical	SelectedOutput[OUTPUT_VARIABLES] = { FALSE, (10) TRUE, }; //EN Output variable selection \n",file=parafile, append=TRUE)
+cat("\n};", file=parafile, append=TRUE) 
+
+close(parafile)
+```
+
+
+
+
+
+
+
+
+
+
+
+

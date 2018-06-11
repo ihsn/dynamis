@@ -1,0 +1,32 @@
+﻿//LABEL (_CountryContext, EN) Country Context
+
+/*  NOTE(_CountryContext, EN) 
+This file contains the country and starting year specific code. This is the only file to be adapted when porting the model to a new country or time context.
+*/
+
+// COUNTRY: ABC 2000
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+range ALL_YEAR_RANGE { 1899, 2100 };            //EN All calendar years
+range SIM_YEAR_RANGE { 2000, 2100 };            //EN Simulated years
+
+//INCLUDE05
+classification DISTRICT_NAT     //EN District
+{
+    DISTN_00,                   //EN Far-West Mountains
+    DISTN_01,                   //EN Far-West Hills
+    DISTN_02,                   //EN Far-West Lowlands
+    DISTN_03,                   //EN West Mountains
+    DISTN_04,                   //EN West Hills
+    DISTN_05,                   //EN West Lowlands
+    DISTN_06,                   //EN Central Mountains
+    DISTN_07,                   //EN Central Hills
+    DISTN_08,                   //EN Central Lowlands
+    DISTN_09,                   //EN East Mountains
+    DISTN_10,                   //EN The Capital
+    DISTN_11                    //EN East Lowlands
+};
+//ENDINCLUDE05

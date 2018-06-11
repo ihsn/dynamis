@@ -1,0 +1,77 @@
+# Script 15: Model Settings
+
+> This file creates the parameters for general model settings. 
+
+Model settings contain default values and are not based on data. General setting parameters logically belong to other modules, but are kept separately to avoid changing model settings choices when updating data-based parameters 
+
+## File output
+
+The code below generates model parameters stored in a Modgen .dat file
+
+- Switch immigration on/off (default: on)
+- Switch emigration on/off (default: on)
+- Switch Migration on/off (default: on)
+- Choice to run the primary education cohort model on district level (default: yes)
+- Choice to write micro-data output in input file format (overrides other settings; default: no)
+- Use period model for primary education (default: no)
+- Calendar year from which on the period model is to be used modeling primary education (default: 2020)
+- Model migration by education (default: no)
+-	Child mortality model selection: (default: aligned refined model with macro trends)
+-	Fertility model selection (default: refined version)
+-	Model selection for union formation (default: Coale McNeil)
+
+## Code
+
+```{r, message=FALSE, warning=FALSE}
+####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 4 - Internal Migration
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+
+# Set Parameter Output File
+
+load(file="globals_for_analysis.RData")
+parafile <- file(g_para_settings, "w")
+
+####################################################################################################
+# Write the parameters
+####################################################################################################
+
+cat("parameters { \n", file=parafile)
+
+cat("  logical EducDistrictLevel = TRUE; //EN Cohort model on district level\n", file=parafile, append=TRUE) 
+cat("  logical WriteInputFile = FALSE; //EN Write file in input file format Y/N (overrides other settings)\n", file=parafile, append=TRUE) 
+cat("  int YearPrimModelB = 2020; //EN Calendar year from which on the period model is to be used\n", file=parafile, append=TRUE) 
+cat("  logical UsePrimModelB = FALSE; //EN Use period model for primary education\n", file=parafile, append=TRUE) 
+cat("  logical ModelByEducation = FALSE; //EN Use parameters by education\n", file=parafile, append=TRUE) 
+cat("  SELECTED_CHILD_MORTALITY_MODEL SelectedChildMortalityModel = SCMM_MICRO_ALIGNED_MACRO_TRENDS; //EN Child mortality model selection\n", file=parafile, append=TRUE) 
+cat("  SELECTED_FERTILITY_MODEL selected_fertility_model = SFM_MICRO; //EN Fertility model selection\n", file=parafile, append=TRUE) 
+cat("  UNION_MODEL_SELECTION UnionModelSelection = UMS_COALE; //EN Model selection for union formation\n", file=parafile, append=TRUE) 
+cat("  logical ModelImmigration = TRUE; //EN Switch immigration on/off\n", file=parafile, append=TRUE) 
+cat("  logical ModelEmigration = TRUE; //EN Switch emigration on/off\n", file=parafile, append=TRUE) 
+cat("  logical ModelMigration = TRUE; //EN Migration switched on/off\n", file=parafile, append=TRUE) 
+
+cat("\n};\n", file=parafile, append=TRUE) 
+close(parafile)
+
+```

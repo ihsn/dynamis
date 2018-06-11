@@ -1,0 +1,35 @@
+﻿//LABEL (TablesPopulation, EN) Population Tables
+/* NOTE(TablesPopulation, EN)
+This module contains population output tables of the model
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Population Tables
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+table_group TG_PopulationTables             //EN Population
+{
+    TotalPopulation,
+    StartingPopulationSummary
+};
+
+table Person TotalPopulation                //EN Total Population
+{
+    {
+        unit,                               //EN Persons at the beginning of each year
+        duration()                          //EN Average population (total time lived) in year
+    }
+    *calendar_year
+    * sex +
+};
+
+
+table Person StartingPopulationSummary      //EN Starting Population Summary
+[person_type == PT_START]
+{
+    {
+        unit                                //EN Persons
+    }
+    *year_of_birth +
+    *sex +
+};

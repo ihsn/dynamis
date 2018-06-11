@@ -1,0 +1,593 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1.7. Script 7: First Marriage &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.8. Script 8: First Births" href="08_FirstBirths.html" />
+    <link rel="prev" title="1.6. Script 6: Emigration" href="06_Emigration.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="AnalysisInput-Index.html">1. Parameter Generation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_Setup_ABC_2000.html">1.1. Script 1: Country/Version-Specific Setup File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_CreateStartpop.html">1.2. Script 2: Starting Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_PrimaryEducation.html">1.3. Script 3: Primary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_Migration.html">1.4. Script 4: Internal Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_Immigration.html">1.5. Script 5: Immigration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_Emigration.html">1.6. Script 6: Emigration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1.7. Script 7: First Marriage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-output">1.7.1. File output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">1.7.2. Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-data">1.7.2.1. Setting up Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-a-single-age-group-15-30">1.7.2.2. Illustration: Kaplan-Meier estimator and fitted Coale McNeil Model for a single age group (15-30)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-6-age-groups">1.7.2.3. Illustration: Kaplan-Meier estimator and fitted Coale McNeil Model for 6 age groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fitting-the-past">1.7.2.4. Fitting the past</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scenario-and-parameter-creation">1.7.2.5. Scenario and parameter creation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="08_FirstBirths.html">1.8. Script 8: First Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="09_HigherBirths.html">1.9. Script 9: Higher Order Births</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_ChildMortality.html">1.10. Script 10: Child Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_Ethnicity.html">1.11. Script 11: Ethnicity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_SchoolPlanning.html">1.12. Script 12: School Planning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="13_LowerSecondary.html">1.13. Script 13: Lower Secondary Education</a></li>
+<li class="toctree-l2"><a class="reference internal" href="14_DemProj.html">1.14. Script 14: Demographic Macro-Projections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_Settings.html">1.15. Script 15: Model Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Model/Model-Index.html">3. Technical Implementation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="AnalysisInput-Index.html">1. Parameter Generation</a> &raquo;</li>
+        
+      <li>1.7. Script 7: First Marriage</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Analysis/AnalysisInput/07_FirstMarriage.Rmd.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="script-7-first-marriage">
+<span id="script-7-first-marriage"></span><h1>1.7. Script 7: First Marriage<a class="headerlink" href="#script-7-first-marriage" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>First marriage is implemented by fitting parametric Coale &amp; McNeil models by education group and birth cohort. The parameterization of such a model is very intuitive; parameters are the minimum age at first union formation, the average age, and the proportion of women who will eventually marry. An alternative model based on age-specific period marriage rates is also implemented and can be chosen by the user.</div></blockquote>
+<p>The code below estimates parametric Coale &amp; McNeil models by education group and birth cohort. For the period model option, data have to be provided from other sources, or can be simulated using the cohort model (which produces period rates as part of its table output). For the alternative model version, the code below creates corresponding parameter tables containing default values. The code also produces illustrations of the fitted models.</p>
+<div class="section" id="file-output">
+<span id="file-output"></span><h2>1.7.1. File output<a class="headerlink" href="#file-output" title="Permalink to this headline">¶</a></h2>
+<p>The code below generates model parameters stored in a Modgen .dat file</p>
+<ul class="simple">
+<li>Union formation (Option A) parameters of a Coale &amp; McNeil by education and year of birth: minimum and average age of marriage, proportion eventually marrying</li>
+<li>Union formation (Option B) parameters: union formation hazards by education, age and period</li>
+</ul>
+<p><img alt="" src="../../_images/ParaFirstMarriage.png" /></p>
+</div>
+<div class="section" id="code">
+<span id="code"></span><h2>1.7.2. Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="setting-up-data">
+<span id="setting-up-data"></span><h3>1.7.2.1. Setting up Data<a class="headerlink" href="#setting-up-data" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 7 - Chunk A - Union Formation
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(survival)
+library(fmsb)
+library(eha)
+
+
+load(file=&quot;globals_for_analysis.RData&quot;)
+
+# Constants
+
+nCensusYear        &lt;- g_census_year
+nStartYearOfBirth  &lt;- g_census_year - 70
+nTimePointsLow     &lt;- g_census_year - 25
+nTimePointsHigh    &lt;- g_census_year + 37
+position           &lt;- 45 #position of 1975 value
+
+# Data files
+alldat &lt;- g_residents_dat
+
+parafile &lt;- file(g_para_marriage, &quot;w&quot;)
+
+# select observations and variables
+alldat &lt;- alldat[alldat$M_MALE == 0,]
+alldat &lt;- alldat[alldat$M_AGE &gt;= 15,]
+alldat &lt;- alldat[,c(&quot;M_AGE&quot;,&quot;M_EDUC&quot;,&quot;M_AGEMAR&quot;)]
+
+# Observation time (m_obstime) and failure (m_event)
+alldat$m_obstime &lt;- alldat$M_AGE - 10
+alldat$m_obstime[!is.na(alldat$M_AGEMAR)] &lt;- alldat$M_AGEMAR[!is.na(alldat$M_AGEMAR)] - 10
+alldat$m_obstime[alldat$m_obstime &lt; 0] &lt;- 0.001
+alldat$m_event &lt;- (!is.na(alldat$M_AGEMAR))
+</pre></div>
+</div>
+</div>
+<div class="section" id="illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-a-single-age-group-15-30">
+<span id="illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-a-single-age-group-15-30"></span><h3>1.7.2.2. Illustration: Kaplan-Meier estimator and fitted Coale McNeil Model for a single age group (15-30)<a class="headerlink" href="#illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-a-single-age-group-15-30" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 7 - Chunk B
+#  Illustration of a Kaplan-Meier estimator and fitted Coale McNeil Model for a single age group 
+# 
+####################################################################################################
+
+lowerage = 15
+upperage = 30
+
+# select data according to age limits
+dat &lt;- alldat[alldat$M_AGE &gt;= lowerage &amp; alldat$M_AGE &lt;= upperage,]
+
+# Create a survival object
+survdat &lt;- Surv(dat$m_obstime, dat$m_event)
+
+# fit a Kaplan-Meier model by education 
+fit &lt;- survfit(survdat ~ M_EDUC, data = dat)
+
+# Copyy results into a matrix
+result &lt;- summary(fit,times=seq(from=1, to=min(upperage-9,51), by=1))
+EverMarriedFemales &lt;- 1-matrix(c(result$surv), nrow=min(51,upperage-11)) 
+
+# Fit a Coale McNeill Model using the results of the Kaplan Meier estimater by education
+Ages &lt;- 10:60
+
+res_low  &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,1], ages=Ages, mode=2)
+res_med  &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,2], ages=Ages, mode=2)
+res_high &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,3], ages=Ages, mode=2)
+
+plot(Ages, c(1-EverMarriedFemales[,1],rep(NA,max(62-upperage,0))),col=&quot;darkred&quot;,
+     main = &quot;Entry into first marriage by education&quot;,
+     sub  = &quot;Kaplan-Meier and fitted Coale McNeil model (Specific age cohorts)&quot;,
+     xlab = &quot;Age&quot;,
+     ylab = &quot;Proportion never married&quot;,
+     ylim=c(0,1),
+     xlim=c(10,60)
+)
+points(Ages, c(1-EverMarriedFemales[,2],rep(NA,max(62-upperage,0))), col=&quot;orange&quot;)
+points(Ages, c(1-EverMarriedFemales[,3],rep(NA,max(62-upperage,0))), col=&quot;darkgreen&quot;)
+fitted_low  &lt;- CM(res_low[1], res_low[2], res_low[3])
+fitted_med  &lt;- CM(res_med[1], res_med[2], res_med[3])
+fitted_high &lt;- CM(res_high[1], res_high[2], res_high[3])
+lines(Ages, 1-fitted_low$G[1:51], col=&quot;darkred&quot;)
+lines(Ages, 1-fitted_med$G[1:51], col=&quot;orange&quot;)
+lines(Ages, 1-fitted_high$G[1:51], col=&quot;darkgreen&quot;)
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/07_01.png" /></p>
+</div>
+<div class="section" id="illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-6-age-groups">
+<span id="illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-6-age-groups"></span><h3>1.7.2.3. Illustration: Kaplan-Meier estimator and fitted Coale McNeil Model for 6 age groups<a class="headerlink" href="#illustration-kaplan-meier-estimator-and-fitted-coale-mcneil-model-for-6-age-groups" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 7 - Chunk C
+#  Illustration of a Kaplan-Meier estimator and fitted Coale McNeil Models
+#  Loop for producing Graphs for different birth cohorts -  Graphs informing analysis 
+#
+####################################################################################################
+
+par(mfrow=c(1,2),oma = c(0, 0, 5, 0))
+
+for (lowerage in c(16,26,36,46,56,66))
+{
+  upperage = lowerage + 9
+  dat &lt;- alldat[alldat$M_AGE &gt;= lowerage &amp; alldat$M_AGE &lt;= upperage,]
+  survdat &lt;- Surv(dat$m_obstime, dat$m_event)
+  fit &lt;- survfit(survdat ~ M_EDUC, data = dat)
+  result &lt;- summary(fit,times=seq(from=1, to=min(upperage-9,51), by=1))
+  EverMarriedFemales &lt;- 1-matrix(c(result$surv), nrow=min(51,upperage-11)) 
+  Ages &lt;- 10:60
+  res_low  &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,1], ages=Ages, mode=2)
+  res_med  &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,2], ages=Ages, mode=2)
+  res_high &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,3], ages=Ages, mode=2)
+  plot(Ages, c(1-EverMarriedFemales[,1],rep(NA,max(62-upperage,0))),col=&quot;darkred&quot;,
+     main = paste(&quot;Birth cohorts &quot;,nCensusYear-upperage,&quot;to&quot;,nCensusYear-lowerage,sep=&quot; &quot;),
+     xlab = &quot;Age&quot;,
+     ylab = &quot;Proportion never married&quot;,
+     ylim=c(0,1),
+     xlim=c(10,60)
+  )
+  points(Ages, c(1-EverMarriedFemales[,2],rep(NA,max(62-upperage,0))), col=&quot;orange&quot;)
+  points(Ages, c(1-EverMarriedFemales[,3],rep(NA,max(62-upperage,0))), col=&quot;darkgreen&quot;)
+  fitted_low  &lt;- CM(res_low[1], res_low[2], res_low[3])
+  fitted_med  &lt;- CM(res_med[1], res_med[2], res_med[3])
+  fitted_high &lt;- CM(res_high[1], res_high[2], res_high[3])
+  lines(Ages, 1-fitted_low$G[1:51], col=&quot;darkred&quot;)
+  lines(Ages, 1-fitted_med$G[1:51], col=&quot;orange&quot;)
+  lines(Ages, 1-fitted_high$G[1:51], col=&quot;darkgreen&quot;)
+}
+
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/07_02.png" />
+<img alt="" src="../../_images/07_03.png" />
+<img alt="" src="../../_images/07_04.png" /></p>
+</div>
+<div class="section" id="fitting-the-past">
+<span id="fitting-the-past"></span><h3>1.7.2.4. Fitting the past<a class="headerlink" href="#fitting-the-past" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 7 - Chunk D
+#  Loop for producing parameters as 5 year averages - This is essential for producing the parameter
+#
+####################################################################################################
+
+parameter = matrix(nrow=9,ncol=51)
+par(mfrow=c(3,3))
+
+for (yob in c((nStartYearOfBirth+1):(nStartYearOfBirth+51)))
+{
+  lowerage = nCensusYear-yob-2
+  upperage = lowerage + 4
+  dat &lt;- alldat[alldat$M_AGE &gt;= lowerage &amp; alldat$M_AGE &lt;= upperage,]
+  survdat &lt;- Surv(dat$m_obstime, dat$m_event)
+  fit &lt;- survfit(survdat ~ M_EDUC, data = dat)
+  result &lt;- summary(fit,times=seq(from=1, to=min(upperage-9,51), by=1))
+  EverMarriedFemales &lt;- 1-matrix(c(result$surv), nrow=min(51,upperage-11)) 
+  Ages &lt;- 10:60
+  res_low  &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,1], ages=Ages, mode=2)
+  res_med  &lt;- fitCM(initialpar=c(3, 11,1), data=EverMarriedFemales[,2], ages=Ages, mode=2)
+  res_high &lt;- fitCM(initialpar=c(3, 11, 1), data=EverMarriedFemales[,3], ages=Ages, mode=2)
+  
+   plot(Ages, c(1-EverMarriedFemales[,1],rep(NA,max(62-upperage,0))),col=&quot;darkred&quot;,
+       main = paste(&quot;Birth cohorts &quot;,nCensusYear-upperage,&quot;to&quot;,nCensusYear-lowerage,sep=&quot; &quot;),
+       xlab = &quot;Age&quot;,
+       ylab = &quot;Proportion never married&quot;,
+       ylim=c(0,1),
+       xlim=c(10,60)
+   )
+   points(Ages, c(1-EverMarriedFemales[,2],rep(NA,max(62-upperage,0))), col=&quot;orange&quot;)
+   points(Ages, c(1-EverMarriedFemales[,3],rep(NA,max(62-upperage,0))), col=&quot;darkgreen&quot;)
+
+  fitted_low  &lt;- CM(res_low[1], res_low[2], res_low[3])
+  fitted_med  &lt;- CM(res_med[1], res_med[2], res_med[3])
+  fitted_high &lt;- CM(res_high[1], res_high[2], res_high[3])
+
+   lines(Ages, 1-fitted_low$G[1:51], col=&quot;darkred&quot;)
+   lines(Ages, 1-fitted_med$G[1:51], col=&quot;orange&quot;)
+   lines(Ages, 1-fitted_high$G[1:51], col=&quot;darkgreen&quot;)
+  
+  parameter[1,yob-nStartYearOfBirth] &lt;- fitted_low$G[51]
+  parameter[2,yob-nStartYearOfBirth] &lt;- res_low[2]
+  parameter[3,yob-nStartYearOfBirth] &lt;- fitted_low$mu/fitted_low$G[51]
+
+  parameter[4,yob-nStartYearOfBirth] &lt;- fitted_med$G[51]
+  parameter[5,yob-nStartYearOfBirth] &lt;- res_med[2]
+  parameter[6,yob-nStartYearOfBirth] &lt;- fitted_med$mu/fitted_med$G[51]
+  
+  parameter[7,yob-nStartYearOfBirth] &lt;- fitted_high$G[51]
+  parameter[8,yob-nStartYearOfBirth] &lt;- res_high[2]
+  parameter[9,yob-nStartYearOfBirth] &lt;- fitted_high$mu/fitted_high$G[51]
+}
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/07_05.png" /></p>
+</div>
+<div class="section" id="scenario-and-parameter-creation">
+<span id="scenario-and-parameter-creation"></span><h3>1.7.2.5. Scenario and parameter creation<a class="headerlink" href="#scenario-and-parameter-creation" title="Permalink to this headline">¶</a></h3>
+<p>For projected years, values are calculated interpolating between fitted values and targets. The targets are a scenario and can be changed, the values are informed by past trends; they are set in the countrs-specific initialization file</p>
+<div class="highlight-{r, message=FALSE, warning=FALSE} notranslate"><div class="highlight"><pre><span></span>
+####################################################################################################
+#
+#  DYNAMIS-POP Parameter Generation File 7 - Chunk E
+#  Extend the solutions for projected years by linear interpolation to 2048 targets
+#  This is essential for generating parameters
+#  The targets represent a scenario and can be changed
+#
+####################################################################################################
+
+
+timepoints      &lt;- nTimePointsLow:nTimePointsHigh
+
+extension       &lt;- matrix(nrow=9,ncol=63)
+
+extension[1,] = c((timepoints-nTimePointsLow+1) * (target_c_low - parameter[1,position])/length(extension[1,]) + parameter[1,position])
+extension[4,] = c((timepoints-nTimePointsLow+1) * (target_c_med - parameter[4,position])/length(extension[1,]) + parameter[4,position])
+extension[7,] = c((timepoints-nTimePointsLow+1) * (target_c_hig - parameter[7,position])/length(extension[1,]) + parameter[7,position])
+
+extension[2,] = c((timepoints-nTimePointsLow+1) * (target_a0_low - parameter[2,position])/length(extension[1,]) + parameter[2,position])
+extension[5,] = c((timepoints-nTimePointsLow+1) * (target_a0_med - parameter[5,position])/length(extension[1,]) + parameter[5,position])
+extension[8,] = c((timepoints-nTimePointsLow+1) * (target_a0_hig - parameter[8,position])/length(extension[1,]) + parameter[8,position])
+
+extension[3,] = c((timepoints-nTimePointsLow+1) * (target_av_low - parameter[3,position])/length(extension[1,]) + parameter[3,position])
+extension[6,] = c((timepoints-nTimePointsLow+1) * (target_av_med - parameter[6,position])/length(extension[1,]) + parameter[6,position])
+extension[9,] = c((timepoints-nTimePointsLow+1) * (target_av_hig - parameter[9,position])/length(extension[1,]) + parameter[9,position])
+
+fullmatrix &lt;- matrix(nrow=9, ncol=87)
+fullmatrix[,1:24]   &lt;- parameter[,22:45]
+fullmatrix[,25:87]  &lt;- extension[,]
+
+####################################################################################################
+# Graph the results (fitted points and parameters) Graphs both the fitted values and the parameter 
+# which combines fitted values for the past and projected data
+####################################################################################################
+
+observed   &lt;- cbind(parameter,matrix(nrow=9,ncol=56,NA))
+parameters &lt;- cbind(matrix(nrow=9,ncol=20,NA),fullmatrix)
+
+plot((nStartYearOfBirth+1):nTimePointsHigh,observed[1,] ,col=&quot;darkred&quot;,
+     main = paste(&quot;C (Proportion Eventually Married)&quot;),
+     xlab = &quot;year of birth&quot;,
+     ylab = &quot;&quot;,
+     ylim=c(0.8,1)
+)
+points((nStartYearOfBirth+1):nTimePointsHigh,observed[4,], col=&quot;orange&quot;)
+points((nStartYearOfBirth+1):nTimePointsHigh,observed[7,], col=&quot;darkgreen&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[1,] ,col=&quot;darkred&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[4,], col=&quot;orange&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[7,], col=&quot;darkgreen&quot;)
+
+plot((nStartYearOfBirth+1):nTimePointsHigh,observed[2,] ,col=&quot;darkred&quot;,
+     main = paste(&quot;a0 (Earliest Age at Marriage)&quot;),
+     xlab = &quot;year of birth&quot;,
+     ylab = &quot;&quot;,
+     ylim=c(5,20)
+)
+points((nStartYearOfBirth+1):nTimePointsHigh,observed[5,], col=&quot;orange&quot;)
+points((nStartYearOfBirth+1):nTimePointsHigh,observed[8,], col=&quot;darkgreen&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[2,] ,col=&quot;darkred&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[5,], col=&quot;orange&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[8,], col=&quot;darkgreen&quot;)
+
+plot((nStartYearOfBirth+1):nTimePointsHigh,observed[3,] ,col=&quot;darkred&quot;,
+     main = paste(&quot;mu (Average Age at Marriage)&quot;),
+     xlab = &quot;year of birth&quot;,
+     ylab = &quot;&quot;,
+     ylim=c(10,30)
+)
+points((nStartYearOfBirth+1):nTimePointsHigh,observed[6,], col=&quot;orange&quot;)
+points((nStartYearOfBirth+1):nTimePointsHigh,observed[9,], col=&quot;darkgreen&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[3,] ,col=&quot;darkred&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[6,], col=&quot;orange&quot;)
+lines((nStartYearOfBirth+1):nTimePointsHigh,parameters[9,], col=&quot;darkgreen&quot;)
+
+####################################################################################################
+# Produce the parameter table UnionParameters[PRIMARY_LEVEL][YOB_UNION][UNION_PARA]
+####################################################################################################
+
+para_C     &lt;- c(fullmatrix[1,],fullmatrix[4,],fullmatrix[7,])
+para_a0    &lt;- c(fullmatrix[2,],fullmatrix[5,],fullmatrix[8,])
+para_av    &lt;- c(fullmatrix[3,],fullmatrix[6,],fullmatrix[9,])
+union_para &lt;- rbind(para_a0,para_av,para_C)
+
+####################################################################################################
+# Write the parameter table UnionParameters[PRIMARY_LEVEL][YOB_UNION][UNION_PARA]
+####################################################################################################
+
+cat(&quot;parameters { \n  //EN Union Formation\ndouble UnionParameters[PRIMARY_LEVEL][YOB_UNION][UNION_PARA]= {\n&quot;, 
+    file=parafile)
+cat(format(round(union_para[,],5)), file=parafile, sep=&quot;, &quot;, append=TRUE)    
+cat(&quot;\n  };\n&quot;, file=parafile, append=TRUE) 
+
+####################################################################################################
+# Write the parameter (with mockup values) for the alternative model
+####################################################################################################
+
+cat(&quot;//EN Union formation (Option B): Hazards\n&quot;, file=parafile, append=TRUE) 
+cat(&quot;double UnionFormationHazardParameter[PRIMARY_LEVEL][AGE_UNION][SIM_YEAR_RANGE] = { (505) 0.02, (4646) 0.08,(505) 0.015, (4646) 0.07,(505) 0.005, (4646) 0.06, };\n&quot;, file=parafile, append=TRUE) 
+
+cat(&quot;\n};\n&quot;, file=parafile, append=TRUE) 
+close(parafile)
+</pre></div>
+</div>
+<p><img alt="" src="../../_images/07_11.png" />
+<img alt="" src="../../_images/07_12.png" />
+<img alt="" src="../../_images/07_13.png" /></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="08_FirstBirths.html" class="btn btn-neutral float-right" title="1.8. Script 8: First Births" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="06_Emigration.html" class="btn btn-neutral" title="1.6. Script 6: Emigration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

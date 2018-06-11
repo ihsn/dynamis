@@ -1,0 +1,12 @@
+//LABEL(model_info, EN) Model information
+/* NOTE(model_info, EN)
+This module contains the model version, description, and notes.
+*/
+
+version 1, 0, 1, 0;
+
+//LABEL(model, EN) DYNAMIS-POP Step 2
+
+/* NOTE(model, EN)
+At this step we add a module for birthday events to the model template. Unlike calendar year changes which happen to all actors at the same time and are thus implemented by a common clock, birthdays happen at individual pints in time throughout the year and are therefore implemented on the individual level. Besides the maintenance of a state for age in full years (which could be implemented directly as a self-scheduling state), the explicit modeling of a birthday event prepares the model for routines which typically happen on birthdays, e.g. the update of longitudinal accounts. All new code added at this step is contained in the new module BirthDays.mpp.
+*/

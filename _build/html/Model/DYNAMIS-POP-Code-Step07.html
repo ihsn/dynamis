@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3.8. Step 7: Base Immigration &mdash; DYNAMIS-POP  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model" href="DYNAMIS-POP-Code-Step08.html" />
+    <link rel="prev" title="3.7. Step 6: Base Emigration" href="DYNAMIS-POP-Code-Step06.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> DYNAMIS-POP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisInput/AnalysisInput-Index.html">1. Parameter Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Analysis/AnalysisOutput/AnalysisOutput-Index.html">2. Output Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Model-Index.html">3. Technical Implementation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Intro.html">3.1. The Modgen Micro-simulation Technology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step01.html">3.2. Step 1: Creating a Population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step02.html">3.3. Step 2: Birthdays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step03.html">3.4. Step 3: Base Mortality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step04.html">3.5. Step 4: Base Fertility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step05.html">3.6. Step 5: Base Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step06.html">3.7. Step 6: Base Emigration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.8. Step 7: Base Immigration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-description">3.8.1. Model Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-new-module-immigrationagesexdistrict-mpp">3.8.2. The new module: ImmigrationAgeSexDistrict.mpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-in-the-simulation-function-in-model-core-mpp">3.8.3. Changes in the Simulation() function in model_core.mpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changes-in-the-start-function-in-personcore-mpp">3.8.4. Changes in the Start() function in PersonCore.mpp</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="DYNAMIS-POP-Code-Step08.html">3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DYNAMIS-POP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Model-Index.html">3. Technical Implementation</a> &raquo;</li>
+        
+      <li>3.8. Step 7: Base Immigration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Model/DYNAMIS-POP-Code-Step07.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="step-7-base-immigration">
+<h1>3.8. Step 7: Base Immigration<a class="headerlink" href="#step-7-base-immigration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="model-description">
+<h2>3.8.1. Model Description<a class="headerlink" href="#model-description" title="Permalink to this headline">¶</a></h2>
+<p>At this step we add a module for immigration based on age, sex and district of landing. This is a simple version of immigration resembling a typical macro population projection approach.</p>
+</div>
+<div class="section" id="the-new-module-immigrationagesexdistrict-mpp">
+<h2>3.8.2. The new module: ImmigrationAgeSexDistrict.mpp<a class="headerlink" href="#the-new-module-immigrationagesexdistrict-mpp" title="Permalink to this headline">¶</a></h2>
+<p>This module implements a base version of immigration. It is based on the number of projected immigrants by age, sex and district, which is a typical approach in cohort-component models. The module can be switched on/off by the user.</p>
+<p>Model parameters are the number and sex of immigrants by year, the age distribution by sex, and the distribution of destination districts by sex and age. Immigrants are created at the moment of immigration with the age at immigration</p>
+<p>Adding immigrants require some code additions in other modules as they have to be created and added to the simulated population (this is done in the Simulation() function in the model_core.mpp module) and their states have to be initialized (which is done in the Start() function in PersonCore.mpp). The total number of immigrants is calculated in the PreSimuation() phase, where a model-generated parameter is set. Depending on the actor weight determined in the Simulation() function, the simulated number of the immigrant sample is determined there.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Parameters</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">parameters</span>
+<span class="p">{</span>
+    <span class="n">logical</span>     <span class="n">ModelImmigration</span><span class="p">;</span>                       <span class="o">//</span><span class="n">EN</span> <span class="n">Switch</span> <span class="n">immigration</span> <span class="n">on</span><span class="o">/</span><span class="n">off</span>
+    <span class="n">double</span>      <span class="n">NumberImmigrants</span><span class="p">[</span><span class="n">SIM_YEAR_RANGE</span><span class="p">][</span><span class="n">SEX</span><span class="p">];</span>  <span class="o">//</span><span class="n">EN</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">immigrants</span>
+    <span class="n">cumrate</span>     <span class="n">AgeImmigrants</span><span class="p">[</span><span class="n">SEX</span><span class="p">][</span><span class="n">AGE_RANGE</span><span class="p">];</span>          <span class="o">//</span><span class="n">EN</span> <span class="n">Age</span> <span class="n">distribution</span> <span class="n">of</span> <span class="n">immigrants</span>
+
+    <span class="o">//</span><span class="n">EN</span> <span class="n">Destination</span> <span class="n">of</span> <span class="n">immigrants</span>
+    <span class="n">cumrate</span>     <span class="n">DestinationImmigrants</span><span class="p">[</span><span class="n">SEX</span><span class="p">][</span><span class="n">AGE5_PART</span><span class="p">][</span><span class="n">DISTRICT_NAT</span><span class="p">];</span>
+
+   <span class="o">//</span><span class="n">EN</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">immigrants</span> <span class="p">(</span><span class="k">for</span> <span class="n">sampling</span><span class="p">,</span> <span class="n">determined</span> <span class="ow">in</span> <span class="n">presimulation</span><span class="p">)</span>
+    <span class="n">model_generated</span> <span class="n">cumrate</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">NumberImmigrantsTable</span><span class="p">[</span><span class="n">SIM_YEAR_RANGE</span><span class="p">][</span><span class="n">SEX</span><span class="p">];</span>
+
+    <span class="o">//</span><span class="n">EN</span> <span class="n">Total</span> <span class="n">number</span> <span class="n">of</span> <span class="n">immigrants</span> <span class="p">(</span><span class="n">determined</span> <span class="ow">in</span> <span class="n">presiulation</span><span class="p">)</span>
+    <span class="n">model_generated</span> <span class="n">long</span> <span class="n">ImmiPopSize</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">parameter_group</span> <span class="n">PG_Immigration</span>                      <span class="o">//</span><span class="n">EN</span> <span class="n">Base</span> <span class="n">Immigration</span>
+<span class="p">{</span>
+    <span class="n">ModelImmigration</span><span class="p">,</span> <span class="n">NumberImmigrants</span><span class="p">,</span> <span class="n">AgeImmigrants</span><span class="p">,</span> <span class="n">DestinationImmigrants</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Actor</span> <span class="n">block</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">actor</span> <span class="n">Person</span>
+<span class="p">{</span>
+    <span class="n">TIME</span>    <span class="n">time_of_immigration</span> <span class="o">=</span> <span class="p">{</span> <span class="n">TIME_INFINITE</span> <span class="p">};</span>    <span class="o">//</span><span class="n">EN</span> <span class="n">Time</span> <span class="n">of</span> <span class="n">immigration</span>
+    <span class="n">void</span>    <span class="n">GetImmigrantCharacteristics</span><span class="p">();</span>              <span class="o">//</span><span class="n">EN</span> <span class="n">Sample</span> <span class="n">immigrant</span> <span class="n">characteristics</span>
+<span class="p">};</span>
+
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="o">//</span> <span class="n">Pre</span><span class="o">-</span><span class="n">Simulation</span>
+<span class="o">////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="n">void</span> <span class="n">PreSimulation</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">Total</span> <span class="n">Immigrant</span> <span class="n">population</span>
+    <span class="n">ImmiPopSize</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ModelImmigration</span><span class="p">)</span> <span class="o">//</span> <span class="n">If</span> <span class="n">immigration</span> <span class="ow">is</span> <span class="n">switched</span> <span class="n">on</span>
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">nSex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nSex</span> <span class="o">&lt;</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">SEX</span><span class="p">);</span> <span class="n">nSex</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">nYear</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nYear</span> <span class="o">&lt;</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">SIM_YEAR_RANGE</span><span class="p">);</span> <span class="n">nYear</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">ImmiPopSize</span> <span class="o">=</span> <span class="n">ImmiPopSize</span> <span class="o">+</span> <span class="n">NumberImmigrants</span><span class="p">[</span><span class="n">nYear</span><span class="p">][</span><span class="n">nSex</span><span class="p">];</span>
+                <span class="n">NumberImmigrantsTable</span><span class="p">[</span><span class="n">nYear</span><span class="p">][</span><span class="n">nSex</span><span class="p">]</span> <span class="o">=</span> <span class="n">NumberImmigrants</span><span class="p">[</span><span class="n">nYear</span><span class="p">][</span><span class="n">nSex</span><span class="p">];;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="changes-in-the-simulation-function-in-model-core-mpp">
+<h2>3.8.3. Changes in the Simulation() function in model_core.mpp<a class="headerlink" href="#changes-in-the-simulation-function-in-model-core-mpp" title="Permalink to this headline">¶</a></h2>
+<p>The immigrant population is created in the Start() function after the starting file population is created and weights are calculated.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+    <span class="o">//</span> <span class="n">Create</span> <span class="n">the</span> <span class="n">immigrant</span> <span class="n">population</span>
+    <span class="n">long</span> <span class="n">nImmigrants</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="n">ImmiPopSize</span> <span class="o">/</span> <span class="n">asGlobals</span><span class="o">-&gt;</span><span class="n">Item</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">person_weight</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">long</span> <span class="n">nI</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nI</span> <span class="o">&lt;</span> <span class="n">nImmigrants</span><span class="p">;</span> <span class="n">nI</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">auto</span> <span class="n">paPerson</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Person</span><span class="p">();</span>
+        <span class="n">paPerson</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">(</span><span class="n">NULL</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="changes-in-the-start-function-in-personcore-mpp">
+<h2>3.8.4. Changes in the Start() function in PersonCore.mpp<a class="headerlink" href="#changes-in-the-start-function-in-personcore-mpp" title="Permalink to this headline">¶</a></h2>
+<p>The states of the immigrant actors have to be initialized in the Start() function. Most characteristics are sampled from the parameter tables.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>
+    <span class="k">else</span> <span class="o">//</span> <span class="n">Person</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">immigrant</span>
+    <span class="p">{</span>
+        <span class="o">//</span> <span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="n">States</span> <span class="n">corresponding</span> <span class="n">to</span> <span class="n">Starting</span> <span class="n">population</span> <span class="n">file</span> <span class="n">variables</span>
+        <span class="nb">int</span> <span class="n">nSex</span><span class="p">,</span> <span class="n">nYear</span><span class="p">,</span> <span class="n">nAge</span><span class="p">,</span> <span class="n">nDistrict</span><span class="p">;</span>
+        <span class="n">Lookup_NumberImmigrantsTable</span><span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">nYear</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nSex</span><span class="p">);</span>
+        <span class="n">Lookup_AgeImmigrants</span><span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="n">nSex</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nAge</span><span class="p">);</span>
+        <span class="n">Lookup_DestinationImmigrants</span><span class="p">(</span><span class="n">RandUniform</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span> <span class="n">nSex</span><span class="p">,</span> <span class="n">SPLIT</span><span class="p">(</span><span class="n">nAge</span><span class="p">,</span> <span class="n">AGE5_PART</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">nDistrict</span><span class="p">);</span>
+
+        <span class="n">sex</span>                 <span class="o">=</span> <span class="p">(</span><span class="n">SEX</span><span class="p">)</span><span class="n">nSex</span><span class="p">;</span>
+        <span class="n">time</span>                <span class="o">=</span> <span class="n">MIN</span><span class="p">(</span><span class="n">SIM_YEAR_RANGE</span><span class="p">)</span> <span class="o">+</span> <span class="n">nYear</span> <span class="o">+</span> <span class="n">RandUniform</span><span class="p">(</span><span class="mi">12</span><span class="p">);</span>
+        <span class="n">family_role</span>         <span class="o">=</span> <span class="n">FR_HEAD</span><span class="p">;</span>
+        <span class="n">district_nat</span>        <span class="o">=</span> <span class="p">(</span><span class="n">DISTRICT_NAT</span><span class="p">)</span><span class="n">nDistrict</span><span class="p">;</span>
+        <span class="n">age</span>                 <span class="o">=</span> <span class="n">nAge</span> <span class="o">+</span> <span class="n">RandUniform</span><span class="p">(</span><span class="mi">11</span><span class="p">);</span>
+        <span class="n">integer_age</span>         <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">age</span><span class="p">);</span>
+
+        <span class="o">//</span> <span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="n">Other</span> <span class="n">states</span>
+        <span class="n">time_of_birth</span>       <span class="o">=</span> <span class="n">time</span> <span class="o">-</span> <span class="n">age</span><span class="p">;</span>
+        <span class="n">calendar_year</span>       <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="n">time</span><span class="p">;</span>
+        <span class="n">time_next_birthday</span>  <span class="o">=</span> <span class="n">time</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">age</span> <span class="o">-</span> <span class="n">integer_age</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DYNAMIS-POP-Code-Step08.html" class="btn btn-neutral float-right" title="3.9. Step 8: The Micro-Simulation Implementation of a Cohort-Component Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="DYNAMIS-POP-Code-Step06.html" class="btn btn-neutral" title="3.7. Step 6: Base Emigration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Martin Spielauer.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

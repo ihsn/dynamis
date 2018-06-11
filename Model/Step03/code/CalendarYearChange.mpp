@@ -1,0 +1,39 @@
+﻿//LABEL (CalendarYearChange, EN) Calendar Year Change
+
+/*  NOTE(CalendarYearChange, EN)
+This module handles calendar year changes. Before a year ends, the Person function YearEnd() is called by the Calendar clock actor. This is a point in time in which models typically update accounts and perform other end of year routines. Immediately after the year end, the YearStart() routine is called. This is when the calendar_year state is changed.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor Person states and functions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    ALL_YEAR_RANGE  calendar_year = { 2000 };                       //EN Calendar year
+    void            YearEnd();                                      //EN Year End Function
+    void            YearStart();                                    //EN Year Start Function
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*  NOTE(Person.YearEnd, EN)
+    The function YearEnd is called by the Clock actor at the end of each year. The code in this
+    function is executed last thing in a given year before the calendar year is incremented
+*/
+
+void Person::YearEnd()
+{
+    // empty for the moment
+}
+
+/*  NOTE(Person.YearStart, EN)
+    The function YearStart is called by the Clock actor at the start of each year.
+    The code in this function is executed first thing in new year
+*/
+void Person::YearStart()
+{
+    calendar_year = lClock->clock_year;
+}

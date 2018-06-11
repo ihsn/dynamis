@@ -1,0 +1,73 @@
+# Script 14: Demographic Macro-Projections
+
+> This file creates the parameters based on demographic macro projections as typically available online e.g. from DemProj. These parameters can be used either directly in the model, or indirectly as alignment targets of demographic projections. Demographic scenario data are read in from csv files and are not calculated from micro data.
+
+## File output
+
+The code below generates model parameters stored in a Modgen .dat file
+
+- Age-specific fertility distribution by calendar year
+- Total Fertility Rate (TFR) by calendar year
+- Sex ratio by calendar year
+- Mortality table by age and sex
+- Life expectancy by sex and year
+
+## Code
+
+```{r, message=FALSE, warning=FALSE}
+####################################################################################################
+# 
+#  DYNAMIS-POP Parameter Generation File 14 - Demographic Projections
+#  This file is generic and works for all country contexts. 
+#  Input file: globals_for_analysis.RData (To generate such a file run the setup script)
+#  Last Update: Martin Spielauer 2018-05-12
+#
+####################################################################################################
+
+####################################################################################################
+# Clear work space, load required packages and the input object file
+####################################################################################################
+
+rm(list=ls())
+
+library(haven)
+library(dplyr)
+library(data.table)
+library(sp) 
+library(maptools)
+library(fmsb)
+
+load(file="globals_for_analysis.RData")
+
+# Set Parameter Output File
+
+parafile  <- file(g_para_demproj, "w")
+
+####################################################################################################
+# Write the parameters (converted from csv files to modgen dat formats
+####################################################################################################
+
+cat("parameters { \n", file=parafile)
+
+cat("//EN Life Expectancy\ndouble LifeExpectancy[SIM_YEAR_RANGE][SEX]  = {\n", file=parafile, append=TRUE) 
+cat(dp_expectancy_dat, file=parafile, sep=", ", append=TRUE)
+cat("\n};\n\n", file=parafile, append=TRUE)
+
+cat("//EN Mortality hazard by age\ndouble	MortalityTable[AGE_RANGE][SEX] = {\n", file=parafile, append=TRUE) 
+cat(dp_mortality_dat, file=parafile, sep=", ", append=TRUE)
+cat("\n};\n\n", file=parafile, append=TRUE)
+
+cat("//EN Sex Ratio\ndouble SexRatio[SIM_YEAR_RANGE] = {(101) ",g_sexratio," };\n\n", file=parafile, append=TRUE) 
+
+cat("//EN Total Fertility Rate\ndouble	TotalFertilityRate[SIM_YEAR_RANGE] = {\n", file=parafile, append=TRUE) 
+cat(dp_tfr_dat, file=parafile, sep=", ", append=TRUE)
+cat("\n};\n\n", file=parafile, append=TRUE)
+
+cat("//EN Fertility Age Distribution\ndouble AgeSpecificFertility[FERTILE_AGE_RANGE][SIM_YEAR_RANGE] = {\n", file=parafile, append=TRUE) 
+cat(dp_fertility_dat, file=parafile, sep=", ", append=TRUE)
+cat("\n};\n\n", file=parafile, append=TRUE)
+
+cat("\n};\n", file=parafile, append=TRUE) 
+close(parafile)
+
+```

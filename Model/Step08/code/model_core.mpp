@@ -1,0 +1,135 @@
+//LABEL(model_core, EN) Core simulation functions
+
+/* NOTE(model_core, EN)
+This module contains general model settings and the simulation engine of the model. It is part of the model template and developers typically are not required to modify or understand it's code. Model-specific code includes:
+
+- The creation of Observation actors reading the starting population file
+- The calculation of integer weights corresponding with the selected number of simulated actors
+- The creation of a starting population of equal weight Person actors
+- The removal of all Observation actors as they are not used anymore after the starting population was built.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// General Model Settings
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+model_type time_based, just_in_time;        // The model type
+options packing_level = 2;                  // Reduces memory use at the expense of speed
+time_type double;                           // The data type used to represent time
+
+// Other data types
+real_type		float;
+counter_type	ushort;
+integer_type	short;
+index_type		ulong;
+
+languages                                   // Supported languages
+{
+    EN // English
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Simulation() is called by the simulation framework to simulate a replicate
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Simulation()
+{
+    extern void LogSimulationStart();
+    extern void SimulateEvents();
+    LogSimulationStart();                   // Write simulation start message to log
+
+    ////////////////////////////////////////////////////////////////////
+    // Start of the model-specific part of the simulation engine      //
+    ////////////////////////////////////////////////////////////////////
+
+    // Create and open the input data file
+    input_csv in_csv;
+    in_csv.open(MicroDataInputFile);
+    in_csv.read_header();
+
+    // Create the Actor Globals
+    auto prGlobals = new Globals();
+    prGlobals->Start();
+
+    // Create the Clock
+    auto prClock = new Clock();
+    prClock->Start();
+
+    // Create observations
+    for (long nJ = 0; nJ < MicroDataInputFileSize; nJ++)
+    {
+        in_csv.read_record(nJ);
+        auto paObservation = new Observation();
+        paObservation->Start(in_csv);
+    }
+
+    // Set sample weights (obs_weight) in the observations to represent the (integer) number of
+    // persons to be created out of each observation
+    double dSumWeights = 0.0;
+
+    for (long nJ = 0; nJ < MicroDataInputFileSize; nJ++)
+    {
+        dSumWeights = dSumWeights + asObservationAll->Item(nJ)->pmc[PMC_WEIGHT];
+    }
+
+    for (long nJ = 0; nJ < MicroDataInputFileSize; nJ++)
+    {
+        double  dWeight = asObservationAll->Item(nJ)->pmc[PMC_WEIGHT]
+                    * StartPopSampleSize / dSumWeights;
+        int     nWeight = (int)dWeight;
+        if (RandUniform(1) < dWeight - nWeight) nWeight++;
+        asObservationAll->Item(nJ)->obs_weight = nWeight;
+    }
+
+    // Calculate exact person weight: A small correction as all family members eventually inherit
+    // the weight of the head which can be different from the integer weights assigned above
+    long SumSimActors = 0.0;
+    for (long nH = 0; nH < asObservationHeads->Count(); nH++)
+    {
+        // Number family members
+        int nFamSize = 1 + asObservationNonHeads[asObservationHeads->Item(nH)->fam_id]->Count();
+        // sum of person weights in family with all having same weight as head
+        SumSimActors = SumSimActors + nFamSize * asObservationHeads->Item(nH)->obs_weight;
+    }
+    asGlobals->Item(0)->person_weight = StartPopSize/ SumSimActors;
+
+    // Create the starting population
+    while (asObservationHeads->Count() > 0)
+    {
+        // First create the head
+        auto paObservation = asObservationHeads->Item(0);
+        auto paPerson = new Person();
+        paPerson->Start(paObservation, NULL);
+        // And now all other members of this family
+        for (int nJ = 0; nJ < asObservationNonHeads[paObservation->fam_id]->Count(); nJ++)
+        {
+            auto paOtherPerson = new Person();
+            paOtherPerson->Start(asObservationNonHeads[paObservation->fam_id]->Item(nJ), paPerson);
+        }
+        paObservation->obs_weight--;
+    }
+
+    // Delete all observation actors
+    while (asObservationAll->Count() > 0) asObservationAll->Item(0)->Finish();
+
+    //ADD07
+    // Create the immigrant population
+    long nImmigrants = int( ImmiPopSize / asGlobals->Item(0)->person_weight);
+    for (long nI = 0; nI < nImmigrants; nI++)
+    {
+        auto paPerson = new Person();
+        paPerson->Start(NULL, NULL);
+    }
+    //ENDADD07
+
+    // Close the microdata input file
+    in_csv.close();
+
+    ////////////////////////////////////////////////////////////////////
+    //   End of the model-specific part of the simulation engine      //
+    ////////////////////////////////////////////////////////////////////
+
+
+    SimulateEvents();                       // Simulate events until there are no more.
+}

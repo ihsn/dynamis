@@ -1,0 +1,93 @@
+﻿//LABEL(MigrationAgeSex, EN) Base Migration
+
+/*  NOTE(MigrationAgeSex, EN)
+This module implements a base version of internal migration. It is based on age and sex specific transition matrices, which is a typical approach in cohort-component models. As the transitions are typically obtained from Census data recording the place of residence now and one year ago, only one transition per year is allowed. The module has three parameters, one to switch migration on/off, one containing the probabilities to move away (by origin, age, sex), and one to sample the destination (by origin, age and sex).
+
+The module introduces and maintains a new state district_nat - the district of residence. The state is of type DISTRICT_NAT, which is a classification of national districts. As the number and names of districts is country-specific, the classification is declare in the _CountryContext.mpp module. The district of residence is available from the starting population file, is inherited from the mother, or set at immigration. This is done in the Start() function of the Person actor. The initialization was added there when introducing this module. 
+
+The module is prepared for being replaced by a refined model accounting for more detailed personal characteristics than age and sex. For this purpose a logical state use_base_migration_model is introduced and initialized with TRUE; Other modules can override this module by setting the state to FALSE whenever an alternative model is applied.
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Types
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+partition AGE5_PART{ 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };	//EN Age Groups
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Parameters
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+parameters
+{
+    //EN Migration switched on/off
+    logical ModelMigration;
+
+    //EN Migration probability
+    double  MigrationProbability[SEX][AGE5_PART][DISTRICT_NAT];
+
+    //EN Migration Destination
+    cumrate MigrationDestination[SEX][DISTRICT_NAT][AGE5_PART][DISTRICT_NAT];
+};
+
+parameter_group PG_MigrationBase //EN Internal Migration Base Version
+{
+    ModelMigration, MigrationProbability, MigrationDestination
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Actor block
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+actor Person
+{
+    DISTRICT_NAT    district_nat = { DISTN_00 };                //EN District of residence
+    logical         use_base_migration_model = { TRUE };        //EN Use the base model
+    integer         age_at_last_move = { 999 };                 //EN Age at last migration
+    integer         number_migrations = { 0 };                  //EN Number of internal migrations
+    event           timeMigrationEvent, MigrationEvent;         //EN Migration Event
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Implementation
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TIME Person::timeMigrationEvent()
+{
+    // Check if a person is at risk for moving
+    if (ModelMigration && use_base_migration_model && in_projected_time
+        && age_at_last_move != integer_age)
+    {
+        // get the current age index using SPLIT()
+        int nAge5 = SPLIT(integer_age, AGE5_PART);
+
+        // get the probability to move
+        double dMoveProb = MigrationProbability[sex][nAge5][district_nat];
+
+        if (dMoveProb <= 0.0) return TIME_INFINITE;     // Not at risk
+        else if (dMoveProb >= 1.0) return WAIT(0);      // 100% move immediately
+        else                                            // positive probability below 100%
+        {
+            // calculate a random waiting time based on the given probability converted to
+            // a hazard rate = -log(1-probability)
+            return WAIT(-log(RandUniform(5)) / -log(1 - dMoveProb));
+        }
+    }
+    return TIME_INFINITE;
+}
+
+void Person::MigrationEvent()
+{
+    int nDestination;
+    int nAge5 = SPLIT(integer_age, AGE5_PART);
+
+    // Sample the destination
+    Lookup_MigrationDestination(RandUniform(6), sex, district_nat, nAge5, &nDestination);
+
+    // Move the actor to the destination
+    district_nat = (DISTRICT_NAT)nDestination;
+
+    // Updates ndicators
+    age_at_last_move = integer_age;
+    number_migrations++;
+}
