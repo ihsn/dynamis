@@ -1,0 +1,22 @@
+.ihsn_br, .related
+{
+    margin-top:0px;/*80px*/;
+}
+
+#searchbox{
+    margin-top:10px;
+}
+
+.sticky-offset {
+    top: 120px;
+}
+
+.ihsn-sidebar
+{
+    font-size:14.5px;
+    z-index:0;
+}
+
+#header{
+  border-bottom:1px solid gainsboro;
+}

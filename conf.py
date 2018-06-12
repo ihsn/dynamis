@@ -84,12 +84,33 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 # html_theme = 'alabaster'
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+
+html_theme='sphinx_ihsn_theme'
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
 # html_theme_options = {}
+
+html_theme_optionsx={
+  'navbar_show_pages' : False,
+  # Navbar style.
+    # Values: 'fixed-top', 'full' (Default: 'fixed-top')
+    'navbar_style' : 'fixed-top',
+
+    # Navbar link color modifier class.
+    # Values: 'dark', 'light' (Default: 'dark')
+    'navbar_color_class' : 'light',
+
+    # Navbar background color class.
+    # Values: 'inverse', 'primary', 'faded', 'success',
+    #         'info', 'warning', 'danger' (Default: 'inverse')
+    'navbar_bg_class' : 'faded',
+}
+
+html_theme_path = ["."]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
